@@ -1,0 +1,112 @@
+.banner{
+  position: relative;
+  width: 100%;
+  display: block;
+  margin: 1rem 0;
+  border-radius: 1rem;
+  overflow: hidden;
+
+  .banner-background {
+    width: 100%;
+    height: auto;
+    border-radius: 1rem;
+    display: block;
+  }
+
+  .banner-content {
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    color: white;
+    text-align: left;
+
+    .banner-subtitle {
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin: 0;
+    }
+
+    .banner-title {
+      font-size: 3rem;
+      font-weight: 700;
+      margin: 0;
+      color: var(--text-secondary);
+    }
+
+    .banner-slogan {
+      font-size: 1.2rem;
+      font-weight: 400;
+      margin: 0.5rem 0;
+    }
+
+    .banner-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+  }
+
+  .banner-info-box {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: var(--background-primary);
+    padding: 1rem;
+    color: var(--text-primary);
+    border-top-left-radius: 50px;
+    text-align: left;
+
+    p {
+      margin: 0 0 0.5rem 1.5rem;
+      font-size: 1rem;
+    }
+
+    button {
+      margin-left: 1.3rem;
+    }
+  }
+
+  .corner-effect {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    color: var(--background-primary);
+  }
+
+  .cls-1 {
+    fill: var(--background-primary);
+  }
+
+  .corner-down-left{
+    bottom: -2px;
+    left: -50px;
+  }
+
+  .corner-up-right{
+    bottom: 93px;
+    right: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .banner-info-box {
+    display: none;
+  }
+  .banner{
+    .banner-content{
+      .banner-subtitle {
+        font-size: 0.8rem;
+      }
+
+      .banner-title {
+        font-size: 1.4rem;
+        margin: 0;
+      }
+
+      .banner-slogan {
+        font-size: 0.8rem;
+        margin-bottom: 0;
+      }
+    }
+  }
+}

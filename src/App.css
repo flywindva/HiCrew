@@ -32,7 +32,7 @@ body[data-theme='dark']{
   --background-secondary: #2F3839;
   --background-third: #000298;
   --text-secondary: #494eaa;
-  --accent-primary: #1A2BC3;
+  --accent-primary: #2f40da;
   --accent-secondary: #8CC0F0;
   --text-third: #E8ECEF;
 
@@ -103,4 +103,14 @@ body {
 .btn.secondary:hover{
   background-color: var(--accent-primary);
   color: var(--text-third);
+}
+
+a{
+  text-decoration: none;
+  color: var(--accent-primary);
+}
+
+a:hover{
+  text-decoration: underline;
+  color: var(--accent-secondary);
 }

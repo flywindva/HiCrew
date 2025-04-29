@@ -4,8 +4,9 @@
 body[data-theme='light']{
   --background-primary: #F2F2F0; /* Fondo principal */
   --text-primary: #1C2526; /* Texto principal */
-  --background-secondary: #000298; /* Fondo secundario */
-  --text-secondary: #0E0F52; /* Texto secundario, iconos */
+  --background-secondary: #E5E5E3;
+  --background-third: #000298; /* Fondo secundario */
+  --text-secondary: #181960; /* Texto secundario, iconos */
   --accent-primary: #1A2BC3; /* Botones, enlaces */
   --accent-secondary: #A5D7FC; /* Detalles, hover */
   --text-third: #F2F2F0;
@@ -28,8 +29,9 @@ body[data-theme='light']{
 body[data-theme='dark']{
   --background-primary: #1C2526;
   --text-primary: #E8ECEF;
-  --background-secondary: #000298;
-  --text-secondary: #2A2E7A;
+  --background-secondary: #2F3839;
+  --background-third: #000298;
+  --text-secondary: #494eaa;
   --accent-primary: #1A2BC3;
   --accent-secondary: #8CC0F0;
   --text-third: #E8ECEF;
@@ -62,6 +64,7 @@ body {
   width: 90%;
   margin: auto;
   overflow: auto;
+  padding-top: 4.2rem;
 }
 
 @media only screen and (min-width: 1200px) {
@@ -85,6 +88,7 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    text-decoration: none;
 }
 
 .btn:hover{

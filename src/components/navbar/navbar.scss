@@ -4,10 +4,16 @@
   align-items: center;
   background-color: var(--accent-primary);
   height: 3.2rem;
-  width: 100%;
   border-radius: 1rem;
   color: var(--text-third);
   margin-top: 1rem;
+  position: fixed;
+  top: 0;
+  width: 90%;
+  max-width: 1080px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
 
   .navbar-logo {
     height: 100%;

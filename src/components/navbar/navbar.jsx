@@ -40,17 +40,17 @@ const Navbar = () => {
 
             <div className={`navbar-menu ${menuOpen ? 'open' : ''}`}>
                 <div className="navbar-nav">
-                    <Link to="#"><FontAwesomeIcon icon={faMapLocationDot} /> Central</Link>
-                    <Link to="#"><FontAwesomeIcon icon={faUsers} /> Pilots</Link>
-                    <Link to="#"><FontAwesomeIcon icon={faScaleBalanced} /> Rules</Link>
-                    <Link to="#"><FontAwesomeIcon icon={faChartSimple} /> Stats</Link>
+                    <Link to="/central"><FontAwesomeIcon icon={faMapLocationDot} /> Central</Link>
+                    <Link to="/pilots"><FontAwesomeIcon icon={faUsers} /> Pilots</Link>
+                    <Link to="/rules"><FontAwesomeIcon icon={faScaleBalanced} /> Rules</Link>
+                    <Link to="/stats"><FontAwesomeIcon icon={faChartSimple} /> Stats</Link>
                     <Link to="#" onClick={toggleTheme}>
                         <FontAwesomeIcon icon={theme === 'light' ? faMoon : faSun} />
                     </Link>
                     <Link to="#"><FontAwesomeIcon icon={faGlobe} /></Link>
                 </div>
                 <div className="navbar-login">
-                    <Link to="#">Login</Link>
+                    <Link to="/login">Login</Link>
                 </div>
             </div>
         </nav>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import './navbar.scss';
 import { Link } from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -9,18 +9,12 @@ import {
     faScaleBalanced, faSun,
     faUsers
 } from "@fortawesome/free-solid-svg-icons";
+import {ThemeContext} from "../theme-context/theme-context";
 
 const Navbar = () => {
-    const [theme, setTheme] = useState('light');
+    const { theme, toggleTheme } = useContext(ThemeContext);
     const [menuOpen, setMenuOpen] = useState(false);
 
-    useEffect(() => {
-        document.body.setAttribute('data-theme', theme);
-    }, [theme]);
-
-    const toggleTheme = () => {
-        setTheme(theme === 'light' ? 'dark' : 'light');
-    };
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);

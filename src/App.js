@@ -7,6 +7,11 @@ import {PrivacyPolicy} from "./pages/privacy-policy/privacy-policy";
 import {CookiePolicy} from "./pages/cookies/cookies";
 import {CookieBanner} from "./components/cookie-banner/cookie-banner";
 import {Register} from "./pages/register/register";
+import {Login} from "./pages/login/login";
+import {Forgot} from "./pages/forgot/forgot";
+import {Rules} from "./pages/rules/rules";
+import {Central} from "./pages/central/central";
+import {PilotList} from "./pages/list/list";
 
 function App() {
 
@@ -16,9 +21,18 @@ function App() {
             <Navbar/>
             <Routes>
                 <Route path={"/"} element={<Home />} />
+                <Route path={"/rules"} element={<Rules />} />
+
+                <Route path={"/central"} element={<Central />} />
+
                 <Route path={"/register"} element={<Register />} />
+                <Route path={"/login"} element={<Login />} />
+                <Route path={"/forgot"} element={<Forgot />} />
+
                 <Route path={"/privacy-policy"} element={<PrivacyPolicy />} />
                 <Route path={"/cookie-policy"} element={<CookiePolicy />} />
+
+                <Route path={"/pilots"} element={<PilotList />} />
             </Routes>
             <CookieBanner />
             <Footer />

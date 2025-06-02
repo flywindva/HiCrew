@@ -146,6 +146,7 @@ export function Register() {
                             />
                         </div>
                     </div>
+                    <p><input type={"checkbox"} required/> You accept the <Link to={"/rules"}>airline's rules</Link> when you register.</p>
 
                     <button type="submit" className="btn">
                         Register

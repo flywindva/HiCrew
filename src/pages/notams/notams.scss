@@ -1,0 +1,117 @@
+.notams-list {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+
+  .notam {
+    background-color: var(--background-secondary);
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    text-align: left;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      color: var(--accent-primary);
+      margin: 0 0 5px;
+    }
+
+    h5 {
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      margin: 0 0 5px;
+      font-weight: normal;
+    }
+
+    .status {
+      display: inline-block;
+      font-size: 0.9rem;
+      font-weight: bold;
+      margin: 5px 0;
+      padding: 3px 10px;
+      border-radius: 1rem;
+      line-height: 1;
+
+      &.active {
+        background-color: var(--success-bg);
+        color: var(--success-text);
+      }
+
+      &.expired {
+        background-color: var(--error-bg);
+        color: var(--error-text);
+      }
+    }
+
+    p {
+      color: var(--text-primary);
+      margin: 5px 0 0;
+      line-height: 1.5;
+    }
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .notams-list {
+    padding: 10px;
+
+    .notam {
+      padding: 10px;
+
+      h3 {
+        font-size: 1.1rem;
+      }
+
+      h5 {
+        font-size: 0.85rem;
+      }
+
+      .status {
+        font-size: 0.85rem;
+      }
+
+      p {
+        font-size: 0.85rem;
+      }
+    }
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .notams-list {
+    .notam {
+      padding: 8px;
+
+      h3 {
+        font-size: 1rem;
+      }
+
+      h5 {
+        font-size: 0.8rem;
+      }
+
+      .status {
+        font-size: 0.8rem;
+      }
+
+      p {
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+}

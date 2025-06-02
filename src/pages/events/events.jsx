@@ -1,5 +1,7 @@
 import { useState } from "react";
 import "./events.scss";
+import {faCalendar} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const eventsData = [
     {
@@ -77,7 +79,7 @@ export function Events() {
                 </div>
             ) : (
                 <>
-                    <h2>Events</h2>
+                    <h2><FontAwesomeIcon icon={faCalendar} /> Events</h2>
                     <div className="banner-events">
                         Every day we strive to enhance our airline's experience by bringing events from our community.
                     </div>

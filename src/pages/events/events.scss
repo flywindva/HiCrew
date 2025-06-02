@@ -1,0 +1,245 @@
+.events-container {
+  min-height: 70vh;
+  color: var(--text-primary);
+
+  h2{
+    margin: 1rem;
+  }
+}
+
+.events-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 1.3rem 0;
+
+  .event {
+    background-color: var(--background-secondary);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+
+    .event-image {
+      position: relative;
+      width: 100%;
+      height: auto;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .time-indicator {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: var(--accent-primary);
+        color: var(--text-third);
+        padding: 5px 10px;
+        border-radius: 1rem;
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+    }
+
+    .event-details {
+      padding: 10px 15px;
+
+      h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: var(--accent-primary);
+        line-height: 1.3;
+      }
+
+      h6 {
+        margin: 5px 0 0;
+        font-size: 0.9rem;
+        color: var(--text-primary);
+      }
+    }
+  }
+}
+
+.event-detail {
+  margin-top: 1rem;
+
+  .event-detail-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 30px;
+    margin-top: 1rem;
+
+    .event-image {
+      flex: 1;
+      max-width: 500px;
+
+      img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+    }
+
+    .event-content {
+      flex: 1;
+      padding: 20px;
+      background-color: var(--background-secondary);
+      border-radius: 1rem;
+
+      h2 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        color: var(--accent-primary);
+      }
+
+      .date {
+        font-size: 1.1rem;
+        color: var(--text-primary);
+        margin-bottom: 10px;
+      }
+
+      .time-indicator {
+        display: inline-block;
+        background-color: var(--accent-primary);
+        color: var(--text-third);
+        padding: 5px 10px;
+        border-radius: 1rem;
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .description {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: var(--text-primary);
+      }
+    }
+  }
+}
+
+.banner-events {
+  background-color: var(--background-secondary);
+  color: var(--text-primary);
+  padding: 0.8rem 1rem;
+  border-radius: 1rem;
+  text-align: center;
+}
+
+@media screen and (max-width: 1024px) {
+  .events-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .events-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .banner-events {
+    font-size: 0.9rem;
+    padding: 10px 15px;
+  }
+
+  .event-detail {
+    .event-detail-container {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .event-image {
+        max-width: 100%;
+        margin-bottom: 20px;
+      }
+
+      .event-content {
+        padding: 0;
+
+        h2 {
+          font-size: 1.8rem;
+        }
+
+        .date {
+          font-size: 1rem;
+        }
+
+        .time-indicator {
+          font-size: 0.8rem;
+          padding: 5px 10px;
+        }
+
+        .description {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .events-container {
+    padding: 20px 10px;
+  }
+
+  .events-list {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .banner-events {
+    font-size: 0.8rem;
+    margin: 0 10px 10px;
+  }
+
+  .event {
+    .event-image {
+      height: 120px;
+    }
+
+    .event-details {
+      h3 {
+        font-size: 1rem;
+      }
+
+      h6 {
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  .event-detail {
+    .event-detail-container {
+      .event-content {
+        h2 {
+          font-size: 1.5rem;
+        }
+
+        .date {
+          font-size: 0.9rem;
+        }
+
+        .description {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+}

@@ -12,6 +12,7 @@ import {Forgot} from "./pages/forgot/forgot";
 import {Rules} from "./pages/rules/rules";
 import {Central} from "./pages/central/central";
 import {PilotList} from "./pages/list/list";
+import {Events} from "./pages/events/events";
 
 function App() {
 
@@ -33,6 +34,8 @@ function App() {
                 <Route path={"/cookie-policy"} element={<CookiePolicy />} />
 
                 <Route path={"/pilots"} element={<PilotList />} />
+                <Route path={"/events"} element={<Events />} />
+
             </Routes>
             <CookieBanner />
             <Footer />

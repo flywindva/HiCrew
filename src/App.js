@@ -14,6 +14,7 @@ import {Central} from "./pages/central/central";
 import {PilotList} from "./pages/list/list";
 import {Events} from "./pages/events/events";
 import {Notams} from "./pages/notams/notams";
+import {Tours} from "./pages/tours/tours";
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
                 <Route path={"/pilots"} element={<PilotList />} />
                 <Route path={"/events"} element={<Events />} />
                 <Route path={"/notams"} element={<Notams />} />
+                <Route path={"/tours"} element={<Tours />} />
 
             </Routes>
             <CookieBanner />

@@ -1,16 +1,17 @@
 import './register.scss';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { register } from '../../api/apì';
 
 export function Register() {
     const [formData, setFormData] = useState({
-        name: '',
-        surname: '',
+        firstName: '',
+        lastName: '',
         email: '',
         password: '',
         repeatPassword: '',
-        birthday: '',
-        ivaoVid: '',
+        birthDate: '',
+        ivaoId: '',
         vatsimId: '',
     });
 
@@ -21,13 +22,21 @@ export function Register() {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (formData.password !== formData.repeatPassword) {
             alert("Passwords don't match!");
             return;
         }
-        console.log('Form submitted:', formData);
+        try {
+            const response = await register(formData);
+            console.log('Registro exitoso:', response.data);
+            localStorage.setItem('token', response.data.token);
+            window.location.href = '/central';
+        } catch (error) {
+            console.error('Error en el registro:', error.response?.data?.error);
+            alert('Error: ' + (error.response?.data?.error || 'No se pudo registrar'));
+        }
     };
 
     return (
@@ -41,24 +50,24 @@ export function Register() {
                 <form onSubmit={handleSubmit} className="register-form">
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="name">Name</label>
+                            <label htmlFor="firstName">Name</label>
                             <input
                                 type="text"
-                                id="name"
-                                name="name"
-                                value={formData.name}
+                                id="firstName"
+                                name="firstName"
+                                value={formData.firstName}
                                 onChange={handleChange}
                                 required
                                 placeholder="Enter your name"
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="surname">Surname</label>
+                            <label htmlFor="lastName">Surname</label>
                             <input
                                 type="text"
-                                id="surname"
-                                name="surname"
-                                value={formData.surname}
+                                id="lastName"
+                                name="lastName"
+                                value={formData.lastName}
                                 onChange={handleChange}
                                 required
                                 placeholder="Enter your surname"
@@ -80,12 +89,12 @@ export function Register() {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="birthday">Birthday</label>
+                            <label htmlFor="birthDate">Birthday</label>
                             <input
                                 type="date"
-                                id="birthday"
-                                name="birthday"
-                                value={formData.birthday}
+                                id="birthDate"
+                                name="birthDate"
+                                value={formData.birthDate}
                                 onChange={handleChange}
                                 required
                             />
@@ -124,12 +133,12 @@ export function Register() {
 
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="ivaoVid">IVAO VID</label>
+                            <label htmlFor="ivaoId">IVAO VID</label>
                             <input
                                 type="number"
-                                id="ivaoVid"
-                                name="ivaoVid"
-                                value={formData.ivaoVid}
+                                id="ivaoId"
+                                name="ivaoId"
+                                value={formData.ivaoId}
                                 onChange={handleChange}
                                 placeholder="Enter your IVAO VID"
                             />

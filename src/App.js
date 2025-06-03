@@ -15,6 +15,7 @@ import {PilotList} from "./pages/list/list";
 import {Events} from "./pages/events/events";
 import {Notams} from "./pages/notams/notams";
 import {Tours} from "./pages/tours/tours";
+import ProtectedRoute from "./components/check-auth/protected";
 
 function App() {
 
@@ -38,7 +39,12 @@ function App() {
                 <Route path={"/pilots"} element={<PilotList />} />
                 <Route path={"/events"} element={<Events />} />
                 <Route path={"/notams"} element={<Notams />} />
-                <Route path={"/tours"} element={<Tours />} />
+
+                <Route path={"/tours"} element={
+                    <ProtectedRoute>
+                        <Tours />
+                    </ProtectedRoute>
+                } />
 
             </Routes>
             <CookieBanner />

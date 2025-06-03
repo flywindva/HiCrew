@@ -1,6 +1,7 @@
 import '../register/register.scss';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import {login} from "../../api/apì";
 
 export function Login() {
     const [formData, setFormData] = useState({
@@ -15,9 +16,17 @@ export function Login() {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form submitted:', formData);
+        try {
+            const response = await login(formData);
+            console.log('Sucess:', response.data);
+            localStorage.setItem('token', response.data.token);
+            window.location.href = '/central';
+        } catch (error) {
+            console.error('Error:', error.response?.data?.error);
+            alert('Error: ' + (error.response?.data?.error || 'Unable to log in'));
+        }
     };
 
     return (

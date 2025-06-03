@@ -1,7 +1,8 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import "./list.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUsers, faUserTie } from "@fortawesome/free-solid-svg-icons";
+import {getPilots} from "../../api/apì";
 
 const initialStaff = [
     { callsign: "IB001", name: "Carlos Sánchez", position: "CEO" },
@@ -20,6 +21,18 @@ export function PilotList() {
     const [pilots, setPilots] = useState(initialPilots);
     const [staffSortConfig, setStaffSortConfig] = useState({ key: null, direction: "asc" });
     const [pilotsSortConfig, setPilotsSortConfig] = useState({ key: null, direction: "asc" });
+
+    useEffect(() => {
+        const fetchPilots = async () => {
+            try {
+                const response = await getPilots();
+                setPilots(response.data);
+            } catch (error) {
+                console.error('Error al obtener pilotos:', error);
+            }
+        };
+        fetchPilots();
+    }, []);
 
     const sortTable = (data, setData, sortConfig, setSortConfig, key) => {
         let direction = "asc";
@@ -104,14 +117,14 @@ export function PilotList() {
                         {pilots.map((pilot, index) => (
                             <tr key={index} className={index % 2 === 0 ? "even" : "odd"}>
                                 <td>{pilot.callsign}</td>
-                                <td>{pilot.name}</td>
+                                <td>{pilot.firstName} {pilot.lastName}</td>
                                 <td>
                                     <a
-                                        href={`https://ivao.aero/Member.aspx?Id=${pilot.ivaoVid}`}
+                                        href={`https://ivao.aero/Member.aspx?Id=${pilot.ivaoId}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
-                                        {pilot.ivaoVid}
+                                        {pilot.ivaoId}
                                     </a>
                                 </td>
                                 <td>

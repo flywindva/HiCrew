@@ -18,21 +18,32 @@ const Map: React.FC<{ theme: 'light' | 'dark' }> = ({ theme }) => {
     const [vatsim_flights, setVatsim] = useState([]);
 
 
-    const fetchData = async () => {
+    const fetchIvaoData = async () => {
         try {
             const response = await axios.get('https://api.ivao.aero/v2/tracker/whazzup');
-            setIvao(response.data.clients.pilots);
+            setIvao(response.data.clients.pilots || []);
         } catch (error) {
-            console.error('Error al obtener los datos de vuelo:', error);
+            console.error('Error fetching IVAO flight data:', error);
+        }
+    };
+
+    const fetchVatsimData = async () => {
+        try {
+            const response = await axios.get('https://data.vatsim.net/v3/vatsim-data.json');
+            setVatsim(response.data.pilots || []);
+        } catch (error) {
+            console.error('Error fetching VATSIM flight data:', error);
         }
     };
 
     useEffect(() => {
-        fetchData();
+        fetchIvaoData();
+        fetchVatsimData();
     }, []);
 
     useInterval(() => {
-        fetchData();
+        fetchIvaoData();
+        fetchVatsimData();
     }, 30000);
 
     const center: LatLngExpression = [0.0, 0.0];
@@ -86,6 +97,39 @@ const Map: React.FC<{ theme: 'light' | 'dark' }> = ({ theme }) => {
                                 <p>Altitude: {ivao.lastTrack?.altitude}</p>
                                 <p>Speed: {ivao.lastTrack?.groundSpeed}</p>
                                 <p>Network: IVAO</p>
+                            </div>
+                        </Popup>
+                    </Marker>
+                );
+            })}
+            {vatsim_flights.map((vatsim) => {
+                if (!vatsim.callsign || !vatsim.callsign.startsWith("IBE")) {
+                    return null;
+                }
+                const rotation = vatsim.heading ?? 0;
+
+                const customIconHtml = `<img src="${airplaneIcon}" alt="Airplane Icon" style="transform: rotate(${rotation}deg);">`;
+
+                const airplaneMarkerIcon = new DivIcon({
+                    className: 'custom-icon',
+                    iconSize: [16, 16],
+                    html: customIconHtml,
+                });
+
+                return (
+                    <Marker
+                        key={vatsim.cid}
+                        position={[vatsim.latitude ?? 0, vatsim.longitude ?? 0]}
+                        icon={airplaneMarkerIcon}
+                    >
+                        <Popup>
+                            <div>
+                                <h3>{vatsim.callsign}</h3>
+                                <p>Departure: {vatsim.flight_plan?.departure || "N/A"}</p>
+                                <p>Arrival: {vatsim.flight_plan?.arrival || "N/A"}</p>
+                                <p>Altitude: {vatsim.altitude || "N/A"}</p>
+                                <p>Speed: {vatsim.groundspeed || "N/A"}</p>
+                                <p>Network: VATSIM</p>
                             </div>
                         </Popup>
                     </Marker>

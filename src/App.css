@@ -105,6 +105,16 @@ body {
   color: var(--text-third);
 }
 
+.btn.danger{
+  background-color: var(--error-bg);
+  color: var(--error-text);
+}
+
+.btn.danger:hover{
+  background-color: var(--error-text);
+  color: var(--error-bg);
+}
+
 a{
   text-decoration: none;
   color: var(--accent-primary);

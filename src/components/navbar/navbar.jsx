@@ -3,8 +3,8 @@ import './navbar.scss';
 import {Link, useNavigate} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faChartSimple,
-    faGlobe,
+    faChartSimple, faDoorOpen,
+    faGlobe, faLayerGroup,
     faMapLocationDot, faMoon,
     faScaleBalanced, faSun,
     faUsers
@@ -40,6 +40,9 @@ const Navbar = () => {
 
             <div className={`navbar-menu ${menuOpen ? 'open' : ''}`}>
                 <div className="navbar-nav">
+                    {isAuthenticated && (
+                        <Link to="/manager"><FontAwesomeIcon icon={faLayerGroup} /> Manager</Link>
+                    )}
                     <Link to="/central"><FontAwesomeIcon icon={faMapLocationDot} /> Central</Link>
                     <Link to="/pilots"><FontAwesomeIcon icon={faUsers} /> Pilots</Link>
                     <Link to="/rules"><FontAwesomeIcon icon={faScaleBalanced} /> Rules</Link>
@@ -48,12 +51,15 @@ const Navbar = () => {
                         <FontAwesomeIcon icon={theme === 'light' ? faMoon : faSun} />
                     </Link>
                     <Link to="#"><FontAwesomeIcon icon={faGlobe} /></Link>
+                    {isAuthenticated && (
+                        <Link to="#" onClick={handleLogout}>
+                            <FontAwesomeIcon icon={faDoorOpen} />
+                        </Link>
+                    )}
                 </div>
                 <div className="navbar-login">
                     {isAuthenticated ? (
-                        <Link to="#" onClick={handleLogout}>
-                            Logout
-                        </Link>
+                        <Link to="/profile">Profile</Link>
                     ) : (
                         <Link to="/login">Login</Link>
                     )}

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import './banner.scss';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
 import {Link} from "react-router-dom";
+import {AuthContext} from "../auth-context/auth";
 
 const Banner = () => {
+    const { isAuthenticated, logout } = useContext(AuthContext);
     return (
         <div className="banner">
             <img className={"banner-background"} alt={"Img Aircraft"} src={"/resources/background-banner.png"}/>
@@ -13,14 +15,20 @@ const Banner = () => {
                 <h1 className="banner-title">HiCrew!</h1>
                 <h3 className="banner-slogan">Your airline</h3>
                 <div className="banner-buttons">
-                    <Link className="btn" to={"/login"}>LOGIN</Link>
-                    <Link className="btn" to={"/register"}>SIGN UP</Link>
+                    {isAuthenticated ? (<>
+                        <Link className="btn" to={"/profile"}>Profile</Link>
+                    </>):(<>
+                        <Link className="btn" to={"/login"}>LOGIN</Link>
+                        <Link className="btn" to={"/register"}>SIGN UP</Link>
+                    </>)}
                 </div>
             </div>
 
             <div className="banner-info-box">
                 <p>No acars, is easy only fly, alone or with your friends.</p>
-                <Link className="btn secondary" to={"/register"}>JOIN NOW <FontAwesomeIcon icon={faArrowRight}/></Link>
+                {isAuthenticated ? (<Link className="btn secondary" to={"/manager"}>MANAGER <FontAwesomeIcon icon={faArrowRight}/></Link>):(
+                    <Link className="btn secondary" to={"/register"}>JOIN NOW <FontAwesomeIcon icon={faArrowRight}/></Link>)
+                }
                 <svg className="corner-effect corner-down-left" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg"
                      viewBox="0 0 29 27.5">
                     <path className="cls-1" d="M29,0c0,15.19-12.31,27.5-27.5,27.5h27.5V0Z"/>

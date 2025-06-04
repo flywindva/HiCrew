@@ -16,6 +16,7 @@ import {Events} from "./pages/events/events";
 import {Notams} from "./pages/notams/notams";
 import {Tours} from "./pages/tours/tours";
 import ProtectedRoute from "./components/check-auth/protected";
+import {Profile} from "./pages/profile/profile";
 
 function App() {
 
@@ -43,6 +44,18 @@ function App() {
                 <Route path={"/tours"} element={
                     <ProtectedRoute>
                         <Tours />
+                    </ProtectedRoute>
+                } />
+
+                <Route path={"/profile"} element={
+                    <ProtectedRoute>
+                        <Profile />
+                    </ProtectedRoute>
+                } />
+
+                <Route path={"/manager"} element={
+                    <ProtectedRoute>
+
                     </ProtectedRoute>
                 } />
 

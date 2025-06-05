@@ -1,0 +1,12 @@
+{
+  "translation": {
+    "manager": "Gestionnaire",
+    "central": "Central",
+    "pilots": "Pilotes",
+    "rules": "Règles",
+    "stats": "Statistiques",
+    "profile": "Profil",
+    "login": "Connexion",
+    "logout": "Déconnexion"
+  }
+}

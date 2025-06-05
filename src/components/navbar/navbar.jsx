@@ -11,8 +11,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {ThemeContext} from "../theme-context/theme-context";
 import {AuthContext} from "../auth-context/auth";
+import {useTranslation} from "react-i18next";
 
 const Navbar = () => {
+    const { t } = useTranslation();
     const { theme, toggleTheme } = useContext(ThemeContext);
     const [menuOpen, setMenuOpen] = useState(false);
     const { isAuthenticated, logout } = useContext(AuthContext);
@@ -41,16 +43,16 @@ const Navbar = () => {
             <div className={`navbar-menu ${menuOpen ? 'open' : ''}`}>
                 <div className="navbar-nav">
                     {isAuthenticated && (
-                        <Link to="/manager"><FontAwesomeIcon icon={faLayerGroup} /> Manager</Link>
+                        <Link to="/manager"><FontAwesomeIcon icon={faLayerGroup} /> {t('manager')}</Link>
                     )}
-                    <Link to="/central"><FontAwesomeIcon icon={faMapLocationDot} /> Central</Link>
-                    <Link to="/pilots"><FontAwesomeIcon icon={faUsers} /> Pilots</Link>
-                    <Link to="/rules"><FontAwesomeIcon icon={faScaleBalanced} /> Rules</Link>
-                    <Link to="/stats"><FontAwesomeIcon icon={faChartSimple} /> Stats</Link>
+                    <Link to="/central"><FontAwesomeIcon icon={faMapLocationDot} /> {t('central')}</Link>
+                    <Link to="/pilots"><FontAwesomeIcon icon={faUsers} /> {t('pilots')}</Link>
+                    <Link to="/rules"><FontAwesomeIcon icon={faScaleBalanced} /> {t('rules')}</Link>
+                    <Link to="/stats"><FontAwesomeIcon icon={faChartSimple} /> {t('stats')}</Link>
                     <Link to="#" onClick={toggleTheme}>
                         <FontAwesomeIcon icon={theme === 'light' ? faMoon : faSun} />
                     </Link>
-                    <Link to="#"><FontAwesomeIcon icon={faGlobe} /></Link>
+                    <Link to="/lang"><FontAwesomeIcon icon={faGlobe} /></Link>
                     {isAuthenticated && (
                         <Link to="#" onClick={handleLogout}>
                             <FontAwesomeIcon icon={faDoorOpen} />
@@ -59,9 +61,9 @@ const Navbar = () => {
                 </div>
                 <div className="navbar-login">
                     {isAuthenticated ? (
-                        <Link to="/profile">Profile</Link>
+                        <Link to="/profile">{t('profile')}</Link>
                     ) : (
-                        <Link to="/login">Login</Link>
+                        <Link to="/login">{t('login')}</Link>
                     )}
                 </div>
             </div>

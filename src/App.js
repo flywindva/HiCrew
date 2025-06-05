@@ -20,6 +20,7 @@ import {Profile} from "./pages/profile/profile";
 import {Manager} from "./pages/manager/manager";
 import {Acars} from "./pages/acars/acars";
 import {AdminZone} from "./pages/admin/admin-zone";
+import {Lang} from "./pages/lang/lang";
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
             <Routes>
                 <Route path={"/"} element={<Home />} />
                 <Route path={"/rules"} element={<Rules />} />
+                <Route path={"/lang"} element={<Lang />} />
 
                 <Route path={"/central"} element={<Central />} />
 

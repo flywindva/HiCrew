@@ -17,6 +17,9 @@ import {Notams} from "./pages/notams/notams";
 import {Tours} from "./pages/tours/tours";
 import ProtectedRoute from "./components/check-auth/protected";
 import {Profile} from "./pages/profile/profile";
+import {Manager} from "./pages/manager/manager";
+import {Acars} from "./pages/acars/acars";
+import {AdminZone} from "./pages/admin/admin-zone";
 
 function App() {
 
@@ -55,7 +58,19 @@ function App() {
 
                 <Route path={"/manager"} element={
                     <ProtectedRoute>
+                        <Manager />
+                    </ProtectedRoute>
+                } />
 
+                <Route path={"/acars"} element={
+                    <ProtectedRoute>
+                        <Acars />
+                    </ProtectedRoute>
+                } />
+
+                <Route path={"/admin"} element={
+                    <ProtectedRoute>
+                        <AdminZone />
                     </ProtectedRoute>
                 } />
 

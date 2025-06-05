@@ -96,6 +96,7 @@ export function Profile(){
                         <Link to={"/change-position"} className={"btn"}>Change Position</Link>
                         <Link to={"/change-hub"} className={"btn"}>Change HUB</Link>
                         <Link to={"/change-airline"} className={"btn"}>Change Airline</Link>
+                        <Link to={"/acars"} className={"btn"}>ACARS</Link>
                         <Link to={"/delete-account"} className={"btn danger"}>Delete Account</Link></div>
                 </div>
                 <div className={"profile-module"}>

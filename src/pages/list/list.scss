@@ -45,6 +45,9 @@
       &.odd {
         background-color: var(--background-secondary);
       }
+      &.background-change{
+        background-color: var(--background-primary);
+      }
 
       td {
         padding: 10px;

@@ -4,9 +4,10 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowRight} from "@fortawesome/free-solid-svg-icons";
 import {Link} from "react-router-dom";
 import {AuthContext} from "../auth-context/auth";
+import {Role} from "../auth-context/role";
 
 const Banner = () => {
-    const { isAuthenticated, logout } = useContext(AuthContext);
+    const { isAuthenticated } = useContext(AuthContext);
     return (
         <div className="banner">
             <img className={"banner-background"} alt={"Img Aircraft"} src={"/resources/background-banner.png"}/>
@@ -17,6 +18,11 @@ const Banner = () => {
                 <div className="banner-buttons">
                     {isAuthenticated ? (<>
                         <Link className="btn" to={"/profile"}>Profile</Link>
+                        <Role has="ADMIN">
+                            <Link className="btn" to="/admin">
+                                Admin Dashboard
+                            </Link>
+                        </Role>
                     </>):(<>
                         <Link className="btn" to={"/login"}>LOGIN</Link>
                         <Link className="btn" to={"/register"}>SIGN UP</Link>

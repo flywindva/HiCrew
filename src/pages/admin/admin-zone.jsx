@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Role } from '../../components/auth-context/role';
 import {NotamsManager} from "./notams-manager";
 import {RulesManager} from "./rules-manager";
+import {EventManager} from "./event-manager";
 
 export function AdminZone() {
     const [activeSection, setActiveSection] = useState(null);
@@ -42,7 +43,7 @@ export function AdminZone() {
                 );
             case 'events':
                 return (
-                    <></>
+                    <EventManager/>
                 );
             case 'social':
                 return (

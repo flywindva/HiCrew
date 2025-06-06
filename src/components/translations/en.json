@@ -250,6 +250,27 @@
         "dpo": "Our Data Protection Officer (DPO) can be reached at {dpoEmail} for GDPR-related inquiries. If you believe we have not addressed your concerns, you have the right to lodge a complaint with a supervisory authority in your country.",
         "dpo-link-text": "Contact our DPO"
       }
-    }
+    },
+    "events-title": "Events",
+    "events-banner-text": "Every day we strive to enhance our airline's experience by bringing events from our community.",
+    "back-to-events": "Back to Events",
+    "no-events-found": "No events found.",
+    "failed-to-fetch-events": "Failed to fetch events",
+    "loading": "Loading...",
+    "today": "Today",
+    "in-days": "In {count} day",
+    "january": "January",
+    "february": "February",
+    "march": "March",
+    "april": "April",
+    "may": "May",
+    "june": "June",
+    "july": "July",
+    "august": "August",
+    "september": "September",
+    "october": "October",
+    "november": "November",
+    "december": "December",
+    "date-format": "{day}{suffix} {month}, starting {time}"
   }
 }

@@ -3,6 +3,7 @@ import "./list.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUsers, faUserTie } from "@fortawesome/free-solid-svg-icons";
 import {getPilots} from "../../api/apì";
+import {useTranslation} from "react-i18next";
 
 const initialStaff = [
     { callsign: "IB001", name: "Carlos Sánchez", position: "CEO" },
@@ -17,6 +18,7 @@ const initialPilots = [
 ];
 
 export function PilotList() {
+    const { t } = useTranslation();
     const [staff, setStaff] = useState(initialStaff);
     const [pilots, setPilots] = useState(initialPilots);
     const [staffSortConfig, setStaffSortConfig] = useState({ key: null, direction: "asc" });
@@ -28,7 +30,7 @@ export function PilotList() {
                 const response = await getPilots();
                 setPilots(response.data);
             } catch (error) {
-                console.error('Error al obtener pilotos:', error);
+                console.error(t('error-fetching-pilots'), error);
             }
         };
         fetchPilots();
@@ -61,20 +63,20 @@ export function PilotList() {
         <>
             <div className="pilot-list">
                 <h2>
-                    <FontAwesomeIcon icon={faUserTie} /> Staff list
+                    <FontAwesomeIcon icon={faUserTie} /> {t('staff-list')}
                 </h2>
                 <div className="table-container">
                     <table className="pilot-table">
                         <thead>
                         <tr>
-                            <th onClick={() => sortTable(staff, setStaff, staffSortConfig, setStaffSortConfig, "callsign")}>
-                                Callsign {getSortIndicator(staffSortConfig, "callsign")}
+                            <th onClick={() => sortTable(staff, setStaff, staffSortConfig, setStaffSortConfig, 'callsign')}>
+                                {t('callsign')} {getSortIndicator(staffSortConfig, 'callsign')}
                             </th>
-                            <th onClick={() => sortTable(staff, setStaff, staffSortConfig, setStaffSortConfig, "name")}>
-                                Name {getSortIndicator(staffSortConfig, "name")}
+                            <th onClick={() => sortTable(staff, setStaff, staffSortConfig, setStaffSortConfig, 'name')}>
+                                {t('name')} {getSortIndicator(staffSortConfig, 'name')}
                             </th>
-                            <th onClick={() => sortTable(staff, setStaff, staffSortConfig, setStaffSortConfig, "position")}>
-                                Position {getSortIndicator(staffSortConfig, "position")}
+                            <th onClick={() => sortTable(staff, setStaff, staffSortConfig, setStaffSortConfig, 'position')}>
+                                {t('position')} {getSortIndicator(staffSortConfig, 'position')}
                             </th>
                         </tr>
                         </thead>
@@ -93,23 +95,23 @@ export function PilotList() {
 
             <div className="pilot-list">
                 <h2>
-                    <FontAwesomeIcon icon={faUsers} /> Pilots list
+                    <FontAwesomeIcon icon={faUsers} /> {t('pilots-list')}
                 </h2>
                 <div className="table-container">
                     <table className="pilot-table">
                         <thead>
                         <tr>
-                            <th onClick={() => sortTable(pilots, setPilots, pilotsSortConfig, setPilotsSortConfig, "callsign")}>
-                                Callsign {getSortIndicator(pilotsSortConfig, "callsign")}
+                            <th onClick={() => sortTable(pilots, setPilots, pilotsSortConfig, setPilotsSortConfig, 'callsign')}>
+                                {t('callsign')} {getSortIndicator(pilotsSortConfig, 'callsign')}
                             </th>
-                            <th onClick={() => sortTable(pilots, setPilots, pilotsSortConfig, setPilotsSortConfig, "name")}>
-                                Name {getSortIndicator(pilotsSortConfig, "name")}
+                            <th onClick={() => sortTable(pilots, setPilots, pilotsSortConfig, setPilotsSortConfig, 'name')}>
+                                {t('name')} {getSortIndicator(pilotsSortConfig, 'name')}
                             </th>
-                            <th onClick={() => sortTable(pilots, setPilots, pilotsSortConfig, setPilotsSortConfig, "ivaoVid")}>
-                                IVAO VID {getSortIndicator(pilotsSortConfig, "ivaoVid")}
+                            <th onClick={() => sortTable(pilots, setPilots, pilotsSortConfig, setPilotsSortConfig, 'ivaoVid')}>
+                                {t('ivao-vid')} {getSortIndicator(pilotsSortConfig, 'ivaoVid')}
                             </th>
-                            <th onClick={() => sortTable(pilots, setPilots, pilotsSortConfig, setPilotsSortConfig, "vatsimId")}>
-                                VATSIM ID {getSortIndicator(pilotsSortConfig, "vatsimId")}
+                            <th onClick={() => sortTable(pilots, setPilots, pilotsSortConfig, setPilotsSortConfig, 'vatsimId')}>
+                                {t('vatsim-id')} {getSortIndicator(pilotsSortConfig, 'vatsimId')}
                             </th>
                         </tr>
                         </thead>
@@ -128,7 +130,7 @@ export function PilotList() {
                                     </a>
                                 </td>
                                 <td>
-                                    <a
+                                <a
                                         href={`https://www.vatsim.net/members/${pilot.vatsimId}`}
                                         target="_blank"
                                         rel="noopener noreferrer"

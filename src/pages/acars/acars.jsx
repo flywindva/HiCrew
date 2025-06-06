@@ -1,10 +1,12 @@
-import {faCopy, faEject, faEye, faEyeSlash, faSyncAlt} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {useState} from "react";
+import { faCopy, faEject, faEye, faEyeSlash, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-export function Acars(){
+export function Acars() {
+    const { t } = useTranslation();
     const [showPassword, setShowPassword] = useState(false);
-    const [password, setPassword] = useState("uindiuandac839mf");
+    const [password, setPassword] = useState('uindiuandac839mf');
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -12,8 +14,8 @@ export function Acars(){
 
     const copyToClipboard = (text) => {
         navigator.clipboard.writeText(text).then(
-            () => alert("Copied to clipboard!"),
-            (err) => console.error("Failed to copy:", err)
+            () => alert(t('copied-to-clipboard')),
+            (err) => console.error(t('failed-to-copy'), err)
         );
     };
 
@@ -22,53 +24,58 @@ export function Acars(){
         setPassword(newPassword);
     };
 
-    return(<>
-        <div className={"view-model left"}>
-            <h1><FontAwesomeIcon icon={faEject}/> HiACARS!</h1>
-            <p>HiACARS! is an advanced automatic tracking system designed for flight simulation, allowing you to fly and
-                report within your airline. It is compatible with <b>X-Plane 11, X-Plane 12, MSFS2020</b> and <b>MSFS
-                    2024</b>, support for FSX and Prepar3d coming soon. We are also working on compatibility with other
-                simulators. One program, multiple airlines—HiACARS! seamlessly integrates with various airlines using
-                the HiCrew! System.</p>
-            <p>Web for downloading: <a href={"https://diazro.me/hicrew"} target={"_blank"}>HiACARS DOWNLOAD</a></p>
-            <p>Credentials for logging into ACARS:</p>
-            <p>
-                URL AIRLINE: https://diazro.me/hicrew{" "}
-                <FontAwesomeIcon
-                    icon={faCopy}
-                    className="copy-icon"
-                    onClick={() => copyToClipboard("https://diazro.me/hicrew")}
-                    style={{cursor: "pointer", marginLeft: "8px"}}
-                    title="Copy URL"
-                />
-            </p>
-            <p>
-                PASSWORD:{" "}
-                <span className="password">
-          {showPassword ? password : "••••••••••••••••"}
-                </span>{" "}
-                <FontAwesomeIcon
-                    icon={faCopy}
-                    className="copy-icon"
-                    onClick={() => copyToClipboard(password)}
-                    style={{ cursor: "pointer", marginLeft: "8px" }}
-                    title="Copy Password"
-                />
-                <FontAwesomeIcon
-                    icon={showPassword ? faEyeSlash : faEye}
-                    className="toggle-password"
-                    onClick={togglePasswordVisibility}
-                    style={{cursor: "pointer", marginLeft: "8px"}}
-                    title={showPassword ? "Hide Password" : "Show Password"}
-                />
-                <FontAwesomeIcon
-                    icon={faSyncAlt}
-                    className="refresh-password"
-                    onClick={regeneratePassword}
-                    style={{ cursor: "pointer", marginLeft: "8px" }}
-                    title="Regenerate Password"
-                />
-            </p>
-        </div>
-    </>)
+    return (
+        <>
+            <div className="view-model left">
+                <h1>
+                    <FontAwesomeIcon icon={faEject} /> {t('acars-title')}
+                </h1>
+                <p dangerouslySetInnerHTML={{ __html: t('acars-description-1') }} />
+                <p>
+                    {t('acars-download-label')}{' '}
+                    <a href="https://diazro.me/hicrew" target="_blank" rel="noopener noreferrer">
+                        {t('acars-download-link')}
+                    </a>
+                </p>
+                <p>{t('acars-credentials')}</p>
+                <p>
+                    {t('acars-url-label')} https://diazro.me/hicrew{' '}
+                    <FontAwesomeIcon
+                        icon={faCopy}
+                        className="copy-icon"
+                        onClick={() => copyToClipboard('https://diazro.me/hicrew')}
+                        style={{ cursor: 'pointer', marginLeft: '8px' }}
+                        title={t('copy-url-title')}
+                    />
+                </p>
+                <p>
+                    {t('acars-password-label')}{' '}
+                    <span className="password">
+            {showPassword ? password : '••••••••••••••••'}
+          </span>{' '}
+                    <FontAwesomeIcon
+                        icon={faCopy}
+                        className="copy-icon"
+                        onClick={() => copyToClipboard(password)}
+                        style={{ cursor: 'pointer', marginLeft: '8px' }}
+                        title={t('copy-password-title')}
+                    />
+                    <FontAwesomeIcon
+                        icon={showPassword ? faEyeSlash : faEye}
+                        className="toggle-password"
+                        onClick={togglePasswordVisibility}
+                        style={{ cursor: 'pointer', marginLeft: '8px' }}
+                        title={t(showPassword ? 'hide-password-title' : 'show-password-title')}
+                    />
+                    <FontAwesomeIcon
+                        icon={faSyncAlt}
+                        className="refresh-password"
+                        onClick={regeneratePassword}
+                        style={{ cursor: 'pointer', marginLeft: '8px' }}
+                        title={t('regenerate-password-title')}
+                    />
+                </p>
+            </div>
+        </>
+    );
 }

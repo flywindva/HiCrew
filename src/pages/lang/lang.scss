@@ -1,0 +1,34 @@
+.lang-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.lang {
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  transition: all 0.3s ease;
+  width: 11rem;
+  background-color: var(--background-primary);
+
+  &:hover {
+    background-color: var(--background-secondary);
+  }
+
+  h3 {
+    margin: 0 0 10px;
+    font-size: 1.1rem;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.lang-select {
+  background-color: var(--accent-secondary);
+  color: var(--accent-primary);
+}

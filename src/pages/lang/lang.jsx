@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { faLanguage } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './lang.scss';
 
 export function Lang() {
-    const { i18n } = useTranslation();
+    const { t, i18n } = useTranslation();
     const languages = [
         { code: 'ES', name: 'Español' },
         { code: 'EN', name: 'English' },
@@ -16,24 +19,32 @@ export function Lang() {
 
     const [selectedLang, setSelectedLang] = useState(localStorage.getItem('language') || 'EN');
 
-    // Handle language change
-    const handleLangChange = (event) => {
-        const newLang = event.target.value;
-        setSelectedLang(newLang);
-        localStorage.setItem('language', newLang);
-        i18n.changeLanguage(newLang);
+    const handleLangChange = (langCode) => {
+        setSelectedLang(langCode);
+        localStorage.setItem('language', langCode);
+        i18n.changeLanguage(langCode);
     };
 
     return (
         <>
             <div className="view-model">
-                <select value={selectedLang} onChange={handleLangChange}>
+                <h1>
+                    <FontAwesomeIcon icon={faLanguage} /> {t('language-title')}
+                </h1>
+                <p dangerouslySetInnerHTML={{ __html: t('language-description') }} />
+                <div className="lang-container">
                     {languages.map((lang) => (
-                        <option key={lang.code} value={lang.code}>
-                            {lang.name}
-                        </option>
+                        <div
+                            key={lang.code}
+                            className={`lang ${selectedLang === lang.code ? 'lang-select' : ''}`}
+                            onClick={() => handleLangChange(lang.code)}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            <h3>{lang.code} - {lang.name}</h3>
+                            <img src={`/resources/flags/${lang.code}.png`} alt={lang.name} />
+                        </div>
                     ))}
-                </select>
+                </div>
             </div>
         </>
     );

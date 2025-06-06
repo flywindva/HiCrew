@@ -9,6 +9,247 @@
     "login": "Login",
     "logout": "Logout",
     "made": "By",
-    "privacy-policy": "Privacy policy"
+    "welcome": "Welcome to",
+    "title": "HiCrew!",
+    "slogan": "Your airline",
+    "info": "No acars, is easy only fly, alone or with your friends.",
+    "join-now": "Join Now",
+    "admin-dashboard": "Admin Dashboard",
+    "manager-title": "Manager",
+    "manager-description": "Here you can manage the flights you are going to make with this airline. Remember that you need fleet and that you must be at the departure airport for charter and scheduled flights.",
+    "flight-charter": "Flight Charter",
+    "flight-regular": "Flight Regular",
+    "manual-report": "Manual Report",
+    "dispatcher": "Dispatcher",
+    "free-mode": "Free Mode",
+    "fleet": "Fleet",
+    "staff-list": "Staff List",
+    "pilots-list": "Pilots List",
+    "callsign": "Callsign",
+    "name": "Name",
+    "position": "Position",
+    "ivao-vid": "IVAO VID",
+    "vatsim-id": "VATSIM ID",
+    "error-fetching-pilots": "Error fetching pilots",
+    "rules-title": "Rules",
+    "no-rules-found": "No rules found.",
+    "last-updated": "Last Updated",
+    "failed-to-fetch-rules": "Failed to fetch rules",
+    "notams-title": "NOTAMs",
+    "no-notams-found": "No active NOTAMs found.",
+    "active": "Active",
+    "expired": "Expired",
+    "failed-to-fetch-notams": "Failed to fetch NOTAMs",
+    "acars-title": "HiACARS!",
+    "acars-description-1": "HiACARS! is an advanced automatic tracking system designed for flight simulation, allowing you to fly and report within your airline. It is compatible with <b>X-Plane 11, X-Plane 12, MSFS2020</b> and <b>MSFS 2024</b>, support for FSX and Prepar3d coming soon. We are also working on compatibility with other simulators. One program, multiple airlines—HiACARS! seamlessly integrates with various airlines using the HiCrew! System.",
+    "acars-download-label": "Web for downloading:",
+    "acars-download-link": "HiACARS DOWNLOAD",
+    "acars-credentials": "Credentials for logging into ACARS:",
+    "acars-url-label": "URL AIRLINE:",
+    "acars-password-label": "PASSWORD:",
+    "copy-url-title": "Copy URL",
+    "copy-password-title": "Copy Password",
+    "show-password-title": "Show Password",
+    "hide-password-title": "Hide Password",
+    "regenerate-password-title": "Regenerate Password",
+    "copied-to-clipboard": "Copied to clipboard!",
+    "failed-to-copy": "Failed to copy",
+    "language-title": "Language",
+    "language-description": "HiCrew! offers different languages, although some translations may not be correct. If you think you can help improve them or add a language you know, you can participate. For more information, visit <a href='https://diazro.me/hicrew' target='_blank'>diazro.me/hicrew</a>.",
+    "map-departure": "Departure",
+    "map-arrival": "Arrival",
+    "map-altitude": "Altitude",
+    "map-speed": "Speed",
+    "map-network": "Network",
+    "map-not-available": "N/A",
+    "error-fetching-ivao": "Error fetching IVAO flight data",
+    "error-fetching-vatsim": "Error fetching VATSIM flight data",
+    "cookie-banner-message": "{companyName} uses browser local storage to save your preferences for dark mode and language settings. We do not use cookies or tracking technologies. Learn more in our ",
+    "cookie-banner-accept": "Accept",
+    "cookie-policy": "Cookie Policy",
+    "profile-greeting": "Hi,",
+    "profile-location": "Location",
+    "profile-airline": "Airline",
+    "profile-rank": "Rank",
+    "profile-hub": "HUB",
+    "profile-flights": "Flights",
+    "profile-hours": "Hours",
+    "profile-points": "Points",
+    "profile-most-used-aircraft": "Most used aircraft",
+    "profile-options": "Options",
+    "profile-change-position": "Change Position",
+    "profile-change-hub": "Change HUB",
+    "profile-change-airline": "Change Airline",
+    "profile-acars": "ACARS",
+    "profile-delete-account": "Delete Account",
+    "profile-awards": "Awards",
+    "profile-logbook": "Logbook",
+    "profile-logbook-callsign": "Callsign",
+    "profile-logbook-aircraft": "Aircraft",
+    "profile-logbook-departure": "Departure",
+    "profile-logbook-arrival": "Arrival",
+    "profile-logbook-start": "Start",
+    "profile-logbook-end": "End",
+    "profile-logbook-network": "Network",
+    "profile-logbook-time": "Time",
+    "login-title": "Hi again!",
+    "login-subtitle": "your flight awaits you",
+    "login-email-label": "Email",
+    "login-email-placeholder": "Enter your email",
+    "login-password-label": "Password",
+    "login-password-placeholder": "Enter your password",
+    "login-button": "Login",
+    "login-forgot-password": "Forgotten your password?",
+    "login-signup-prompt": "Don't have an account? Sign up for an account.",
+    "login-error-prefix": "Error:",
+    "login-error-default": "Unable to log in",
+    "register-title": "Welcome",
+    "register-subtitle": "to your new adventure",
+    "register-first-name-label": "First Name",
+    "register-first-name-placeholder": "Enter your first name",
+    "register-last-name-label": "Surname",
+    "register-last-name-placeholder": "Enter your surname",
+    "register-email-label": "Email",
+    "register-email-placeholder": "Enter your email",
+    "register-birth-date-label": "Birthday",
+    "register-birth-date-placeholder": "Select your birthday",
+    "register-password-label": "Password",
+    "register-password-placeholder": "Enter your password",
+    "register-repeat-password-label": "Repeat Password",
+    "register-repeat-password-placeholder": "Repeat your password",
+    "register-ivao-id-label": "IVAO VID",
+    "register-ivao-id-placeholder": "Enter your IVAO VID",
+    "register-vatsim-id-label": "VATSIM ID",
+    "register-vatsim-id-placeholder": "Enter your VATSIM ID",
+    "register-rules-accept": "You accept the <a href='/rules'>airline's rules</a> when you register.",
+    "register-button": "Register",
+    "register-login-prompt": "Have an account? Log in Here",
+    "register-error-prefix": "Error:",
+    "register-error-default": "Unable to register",
+    "register-error-password-mismatch": "Passwords don't match!",
+    "register-success": "Successful registration",
+    "forgot-title": "Forgotten your password?",
+    "forgot-subtitle": "Enter your email address and we will send you a link to reset it.",
+    "forgot-email-label": "Email",
+    "forgot-email-placeholder": "Enter your email",
+    "forgot-button": "Send",
+    "forgot-signup-prompt": "Don't have an account? Sign up for an account.",
+    "forgot-form-submitted": "Form submitted",
+    "privacy-policy": {
+      "name": "Privacy Policy",
+      "title": "Privacy Policy for {companyName}",
+      "last-updated": "Last Updated: {lastUpdatedDate}",
+      "intro": "At {companyName}, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your data when you use our virtual airline services, including our website ({websiteUrl}), mobile applications, and related services (collectively, the 'Services'). By using our Services, you consent to the practices described in this policy.",
+      "intro-link-text": "Visit our website",
+      "section1": {
+        "title": "Information We Collect",
+        "intro": "We collect the following types of information:",
+        "personal-info": {
+          "title": "Personal Information",
+          "description": "When you register for an account, participate in virtual flights, or contact us, we collect:",
+          "items": [
+            "Name",
+            "Surname",
+            "Date of birth",
+            "IVAO ID",
+            "VATSIM ID",
+            "Email address"
+          ]
+        },
+        "browser-storage": {
+          "title": "Browser Storage",
+          "description": "We store your preferences for dark mode theme and language selection in your browser’s local storage to enhance your experience."
+        },
+        "voluntary-info": {
+          "title": "Voluntarily Provided Information",
+          "description": "Any information you provide through forums, surveys, or customer support, such as feedback or preferences for virtual flights."
+        }
+      },
+      "section2": {
+        "title": "How We Use Your Information",
+        "intro": "We use your information to:",
+        "items": [
+          "Provide and improve our Services, such as managing user accounts, verifying IVAO and VATSIM IDs, and facilitating virtual flight activities.",
+          "Communicate with you, including sending confirmations, updates, or promotional offers (if you opt-in).",
+          "Apply your dark mode and language preferences to personalize your experience.",
+          "Comply with legal obligations and protect the security of our Services."
+        ]
+      },
+      "section3": {
+        "title": "How We Share Your Information",
+        "intro": "We may share your information with:",
+        "service-providers": {
+          "title": "Service Providers",
+          "description": "Third-party vendors who assist with customer support or other services ({listSpecificProvidersIfKnown})."
+        },
+        "virtual-aviation": {
+          "title": "Virtual Aviation Networks",
+          "description": "We may share your IVAO ID or VATSIM ID with IVAO or VATSIM to verify your membership or facilitate flight activities, with your consent."
+        },
+        "legal-authorities": {
+          "title": "Legal Authorities",
+          "description": "When required by law or to protect our rights and safety."
+        },
+        "no-sale": "We do not sell your personal information to third parties."
+      },
+      "section4": {
+        "title": "Your Rights Under GDPR",
+        "intro": "You have the following rights under the General Data Protection Regulation (GDPR):",
+        "items": [
+          "Access: Request a copy of the personal data we hold about you.",
+          "Rectification: Correct inaccurate or incomplete data.",
+          "Erasure: Request deletion of your data, subject to legal obligations.",
+          "Restriction: Restrict how we process your data in certain circumstances.",
+          "Portability: Receive your data in a structured, machine-readable format.",
+          "Objection: Object to processing for direct marketing or other purposes based on legitimate interests."
+        ],
+        "contact": "To exercise these rights, contact us at {contactEmail}. We will respond within one month, as required by GDPR.",
+        "contact-link-text": "Email us"
+      },
+      "section5": {
+        "title": "Data Retention",
+        "description": "We retain your personal information for as long as necessary to provide the Services or comply with legal obligations. For example, account data is retained until you request deletion or {specifyRetentionPeriod}. Browser-stored preferences (dark mode and language) are retained until you clear your browser’s local storage."
+      },
+      "section6": {
+        "title": "Data Security",
+        "description": "We implement industry-standard security measures, such as encryption and secure servers, to protect your data. However, no system is completely secure, and we cannot guarantee absolute security."
+      },
+      "section7": {
+        "title": "Browser Storage",
+        "description": "We store your dark mode theme and language preferences in your browser’s local storage. You can clear these preferences by resetting your browser’s local storage or adjusting your settings. For details, see our ",
+        "cookie-policy-link-text": "Cookie Policy"
+      },
+      "section8": {
+        "title": "Third-Party Links",
+        "description": "Our Services may contain links to third-party websites (e.g., IVAO or VATSIM platforms). We are not responsible for their privacy practices. Please review their policies before sharing information."
+      },
+      "section9": {
+        "title": "Children’s Privacy",
+        "description": "Our Services are not intended for individuals under {minimumAge}. We do not knowingly collect data from children. If we become aware of such data, we will delete it."
+      },
+      "section10": {
+        "title": "Changes to This Policy",
+        "description": "We may update this Privacy Policy to reflect changes in our practices or legal requirements. We will notify you of significant changes via email or a notice on our website. The updated policy will be effective as of the 'Last Updated' date."
+      },
+      "section11": {
+        "title": "Contact Us",
+        "description": "If you have questions or concerns about this Privacy Policy or our data practices, please contact:",
+        "details": "{companyName} at {contactEmail}"
+      },
+      "gdpr-compliance": {
+        "title": "GDPR Compliance Notice",
+        "intro": "{companyName} complies with the General Data Protection Regulation (GDPR). As a data controller, we ensure that:",
+        "items": [
+          "We process personal data lawfully, fairly, and transparently.",
+          "We collect data for specified, explicit, and legitimate purposes.",
+          "We minimize data collection to what is necessary.",
+          "We maintain accurate data and allow corrections.",
+          "We limit data storage to what is necessary.",
+          "We protect data with appropriate technical and organizational measures."
+        ],
+        "dpo": "Our Data Protection Officer (DPO) can be reached at {dpoEmail} for GDPR-related inquiries. If you believe we have not addressed your concerns, you have the right to lodge a complaint with a supervisory authority in your country.",
+        "dpo-link-text": "Contact our DPO"
+      }
+    }
   }
 }

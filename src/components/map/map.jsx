@@ -4,6 +4,7 @@ import {DivIcon, LatLngExpression} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import axios from 'axios';
 import airplaneIcon from './plane.svg';
+import {useTranslation} from "react-i18next";
 
 
 const useInterval = (callback: () => void, delay: number) => {
@@ -14,6 +15,7 @@ const useInterval = (callback: () => void, delay: number) => {
 };
 
 const Map: React.FC<{ theme: 'light' | 'dark' }> = ({ theme }) => {
+    const { t } = useTranslation();
     const [ivao_flights, setIvao] = useState([]);
     const [vatsim_flights, setVatsim] = useState([]);
 
@@ -23,7 +25,7 @@ const Map: React.FC<{ theme: 'light' | 'dark' }> = ({ theme }) => {
             const response = await axios.get('https://api.ivao.aero/v2/tracker/whazzup');
             setIvao(response.data.clients.pilots || []);
         } catch (error) {
-            console.error('Error fetching IVAO flight data:', error);
+            console.error(t('error-fetching-ivao'), error);
         }
     };
 
@@ -32,7 +34,7 @@ const Map: React.FC<{ theme: 'light' | 'dark' }> = ({ theme }) => {
             const response = await axios.get('https://data.vatsim.net/v3/vatsim-data.json');
             setVatsim(response.data.pilots || []);
         } catch (error) {
-            console.error('Error fetching VATSIM flight data:', error);
+            console.error(t('error-fetching-vatsim'), error);
         }
     };
 
@@ -92,11 +94,21 @@ const Map: React.FC<{ theme: 'light' | 'dark' }> = ({ theme }) => {
                         <Popup>
                             <div>
                                 <h3>{ivao.callsign}</h3>
-                                <p>Departure: {ivao.flightPlan?.departureId}</p>
-                                <p>Arrival: {ivao.flightPlan?.arrivalId}</p>
-                                <p>Altitude: {ivao.lastTrack?.altitude}</p>
-                                <p>Speed: {ivao.lastTrack?.groundSpeed}</p>
-                                <p>Network: IVAO</p>
+                                <p>
+                                    {t('map-departure')}: {ivao.flightPlan?.departureId || t('map-not-available')}
+                                </p>
+                                <p>
+                                    {t('map-arrival')}: {ivao.flightPlan?.arrivalId || t('map-not-available')}
+                                </p>
+                                <p>
+                                    {t('map-altitude')}: {ivao.lastTrack?.altitude || t('map-not-available')}
+                                </p>
+                                <p>
+                                    {t('map-speed')}: {ivao.lastTrack?.groundSpeed || t('map-not-available')}
+                                </p>
+                                <p>
+                                    {t('map-network')}: IVAO
+                                </p>
                             </div>
                         </Popup>
                     </Marker>
@@ -125,11 +137,21 @@ const Map: React.FC<{ theme: 'light' | 'dark' }> = ({ theme }) => {
                         <Popup>
                             <div>
                                 <h3>{vatsim.callsign}</h3>
-                                <p>Departure: {vatsim.flight_plan?.departure || "N/A"}</p>
-                                <p>Arrival: {vatsim.flight_plan?.arrival || "N/A"}</p>
-                                <p>Altitude: {vatsim.altitude || "N/A"}</p>
-                                <p>Speed: {vatsim.groundspeed || "N/A"}</p>
-                                <p>Network: VATSIM</p>
+                                <p>
+                                    {t('map-departure')}: {vatsim.flight_plan?.departure || t('map-not-available')}
+                                </p>
+                                <p>
+                                    {t('map-arrival')}: {vatsim.flight_plan?.arrival || t('map-not-available')}
+                                </p>
+                                <p>
+                                    {t('map-altitude')}: {vatsim.altitude || t('map-not-available')}
+                                </p>
+                                <p>
+                                    {t('map-speed')}: {vatsim.groundspeed || t('map-not-available')}
+                                </p>
+                                <p>
+                                    {t('map-network')}: VATSIM
+                                </p>
                             </div>
                         </Popup>
                     </Marker>

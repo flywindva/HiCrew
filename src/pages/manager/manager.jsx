@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import {Profile} from "../profile/profile";
 import './manager.scss'
 import {Fleet} from "../fleet/fleet";
+import {useTranslation} from "react-i18next";
 
 export function Manager() {
     const [selectedButton, setSelectedButton] = useState(null);
@@ -29,47 +30,51 @@ export function Manager() {
         setSelectedButton(buttonType);
     };
 
+    const { t } = useTranslation();
+
     return (
         <>
             <div className="manager-title">
-                <h1><FontAwesomeIcon icon={faLayerGroup} /> Manager</h1>
-                <p>Here you can manage the flights you are going to make with this airline. Remember that you need fleet and that you must be at the departure airport for charter and scheduled flights.</p>
+                <h1>
+                    <FontAwesomeIcon icon={faLayerGroup} /> {t('manager-title')}
+                </h1>
+                <p>{t('manager-description')}</p>
                 <div className="manager-wrapper">
                     <button
                         className={`btn ${selectedButton === 'charter' ? 'secondary' : ''}`}
                         onClick={() => handleButtonClick('charter')}
                     >
-                        <FontAwesomeIcon icon={faPlaneArrival}/> Flight Charter
+                        <FontAwesomeIcon icon={faPlaneArrival} /> {t('flight-charter')}
                     </button>
                     <button
                         className={`btn ${selectedButton === 'regular' ? 'secondary' : ''}`}
                         onClick={() => handleButtonClick('regular')}
                     >
-                        <FontAwesomeIcon icon={faPlaneDeparture}/> Flight Regular
+                        <FontAwesomeIcon icon={faPlaneDeparture} /> {t('flight-regular')}
                     </button>
                     <button
                         className={`btn ${selectedButton === 'manual' ? 'secondary' : ''}`}
                         onClick={() => handleButtonClick('manual')}
                     >
-                        <FontAwesomeIcon icon={faFilePen}/> Manual Report
+                        <FontAwesomeIcon icon={faFilePen} /> {t('manual-report')}
                     </button>
                     <button
                         className={`btn ${selectedButton === 'dispatcher' ? 'secondary' : ''}`}
                         onClick={() => handleButtonClick('dispatcher')}
                     >
-                        <FontAwesomeIcon icon={faBusinessTime}/> Dispatcher
+                        <FontAwesomeIcon icon={faBusinessTime} /> {t('dispatcher')}
                     </button>
                     <button
                         className={`btn ${selectedButton === 'free' ? 'secondary' : ''}`}
                         onClick={() => handleButtonClick('free')}
                     >
-                        <FontAwesomeIcon icon={faPlaneCircleXmark}/> Free Mode
+                        <FontAwesomeIcon icon={faPlaneCircleXmark} /> {t('free-mode')}
                     </button>
                     <button
                         className={`btn ${selectedButton === 'fleet' ? 'secondary' : ''}`}
                         onClick={() => handleButtonClick('fleet')}
                     >
-                        <FontAwesomeIcon icon={faPlaneCircleExclamation}/> Fleet
+                        <FontAwesomeIcon icon={faPlaneCircleExclamation} /> {t('fleet')}
                     </button>
                 </div>
             </div>

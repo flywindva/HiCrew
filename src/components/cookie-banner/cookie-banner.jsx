@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './cookie-banner.scss';
+import {useTranslation} from "react-i18next";
+import i18n from "i18next";
 
 export function CookieBanner() {
+    const { t } = useTranslation();
     const [isVisible, setIsVisible] = useState(false);
 
     const bannerVariables = {
@@ -28,11 +31,16 @@ export function CookieBanner() {
         <div className="cookie-banner">
             <div className="cookie-banner-content">
                 <p>
-                    {bannerVariables.COMPANY_NAME} uses browser local storage to save your preferences for dark mode and language settings. We do not use cookies or tracking technologies. Learn more in our{' '}
-                    <Link to={bannerVariables.COOKIE_POLICY_LINK}>Cookie Policy</Link>.
+                    {t('cookie-banner-message', {
+                        companyName: bannerVariables.COMPANY_NAME,
+                        cookiePolicyLink: bannerVariables.COOKIE_POLICY_LINK,
+                    }).replace('{companyName}', bannerVariables.COMPANY_NAME)}
+                    <Link to={bannerVariables.COOKIE_POLICY_LINK}>
+                        {t('cookie-policy')}
+                    </Link>.
                 </p>
                 <button onClick={handleAccept} className="btn secondary">
-                    Accept
+                    {t('cookie-banner-accept')}
                 </button>
             </div>
         </div>

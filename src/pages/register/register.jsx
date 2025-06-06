@@ -2,8 +2,10 @@ import './register.scss';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { register } from '../../api/apì';
+import {useTranslation} from "react-i18next";
 
 export function Register() {
+    const { t } = useTranslation();
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -25,24 +27,25 @@ export function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (formData.password !== formData.repeatPassword) {
-            alert("Passwords don't match!");
+            alert(t('register-error-password-mismatch'));
             return;
         }
         try {
             const response = await register(formData);
-            console.log('Registro exitoso:', response.data);
+            console.log(t('register-success'), response.data);
             localStorage.setItem('token', response.data.token);
             window.location.href = '/central';
         } catch (error) {
-            console.error('Error en el registro:', error.response?.data?.error);
-            alert('Error: ' + (error.response?.data?.error || 'No se pudo registrar'));
+            const errorMessage = error.response?.data?.error || t('register-error-default');
+            console.error(t('register-error-prefix'), errorMessage);
+            alert(`${t('register-error-prefix')} ${errorMessage}`);
         }
     };
 
     return (
         <div className="container-register">
             <div className="div-img">
-                <img src="resources/background-banner.png" alt="Image Register" />
+                <img src="resources/background-banner.png" alt={t('register-image-alt')} />
             </div>
             <div className="div-form">
                 <h1>Say hi!</h1>
@@ -50,7 +53,7 @@ export function Register() {
                 <form onSubmit={handleSubmit} className="register-form">
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="firstName">Name</label>
+                            <label htmlFor="firstName">{t('register-first-name-label')}</label>
                             <input
                                 type="text"
                                 id="firstName"
@@ -58,11 +61,11 @@ export function Register() {
                                 value={formData.firstName}
                                 onChange={handleChange}
                                 required
-                                placeholder="Enter your name"
+                                placeholder={t('register-first-name-placeholder')}
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="lastName">Surname</label>
+                            <label htmlFor="lastName">{t('register-last-name-label')}</label>
                             <input
                                 type="text"
                                 id="lastName"
@@ -70,14 +73,14 @@ export function Register() {
                                 value={formData.lastName}
                                 onChange={handleChange}
                                 required
-                                placeholder="Enter your surname"
+                                placeholder={t('register-last-name-placeholder')}
                             />
                         </div>
                     </div>
 
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="email">Email</label>
+                            <label htmlFor="email">{t('register-email-label')}</label>
                             <input
                                 type="email"
                                 id="email"
@@ -85,11 +88,11 @@ export function Register() {
                                 value={formData.email}
                                 onChange={handleChange}
                                 required
-                                placeholder="Enter your email"
+                                placeholder={t('register-email-placeholder')}
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="birthDate">Birthday</label>
+                            <label htmlFor="birthDate">{t('register-birth-date-label')}</label>
                             <input
                                 type="date"
                                 id="birthDate"
@@ -103,7 +106,7 @@ export function Register() {
 
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="password">Password</label>
+                            <label htmlFor="password">{t('register-password-label')}</label>
                             <input
                                 type="password"
                                 id="password"
@@ -112,11 +115,11 @@ export function Register() {
                                 onChange={handleChange}
                                 required
                                 minLength="8"
-                                placeholder="Enter your password"
+                                placeholder={t('register-password-placeholder')}
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="repeatPassword">Repeat Password</label>
+                            <label htmlFor="repeatPassword">{t('register-repeat-password-label')}</label>
                             <input
                                 type="password"
                                 id="repeatPassword"
@@ -125,7 +128,7 @@ export function Register() {
                                 onChange={handleChange}
                                 required
                                 minLength="8"
-                                placeholder="Repeat your password"
+                                placeholder={t('register-repeat-password-placeholder')}
                             />
                         </div>
 
@@ -133,36 +136,39 @@ export function Register() {
 
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="ivaoId">IVAO VID</label>
+                            <label htmlFor="ivaoId">{t('register-ivao-id-label')}</label>
                             <input
                                 type="number"
                                 id="ivaoId"
                                 name="ivaoId"
                                 value={formData.ivaoId}
                                 onChange={handleChange}
-                                placeholder="Enter your IVAO VID"
+                                placeholder={t('register-ivao-id-placeholder')}
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="vatsimId">VATSIM ID</label>
+                            <label htmlFor="vatsimId">{t('register-vatsim-id-label')}</label>
                             <input
                                 type="number"
                                 id="vatsimId"
                                 name="vatsimId"
                                 value={formData.vatsimId}
                                 onChange={handleChange}
-                                placeholder="Enter your VATSIM ID"
+                                placeholder={t('register-vatsim-id-placeholder')}
                             />
                         </div>
                     </div>
-                    <p><input type={"checkbox"} required/> You accept the <Link to={"/rules"}>airline's rules</Link> when you register.</p>
+                    <p><input type={"checkbox"} required/> <span
+                        dangerouslySetInnerHTML={{ __html: t('register-rules-accept') }}
+                    />
+                    </p>
 
                     <button type="submit" className="btn">
-                        Register
+                        {t('register-button')}
                     </button>
                 </form>
                 <p>
-                    <Link to="/login">Have an account? Log in Here</Link>
+                    <Link to="/login">{t('register-login-prompt')}</Link>
                 </p>
             </div>
         </div>

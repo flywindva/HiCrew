@@ -2,8 +2,10 @@ import '../register/register.scss';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import {login} from "../../api/apì";
+import {useTranslation} from "react-i18next";
 
 export function Login() {
+    const { t } = useTranslation();
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -24,23 +26,24 @@ export function Login() {
             localStorage.setItem('token', response.data.token);
             window.location.href = '/central';
         } catch (error) {
-            console.error('Error:', error.response?.data?.error);
-            alert('Error: ' + (error.response?.data?.error || 'Unable to log in'));
+            const errorMessage = error.response?.data?.error || t('login-error-default');
+            console.error(t('login-error-prefix'), errorMessage);
+            alert(`${t('login-error-prefix')} ${errorMessage}`);
         }
     };
 
     return (
         <div className="container-register">
             <div className="div-img">
-                <img src="resources/background-banner.png" alt="Image Register" />
+                <img src="resources/background-banner.png" alt={t('login-image-alt')} />
             </div>
             <div className="div-form">
-                <h1>Hi again!</h1>
-                <h3>your flight awaits you</h3>
+                <h1>{t('login-title')}</h1>
+                <h3>{t('login-subtitle')}</h3>
                 <form onSubmit={handleSubmit} className="register-form">
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="email">Email</label>
+                            <label htmlFor="email">{t('login-email-label')}</label>
                             <input
                                 type="email"
                                 id="email"
@@ -48,7 +51,7 @@ export function Login() {
                                 value={formData.email}
                                 onChange={handleChange}
                                 required
-                                placeholder="Enter your email"
+                                placeholder={t('login-email-placeholder')}
                             />
                         </div>
 
@@ -56,7 +59,7 @@ export function Login() {
 
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="password">Password</label>
+                            <label htmlFor="password">{t('login-password-label')}</label>
                             <input
                                 type="password"
                                 id="password"
@@ -65,18 +68,18 @@ export function Login() {
                                 onChange={handleChange}
                                 required
                                 minLength="8"
-                                placeholder="Enter your password"
+                                placeholder={t('login-password-placeholder')}
                             />
                         </div>
 
                     </div>
-                    <Link to="/forgot">Forgotten your password?</Link>
+                    <Link to="/forgot">{t('login-forgot-password')}</Link>
                     <button type="submit" className="btn">
-                        Login
+                        {t('login-button')}
                     </button>
                 </form>
                 <p>
-                    <Link to="/register">Don't have an account? Sign up for an account.</Link>
+                    <Link to="/register">{t('login-signup-prompt')}</Link>
                 </p>
             </div>
         </div>

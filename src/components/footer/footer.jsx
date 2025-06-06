@@ -17,7 +17,7 @@ const Footer = () => {
                 <a href={"#"} target={"_blank"}><FontAwesomeIcon icon={faTwitch}/></a>
                 <a href={"#"} target={"_blank"}><FontAwesomeIcon icon={faXTwitter}/></a>
                 <a href={"#"} target={"_blank"}><FontAwesomeIcon icon={faYoutube}/></a>
-                | <Link to={"/privacy-policy"}>{t('privacy-policy')}</Link>
+                | <Link to={"/privacy-policy"}>{t('privacy-policy.name')}</Link>
             </div>
             <div className="container-footer right">2025 ©HiCrew</div>
         </footer>

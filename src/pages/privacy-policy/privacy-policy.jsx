@@ -1,20 +1,10 @@
 import './privacy-policy.scss';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import {globalVariables as policyVariables} from "../../config";
 
 export function PrivacyPolicy() {
     const { t } = useTranslation();
-    const policyVariables = {
-        COMPANY_NAME: 'HiCrew',
-        LAST_UPDATED_DATE: 'April 28, 2025',
-        WEBSITE_URL: 'https://www.example.com',
-        LIST_SPECIFIC_PROVIDERS_IF_KNOWN: 'none',
-        CONTACT_EMAIL: 'hicrew@example.com',
-        SPECIFY_RETENTION_PERIOD: 'two years after account inactivity',
-        COOKIE_POLICY_LINK: '/cookie-policy',
-        MINIMUM_AGE: '13',
-        DPO_EMAIL: 'dpo@example.com',
-    };
 
     return (
         <div className="privacy-policy-container">

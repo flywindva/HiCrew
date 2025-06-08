@@ -4,7 +4,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faChartSimple, faDoorOpen,
-    faGlobe, faLayerGroup,
+    faGlobe, faLanguage, faLayerGroup,
     faMapLocationDot, faMoon,
     faScaleBalanced, faSun,
     faUsers
@@ -52,7 +52,7 @@ const Navbar = () => {
                     <Link to="#" onClick={toggleTheme}>
                         <FontAwesomeIcon icon={theme === 'light' ? faMoon : faSun} />
                     </Link>
-                    <Link to="/lang"><FontAwesomeIcon icon={faGlobe} /></Link>
+                    <Link to="/lang"><FontAwesomeIcon icon={faLanguage} /></Link>
                     {isAuthenticated && (
                         <Link to="#" onClick={handleLogout}>
                             <FontAwesomeIcon icon={faDoorOpen} />

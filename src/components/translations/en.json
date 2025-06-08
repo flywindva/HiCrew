@@ -1,5 +1,9 @@
 {
   "translation": {
+    "welcome": "Welcome to",
+    "title": "HiCrew!",
+    "slogan": "Your airline",
+    "info": "No acars, is easy only fly, alone or with your friends.",
     "manager": "Manager",
     "central": "Central",
     "pilots": "Pilots",
@@ -9,10 +13,6 @@
     "login": "Login",
     "logout": "Logout",
     "made": "By",
-    "welcome": "Welcome to",
-    "title": "HiCrew!",
-    "slogan": "Your airline",
-    "info": "No acars, is easy only fly, alone or with your friends.",
     "join-now": "Join Now",
     "admin-dashboard": "Admin Dashboard",
     "manager-title": "Manager",
@@ -271,6 +271,11 @@
     "october": "October",
     "november": "November",
     "december": "December",
-    "date-format": "{day}{suffix} {month}, starting {time}"
+    "date-format": "{day}{suffix} {month}, starting {time}",
+    "register-request-submitted": "Your registration request has been submitted. You will receive an email with the approval result.",
+    "register-closed-title": "The membership registration process is currently closed",
+    "register-closed-social-media": "Stay tuned to our social media to find out when the registration process is open",
+    "register-request-title": "Your Registration Request Has Been Submitted",
+    "register-request-message": "You will receive an email notification when the process is complete with the result or further instructions"
   }
 }

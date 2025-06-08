@@ -177,12 +177,12 @@ export function RulesManager() {
                         </thead>
                         <tbody>
                         {rules.length === 0 ? (
-                            <tr>
+                            <tr className={"background-change"}>
                                 <td colSpan="5">No rules found.</td>
                             </tr>
                         ) : (
                             rules.map((rule) => (
-                                <tr key={rule.id} className={rule.id % 2 === 0 ? 'even' : 'odd'}>
+                                <tr key={rule.id} className={"background-change"}>
                                     <td>{rule.id}</td>
                                     <td>{rule.lang}</td>
                                     <td>{rule.text}</td>

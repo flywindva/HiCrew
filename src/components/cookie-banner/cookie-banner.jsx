@@ -2,16 +2,11 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './cookie-banner.scss';
 import {useTranslation} from "react-i18next";
-import i18n from "i18next";
+import {globalVariables as bannerVariables} from "../../config";
 
 export function CookieBanner() {
     const { t } = useTranslation();
     const [isVisible, setIsVisible] = useState(false);
-
-    const bannerVariables = {
-        COMPANY_NAME: 'HiCrew',
-        COOKIE_POLICY_LINK: '/cookie-policy',
-    };
 
     useEffect(() => {
         const hasConsented = localStorage.getItem('cookieConsent');

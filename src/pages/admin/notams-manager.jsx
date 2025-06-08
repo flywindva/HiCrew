@@ -225,7 +225,7 @@ export function NotamsManager() {
                         </thead>
                         <tbody>
                         {notams.length === 0 ? (
-                            <tr>
+                            <tr className={"background-change"}>
                                 <td colSpan="6">No NOTAMs found.</td>
                             </tr>
                         ) : (

@@ -300,7 +300,7 @@ export function EventManager() {
                         </thead>
                         <tbody>
                         {events.length === 0 ? (
-                            <tr>
+                            <tr className={"background-change"}>
                                 <td colSpan="11">No events found.</td>
                             </tr>
                         ) : (

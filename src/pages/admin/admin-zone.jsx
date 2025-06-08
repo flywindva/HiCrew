@@ -3,6 +3,10 @@ import { Role } from '../../components/auth-context/role';
 import {NotamsManager} from "./notams-manager";
 import {RulesManager} from "./rules-manager";
 import {EventManager} from "./event-manager";
+import {SocialManager} from "./social-manager";
+import {PermissionManager} from "./permission-manager";
+import {ConfigWebsite} from "./config-website";
+import {Request, RequestJoinManager} from "./request";
 
 export function AdminZone() {
     const [activeSection, setActiveSection] = useState(null);
@@ -15,7 +19,7 @@ export function AdminZone() {
         switch (activeSection) {
             case 'permissions':
                 return (
-                    <></>
+                    <PermissionManager />
                 );
             case 'rules':
                 return (
@@ -47,7 +51,7 @@ export function AdminZone() {
                 );
             case 'social':
                 return (
-                    <></>
+                    <SocialManager />
                 );
             case 'fleet':
                 return (
@@ -63,7 +67,11 @@ export function AdminZone() {
                 );
             case 'config':
                 return (
-                    <></>
+                    <ConfigWebsite />
+                );
+            case 'request':
+                return (
+                    <RequestJoinManager />
                 );
             default:
                 return null;
@@ -121,6 +129,14 @@ export function AdminZone() {
                         onClick={() => toggleSection('users')}
                     >
                         User Manager
+                    </button>
+                </Role>
+                <Role has="USER_MANAGER">
+                    <button
+                        className={`btn ${activeSection === 'request' ? 'secondary' : ''}`}
+                        onClick={() => toggleSection('request')}
+                    >
+                        Request
                     </button>
                 </Role>
                 <Role has="NOTAMS_MANAGER">

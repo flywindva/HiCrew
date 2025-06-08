@@ -1,50 +1,51 @@
-import {useEffect, useState} from "react";
-import "./list.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers, faUserTie } from "@fortawesome/free-solid-svg-icons";
-import {getPilots} from "../../api/apì";
-import {useTranslation} from "react-i18next";
-
-const initialStaff = [
-    { callsign: "IB001", name: "Carlos Sánchez", position: "CEO" },
-    { callsign: "IB002", name: "María López", position: "Operations Manager" },
-    { callsign: "IB003", name: "Javier Ruiz", position: "Training Coordinator" },
-];
-
-const initialPilots = [
-    { callsign: "IB123", name: "Juan Pérez", ivaoVid: "123456", vatsimId: "654321" },
-    { callsign: "IB456", name: "Ana García", ivaoVid: "789012", vatsimId: "210987" },
-    { callsign: "IB789", name: "Pedro López", ivaoVid: "345678", vatsimId: "876543" },
-];
+import { useEffect, useState } from 'react';
+import './list.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUsers, faUserTie } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
+import api, {getPilots} from "../../api/apì";
 
 export function PilotList() {
     const { t } = useTranslation();
-    const [staff, setStaff] = useState(initialStaff);
-    const [pilots, setPilots] = useState(initialPilots);
-    const [staffSortConfig, setStaffSortConfig] = useState({ key: null, direction: "asc" });
-    const [pilotsSortConfig, setPilotsSortConfig] = useState({ key: null, direction: "asc" });
+    const [staff, setStaff] = useState([]);
+    const [pilots, setPilots] = useState([]);
+    const [staffSortConfig, setStaffSortConfig] = useState({ key: null, direction: 'asc' });
+    const [pilotsSortConfig, setPilotsSortConfig] = useState({ key: null, direction: 'asc' });
 
     useEffect(() => {
-        const fetchPilots = async () => {
+        const fetchData = async () => {
             try {
-                const response = await getPilots();
-                setPilots(response.data);
+                const [pilotsRes, staffRes] = await Promise.all([
+                    getPilots(),
+                    api.get('/staff-list'),
+                ]);
+                setPilots(pilotsRes.data || []);
+                setStaff(staffRes.data || []);
             } catch (error) {
-                console.error(t('error-fetching-pilots'), error);
+                console.error('Error fetching data:', error);
             }
         };
-        fetchPilots();
-    }, []);
+        fetchData();
+    }, [t]);
 
     const sortTable = (data, setData, sortConfig, setSortConfig, key) => {
-        let direction = "asc";
-        if (sortConfig.key === key && sortConfig.direction === "asc") {
-            direction = "desc";
+        let direction = 'asc';
+        if (sortConfig.key === key && sortConfig.direction === 'asc') {
+            direction = 'desc';
         }
 
         const sortedData = [...data].sort((a, b) => {
-            if (a[key] < b[key]) return direction === "asc" ? -1 : 1;
-            if (a[key] > b[key]) return direction === "asc" ? 1 : -1;
+            const aValue = key === 'callsign' ? a.pilot.callsign || '' :
+                key === 'name' ? `${a.pilot.firstName} ${a.pilot.lastName}` :
+                    key === 'position' ? a.nameRolePosition :
+                        a[key] || '';
+            const bValue = key === 'callsign' ? b.pilot.callsign || '' :
+                key === 'name' ? `${b.pilot.firstName} ${b.pilot.lastName}` :
+                    key === 'position' ? b.nameRolePosition :
+                        b[key] || '';
+
+            if (aValue < bValue) return direction === 'asc' ? -1 : 1;
+            if (aValue > bValue) return direction === 'asc' ? 1 : -1;
             return 0;
         });
 
@@ -54,9 +55,9 @@ export function PilotList() {
 
     const getSortIndicator = (sortConfig, key) => {
         if (sortConfig.key === key) {
-            return sortConfig.direction === "asc" ? " ↑" : " ↓";
+            return sortConfig.direction === 'asc' ? ' ↑' : ' ↓';
         }
-        return "";
+        return '';
     };
 
     return (
@@ -81,13 +82,19 @@ export function PilotList() {
                         </tr>
                         </thead>
                         <tbody>
-                        {staff.map((member, index) => (
-                            <tr key={index} className={index % 2 === 0 ? "even" : "odd"}>
-                                <td>{member.callsign}</td>
-                                <td>{member.name}</td>
-                                <td>{member.position}</td>
+                        {staff.length === 0 ? (
+                            <tr className="even">
+                                <td colSpan="3">{t('no-staff-found')}</td>
                             </tr>
-                        ))}
+                        ) : (
+                            staff.map((member, index) => (
+                                <tr key={member.id} className={index % 2 === 0 ? 'even' : 'odd'}>
+                                    <td>{member.pilot.callsign || 'N/A'}</td>
+                                    <td>{member.pilot.firstName} {member.pilot.lastName}</td>
+                                    <td>{member.nameRolePosition}</td>
+                                </tr>
+                            ))
+                        )}
                         </tbody>
                     </table>
                 </div>
@@ -107,8 +114,8 @@ export function PilotList() {
                             <th onClick={() => sortTable(pilots, setPilots, pilotsSortConfig, setPilotsSortConfig, 'name')}>
                                 {t('name')} {getSortIndicator(pilotsSortConfig, 'name')}
                             </th>
-                            <th onClick={() => sortTable(pilots, setPilots, pilotsSortConfig, setPilotsSortConfig, 'ivaoVid')}>
-                                {t('ivao-vid')} {getSortIndicator(pilotsSortConfig, 'ivaoVid')}
+                            <th onClick={() => sortTable(pilots, setPilots, pilotsSortConfig, setPilotsSortConfig, 'ivaoId')}>
+                                {t('ivao-vid')} {getSortIndicator(pilotsSortConfig, 'ivaoId')}
                             </th>
                             <th onClick={() => sortTable(pilots, setPilots, pilotsSortConfig, setPilotsSortConfig, 'vatsimId')}>
                                 {t('vatsim-id')} {getSortIndicator(pilotsSortConfig, 'vatsimId')}
@@ -116,30 +123,44 @@ export function PilotList() {
                         </tr>
                         </thead>
                         <tbody>
-                        {pilots.map((pilot, index) => (
-                            <tr key={index} className={index % 2 === 0 ? "even" : "odd"}>
-                                <td>{pilot.callsign}</td>
-                                <td>{pilot.firstName} {pilot.lastName}</td>
-                                <td>
-                                    <a
-                                        href={`https://ivao.aero/Member.aspx?Id=${pilot.ivaoId}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        {pilot.ivaoId}
-                                    </a>
-                                </td>
-                                <td>
-                                <a
-                                        href={`https://www.vatsim.net/members/${pilot.vatsimId}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        {pilot.vatsimId}
-                                    </a>
-                                </td>
+                        {pilots.length === 0 ? (
+                            <tr className="even">
+                                <td colSpan="4">{t('no-pilots-found')}</td>
                             </tr>
-                        ))}
+                        ) : (
+                            pilots.map((pilot, index) => (
+                                <tr key={pilot.id} className={index % 2 === 0 ? 'even' : 'odd'}>
+                                    <td>{pilot.callsign}</td>
+                                    <td>{pilot.firstName} {pilot.lastName}</td>
+                                    <td>
+                                        {pilot.ivaoId ? (
+                                            <a
+                                                href={`https://ivao.aero/Member.aspx?Id=${pilot.ivaoId}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                {pilot.ivaoId}
+                                            </a>
+                                        ) : (
+                                            'N/A'
+                                        )}
+                                    </td>
+                                    <td>
+                                        {pilot.vatsimId ? (
+                                            <a
+                                                href={`https://www.vatsim.net/members/${pilot.vatsimId}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                {pilot.vatsimId}
+                                            </a>
+                                        ) : (
+                                            'N/A'
+                                        )}
+                                    </td>
+                                </tr>
+                            ))
+                        )}
                         </tbody>
                     </table>
                 </div>

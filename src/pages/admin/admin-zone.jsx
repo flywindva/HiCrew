@@ -7,6 +7,7 @@ import {SocialManager} from "./social-manager";
 import {PermissionManager} from "./permission-manager";
 import {ConfigWebsite} from "./config-website";
 import {Request, RequestJoinManager} from "./request";
+import {StaffListManager} from "./staff-list-manager";
 
 export function AdminZone() {
     const [activeSection, setActiveSection] = useState(null);
@@ -73,6 +74,10 @@ export function AdminZone() {
                 return (
                     <RequestJoinManager />
                 );
+            case 'staff':
+                return (
+                    <StaffListManager />
+                );
             default:
                 return null;
         }
@@ -89,6 +94,18 @@ export function AdminZone() {
                         onClick={() => toggleSection('permissions')}
                     >
                         Permissions
+                    </button>
+                    <button
+                        className={`btn ${activeSection === 'staff' ? 'secondary' : ''}`}
+                        onClick={() => toggleSection('staff')}
+                    >
+                        Staff list
+                    </button>
+                    <button
+                        className={`btn ${activeSection === 'config' ? 'secondary' : ''}`}
+                        onClick={() => toggleSection('config')}
+                    >
+                        Configuration Web
                     </button>
                 </Role>
                 <Role has="RULE_ADMIN">
@@ -130,8 +147,6 @@ export function AdminZone() {
                     >
                         User Manager
                     </button>
-                </Role>
-                <Role has="USER_MANAGER">
                     <button
                         className={`btn ${activeSection === 'request' ? 'secondary' : ''}`}
                         onClick={() => toggleSection('request')}
@@ -183,18 +198,10 @@ export function AdminZone() {
                         Routes Manager
                     </button>
                 </Role>
-                <Role has="ADMIN">
-                    <button
-                        className={`btn ${activeSection === 'config' ? 'secondary' : ''}`}
-                        onClick={() => toggleSection('config')}
-                    >
-                        Configuration Web
-                    </button>
-                </Role>
             </div>
 
         </div>
-    {activeSection && renderSectionContent()}
-    </>
+            {activeSection && renderSectionContent()}
+        </>
     );
 }

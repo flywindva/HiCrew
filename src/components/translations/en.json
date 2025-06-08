@@ -276,6 +276,7 @@
     "register-closed-title": "The membership registration process is currently closed",
     "register-closed-social-media": "Stay tuned to our social media to find out when the registration process is open",
     "register-request-title": "Your Registration Request Has Been Submitted",
-    "register-request-message": "You will receive an email notification when the process is complete with the result or further instructions"
+    "register-request-message": "You will receive an email notification when the process is complete with the result or further instructions",
+    "no-staff-found": "No Staff found"
   }
 }

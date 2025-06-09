@@ -8,6 +8,10 @@ import {PermissionManager} from "./permission-manager";
 import {ConfigWebsite} from "./config-website";
 import {Request, RequestJoinManager} from "./request";
 import {StaffListManager} from "./staff-list-manager";
+import {DocumentationManager} from "./documentation-manager";
+import {SimulatorManager} from "./simulator-manager";
+import {AircraftManager} from "./aircraft-manager";
+import {RankManager} from "./rank-manager";
 
 export function AdminZone() {
     const [activeSection, setActiveSection] = useState(null);
@@ -28,7 +32,7 @@ export function AdminZone() {
                 );
             case 'documents':
                 return (
-                    <></>
+                    <DocumentationManager />
                 );
             case 'paints':
                 return (
@@ -60,7 +64,7 @@ export function AdminZone() {
                 );
             case 'aircraft':
                 return (
-                    <></>
+                    <AircraftManager />
                 );
             case 'routes':
                 return (
@@ -77,6 +81,14 @@ export function AdminZone() {
             case 'staff':
                 return (
                     <StaffListManager />
+                );
+            case 'simulator':
+                return (
+                    <SimulatorManager />
+                );
+            case 'rank':
+                return (
+                    <RankManager />
                 );
             default:
                 return null;
@@ -153,6 +165,12 @@ export function AdminZone() {
                     >
                         Request
                     </button>
+                    <button
+                        className={`btn ${activeSection === 'rank' ? 'secondary' : ''}`}
+                        onClick={() => toggleSection('rank')}
+                    >
+                        Rank Manager
+                    </button>
                 </Role>
                 <Role has="NOTAMS_MANAGER">
                     <button
@@ -196,6 +214,12 @@ export function AdminZone() {
                         onClick={() => toggleSection('routes')}
                     >
                         Routes Manager
+                    </button>
+                    <button
+                        className={`btn ${activeSection === 'simulator' ? 'secondary' : ''}`}
+                        onClick={() => toggleSection('simulator')}
+                    >
+                        Simulators
                     </button>
                 </Role>
             </div>

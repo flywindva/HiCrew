@@ -12,6 +12,9 @@ import {DocumentationManager} from "./documentation-manager";
 import {SimulatorManager} from "./simulator-manager";
 import {AircraftManager} from "./aircraft-manager";
 import {RankManager} from "./rank-manager";
+import {FleetManager} from "./fleet-manager";
+import {PaintkitManager} from "./paintkit-manager";
+import {AirportManager} from "./airport-manager";
 
 export function AdminZone() {
     const [activeSection, setActiveSection] = useState(null);
@@ -36,7 +39,7 @@ export function AdminZone() {
                 );
             case 'paints':
                 return (
-                    <></>
+                    <PaintkitManager />
                 );
             case 'tours':
                 return (
@@ -60,7 +63,7 @@ export function AdminZone() {
                 );
             case 'fleet':
                 return (
-                    <></>
+                    <FleetManager />
                 );
             case 'aircraft':
                 return (
@@ -89,6 +92,10 @@ export function AdminZone() {
             case 'rank':
                 return (
                     <RankManager />
+                );
+            case 'airport':
+                return (
+                    <AirportManager />
                 );
             default:
                 return null;
@@ -220,6 +227,12 @@ export function AdminZone() {
                         onClick={() => toggleSection('simulator')}
                     >
                         Simulators
+                    </button>
+                    <button
+                        className={`btn ${activeSection === 'airport' ? 'secondary' : ''}`}
+                        onClick={() => toggleSection('airport')}
+                    >
+                        Airports
                     </button>
                 </Role>
             </div>

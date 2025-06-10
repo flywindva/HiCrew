@@ -7,12 +7,15 @@ import api from "../../api/apì";
 export function FleetManager() {
     const [fleets, setFleets] = useState([]);
     const [aircrafts, setAircrafts] = useState([]);
+    const [airlines, setAirlines] = useState([]);
     const [ranks, setRanks] = useState([]);
     const [error, setError] = useState(null);
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [formData, setFormData] = useState({
         aircraftId: '',
+        airlineId: '',
         name: '',
+        reg: '',
         state: '',
         life: '',
         rankId: '',
@@ -22,7 +25,6 @@ export function FleetManager() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch fleets
                 const fleetResponse = await api.get('/fleet');
                 if (fleetResponse?.data) {
                     setFleets(fleetResponse.data);
@@ -35,6 +37,13 @@ export function FleetManager() {
                     setAircrafts(aircraftResponse.data);
                 } else {
                     throw new Error('No aircraft data received from server');
+                }
+
+                const airlineResponse = await api.get('/airlines');
+                if (airlineResponse?.data) {
+                    setAirlines(airlineResponse.data);
+                } else {
+                    throw new Error('No airline data received from server');
                 }
 
                 const rankResponse = await api.get('/ranks');
@@ -65,8 +74,10 @@ export function FleetManager() {
         setShowCreateForm(!showCreateForm);
         setFormData({
             aircraftId: '',
+            airlineId: '',
             name: '',
             state: '',
+            reg: '',
             life: '',
             rankId: '',
         });
@@ -81,10 +92,10 @@ export function FleetManager() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { aircraftId, name, state, life, rankId } = formData;
+        const { aircraftId, airlineId, name, reg, state, life, rankId } = formData;
 
-        if (!aircraftId || !name || !state || !life) {
-            setError('Aircraft, name, state, and life are required');
+        if (!aircraftId || !airlineId || !name || !reg || !state || !life) {
+            setError('Aircraft, airline, name, registration, state, and life are required');
             return;
         }
         if (name.length > 100) {
@@ -105,6 +116,11 @@ export function FleetManager() {
             setError('Invalid aircraft selection');
             return;
         }
+        const airlineIdNum = parseInt(airlineId);
+        if (isNaN(airlineIdNum)) {
+            setError('Invalid airline selection');
+            return;
+        }
         const rankIdNum = rankId ? parseInt(rankId) : null;
         if (rankId && isNaN(rankIdNum)) {
             setError('Invalid rank selection');
@@ -114,8 +130,10 @@ export function FleetManager() {
         try {
             const payload = {
                 aircraftId: aircraftIdNum,
+                airlineId: airlineIdNum,
                 name,
                 state,
+                reg,
                 life: lifeNum,
                 rankId: rankIdNum,
             };
@@ -149,7 +167,9 @@ export function FleetManager() {
         setEditingFleet(fleet);
         setFormData({
             aircraftId: fleet.aircraftId.toString(),
+            airlineId: fleet.airlineId.toString(),
             name: fleet.name,
+            reg: fleet.reg,
             state: fleet.state,
             life: fleet.life.toString(),
             rankId: fleet.rankId ? fleet.rankId.toString() : '',
@@ -213,6 +233,22 @@ export function FleetManager() {
                                 </select>
                             </div>
                             <div>
+                                <label>Airline:</label>
+                                <select
+                                    name="airlineId"
+                                    value={formData.airlineId}
+                                    onChange={handleInputChange}
+                                    required
+                                >
+                                    <option value="">Select an airline</option>
+                                    {airlines.map((airline) => (
+                                        <option key={airline.id} value={airline.id}>
+                                            {airline.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div>
                                 <label>Name:</label>
                                 <input
                                     type="text"
@@ -222,6 +258,19 @@ export function FleetManager() {
                                     required
                                     maxLength={100}
                                     placeholder="Enter fleet name (max 100 characters)"
+                                />
+                            </div>
+                            <div>
+                                <label>Registration:</label>
+                                <input
+                                    type="text"
+                                    name="reg"
+                                    value={formData.reg}
+                                    onChange={handleInputChange}
+                                    required
+                                    maxLength={6}
+                                    minLength={6}
+                                    placeholder="Enter registration (6 characters)"
                                 />
                             </div>
                             <div>
@@ -276,7 +325,9 @@ export function FleetManager() {
                         <tr>
                             <th>#ID</th>
                             <th>Aircraft</th>
+                            <th>Airline</th>
                             <th>Name</th>
+                            <th>Registration</th>
                             <th>State</th>
                             <th>Life (%)</th>
                             <th>Rank</th>
@@ -288,14 +339,16 @@ export function FleetManager() {
                         <tbody>
                         {fleets.length === 0 ? (
                             <tr className="background-change">
-                                <td colSpan="9">No fleet units found.</td>
+                                <td colSpan="11">No fleet units found.</td>
                             </tr>
                         ) : (
                             fleets.map((fleet, index) => (
                                 <tr key={index} className="background-change">
                                     <td>{fleet.id}</td>
                                     <td>{fleet.aircraft ? `${fleet.aircraft.icao}` : 'N/A'}</td>
+                                    <td>{fleet.airline ? fleet.airline.name : 'N/A'}</td>
                                     <td>{fleet.name}</td>
+                                    <td>{fleet.reg}</td>
                                     <td>{fleet.state}</td>
                                     <td>{fleet.life}</td>
                                     <td>{fleet.rankId ? ranks.find((rank) => rank.id === fleet.rankId)?.name || 'N/A' : 'None'}</td>
@@ -303,10 +356,10 @@ export function FleetManager() {
                                     <td>{new Date(fleet.updatedAt).toLocaleString()}</td>
                                     <td>
                                         <button className="btn" onClick={() => startEditing(fleet)}>
-                                            <FontAwesomeIcon icon={faPenToSquare} />
+                                            <FontAwesomeIcon icon={faPenToSquare}/>
                                         </button>
                                         <button className="btn danger" onClick={() => handleDelete(fleet.id)}>
-                                            <FontAwesomeIcon icon={faTrashCan} />
+                                            <FontAwesomeIcon icon={faTrashCan}/>
                                         </button>
                                     </td>
                                 </tr>

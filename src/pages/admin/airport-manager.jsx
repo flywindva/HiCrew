@@ -23,8 +23,8 @@ export function AirportManager() {
         const fetchAirports = async () => {
             try {
                 const response = await api.get('/airports');
-                if (response?.data) {
-                    setAirports(response.data);
+                if (response?.data?.data) {
+                    setAirports(response.data.data); // Access .data.data
                 } else {
                     throw new Error('No data received from server');
                 }
@@ -45,7 +45,7 @@ export function AirportManager() {
         fetchAirports();
     }, []);
 
-    const toggleCreate = () => {
+    const toggleCreateForm = () => {
         setShowCreateForm(!showCreateForm);
         setFormData({
             icao: '',
@@ -69,16 +69,16 @@ export function AirportManager() {
         e.preventDefault();
         const { icao, iata, name, country, latitude, longitude, altitude } = formData;
 
-        if (!icao || !iata || !name || !country || !latitude || !longitude || !altitude) {
-            setError('All fields are required');
+        if (!icao || !name || !country || !latitude || !longitude) {
+            setError('ICAO, name, country, latitude, and longitude are required');
             return;
         }
         if (icao.length !== 4) {
             setError('ICAO must be exactly 4 characters');
             return;
         }
-        if (iata.length !== 3) {
-            setError('IATA must be exactly 3 characters');
+        if (iata && iata.length !== 3) {
+            setError('IATA must be exactly 3 characters or empty');
             return;
         }
         if (name.length > 100) {
@@ -99,16 +99,15 @@ export function AirportManager() {
             setError('Longitude must be a number between -180 and 180');
             return;
         }
-        const altitudeNum = parseInt(altitude);
-        if (isNaN(altitudeNum)) {
-            setError('Altitude must be an integer');
+        const altitudeNum = altitude ? parseInt(altitude) : null;
+        if (altitude && (isNaN(altitudeNum) || !Number.isInteger(altitudeNum))) {
+            setError('Altitude must be an integer or empty');
             return;
         }
 
         try {
             const payload = {
-                icao,
-                iata,
+                iata: iata || null,
                 name,
                 country,
                 latitude: latitudeNum,
@@ -124,11 +123,13 @@ export function AirportManager() {
                 );
                 alert('Airport updated successfully');
             } else {
+                // Include icao for POST
+                payload.icao = icao;
                 const response = await api.post('/airports', payload);
                 setAirports([...airports, response.data.airport]);
                 alert('Airport created successfully');
             }
-            toggleCreate();
+            toggleCreateForm();
         } catch (error) {
             console.error('Failed to save airport:', {
                 message: error.message,
@@ -147,12 +148,12 @@ export function AirportManager() {
         setEditingAirport(airport);
         setFormData({
             icao: airport.icao,
-            iata: airport.iata,
+            iata: airport.iata || '',
             name: airport.name,
             country: airport.country,
             latitude: airport.latitude.toString(),
             longitude: airport.longitude.toString(),
-            altitude: airport.altitude.toString(),
+            altitude: airport.altitude ? airport.altitude.toString() : '',
         });
         setShowCreateForm(true);
         setError(null);
@@ -186,9 +187,10 @@ export function AirportManager() {
                 <p>
                     <button
                         className={`btn ${showCreateForm ? 'secondary' : ''}`}
-                        onClick={toggleCreate}
+                        onClick={toggleCreateForm}
                     >
-                        <FontAwesomeIcon icon={faCirclePlus} /> {showCreateForm ? 'Cancel' : 'Create Airport'}
+                        <FontAwesomeIcon icon={faCirclePlus} />{' '}
+                        {showCreateForm ? 'Cancel' : 'Create Airport'}
                     </button>
                 </p>
                 {showCreateForm && (
@@ -206,19 +208,18 @@ export function AirportManager() {
                                     required
                                     maxLength={4}
                                     placeholder="Enter 4-character ICAO code"
-                                    disabled={!!editingAirport}
+                                    disabled={!!editingAirport} // Disable during edit
                                 />
                             </div>
                             <div>
-                                <label>IATA:</label>
+                                <label>IATA (optional):</label>
                                 <input
                                     type="text"
                                     name="iata"
                                     value={formData.iata}
                                     onChange={handleInputChange}
-                                    required
                                     maxLength={3}
-                                    placeholder="Enter 3-character IATA code"
+                                    placeholder="Enter 3-character IATA code or leave empty"
                                 />
                             </div>
                             <div>
@@ -274,14 +275,13 @@ export function AirportManager() {
                                 />
                             </div>
                             <div>
-                                <label>Altitude (ft):</label>
+                                <label>Altitude (ft, optional):</label>
                                 <input
                                     type="number"
                                     name="altitude"
                                     value={formData.altitude}
                                     onChange={handleInputChange}
-                                    required
-                                    placeholder="Enter altitude in feet"
+                                    placeholder="Enter altitude in feet or leave empty"
                                 />
                             </div>
                             <button type="submit" className="btn">
@@ -315,19 +315,22 @@ export function AirportManager() {
                             airports.map((airport, index) => (
                                 <tr key={index} className="background-change">
                                     <td>{airport.icao}</td>
-                                    <td>{airport.iata}</td>
+                                    <td>{airport.iata || 'N/A'}</td>
                                     <td>{airport.name}</td>
                                     <td>{airport.country}</td>
                                     <td>{airport.latitude}</td>
                                     <td>{airport.longitude}</td>
-                                    <td>{airport.altitude}</td>
+                                    <td>{airport.altitude || 'N/A'}</td>
                                     <td>{new Date(airport.createdAt).toLocaleString()}</td>
                                     <td>{new Date(airport.updatedAt).toLocaleString()}</td>
                                     <td>
                                         <button className="btn" onClick={() => startEditing(airport)}>
                                             <FontAwesomeIcon icon={faPenToSquare} />
                                         </button>
-                                        <button className="btn danger" onClick={() => handleDelete(airport.icao)}>
+                                        <button
+                                            className="btn danger"
+                                            onClick={() => handleDelete(airport.icao)}
+                                        >
                                             <FontAwesomeIcon icon={faTrashCan} />
                                         </button>
                                     </td>

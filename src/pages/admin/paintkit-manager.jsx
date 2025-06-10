@@ -21,7 +21,6 @@ export function PaintkitManager() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch paintkits
                 const paintkitResponse = await api.get('/paintkits');
                 if (paintkitResponse?.data) {
                     setPaintkits(paintkitResponse.data);

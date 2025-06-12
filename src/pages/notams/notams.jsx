@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
-import api from '../../api/apì';
+import api from '../../api/api';
 import { useTranslation } from 'react-i18next';
 import './notams.scss';
 

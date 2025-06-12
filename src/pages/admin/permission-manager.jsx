@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { Role } from '../../components/auth-context/role';
-import api from "../../api/apì";
+import api from "../../api/api";
 
 export function PermissionManager() {
     const [pilots, setPilots] = useState([]);

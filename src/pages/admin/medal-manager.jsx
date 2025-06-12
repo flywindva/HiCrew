@@ -2,31 +2,30 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { Role } from '../../components/auth-context/role';
-import api from "../../api/api";
+import api from '../../api/api';
 
-export function RankManager() {
-    const [ranks, setRanks] = useState([]);
+export function MedalManager() {
+    const [medals, setMedals] = useState([]);
     const [error, setError] = useState(null);
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [formData, setFormData] = useState({
-        name: '',
         img: '',
-        hours: '',
+        text: '',
     });
-    const [editingRank, setEditingRank] = useState(null);
+    const [editingMedal, setEditingMedal] = useState(null);
 
     useEffect(() => {
-        const fetchRanks = async () => {
+        const fetchMedals = async () => {
             try {
-                const response = await api.get('/ranks');
+                const response = await api.get('/medals');
                 if (response?.data) {
-                    setRanks(response.data);
+                    setMedals(response.data);
                 } else {
-                    throw new Error('No data received from server');
+                    throw new Error('No medal data received from server');
                 }
                 setError(null);
             } catch (error) {
-                console.error('Failed to fetch ranks:', {
+                console.error('Failed to fetch medals:', {
                     message: error.message,
                     response: error.response?.data,
                     status: error.response?.status,
@@ -34,21 +33,20 @@ export function RankManager() {
                 const errorMessage =
                     error.response?.data?.error ||
                     error.message ||
-                    'Failed to fetch ranks';
+                    'Failed to fetch medals';
                 setError(errorMessage);
             }
         };
-        fetchRanks();
+        fetchMedals();
     }, []);
 
-    const toggleCreate = () => {
+    const toggleCreateForm = () => {
         setShowCreateForm(!showCreateForm);
         setFormData({
-            name: '',
             img: '',
-            hours: '',
+            text: '',
         });
-        setEditingRank(null);
+        setEditingMedal(null);
         setError(null);
     };
 
@@ -59,46 +57,39 @@ export function RankManager() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { name, img, hours } = formData;
+        const { img, text } = formData;
 
-        if (!name || !img || !hours) {
-            setError('Name, image URL, and hours are required');
-            return;
-        }
-        if (name.length > 100) {
-            setError('Name must be 100 characters or less');
+        if (!img || !text) {
+            setError('Image URL and text are required');
             return;
         }
         if (img.length > 255) {
             setError('Image URL must be 255 characters or less');
             return;
         }
-        const hoursNum = parseInt(hours);
-        if (isNaN(hoursNum) || hoursNum < 0) {
-            setError('Hours must be a non-negative integer');
+        if (text.length > 255) {
+            setError('Text must be 255 characters or less');
             return;
         }
 
         try {
-            const payload = {
-                name,
-                img,
-                hours: hoursNum,
-            };
-            if (editingRank) {
-                const response = await api.patch(`/ranks/${editingRank.id}`, payload);
-                setRanks(
-                    ranks.map((rank) => (rank.id === editingRank.id ? response.data.rank : rank))
+            const payload = { img, text };
+            if (editingMedal) {
+                const response = await api.patch(`/medals/${editingMedal.id}`, payload);
+                setMedals(
+                    medals.map((medal) =>
+                        medal.id === editingMedal.id ? response.data.medal : medal
+                    )
                 );
-                alert('Rank updated successfully');
+                alert('Medal updated successfully');
             } else {
-                const response = await api.post('/ranks', payload);
-                setRanks([...ranks, response.data.rank]);
-                alert('Rank created successfully');
+                const response = await api.post('/medals', payload);
+                setMedals([...medals, response.data.medal]);
+                alert('Medal created successfully');
             }
-            toggleCreate();
+            toggleCreateForm();
         } catch (error) {
-            console.error('Failed to save rank:', {
+            console.error('Failed to save medal:', {
                 message: error.message,
                 response: error.response?.data,
                 status: error.response?.status,
@@ -106,30 +97,29 @@ export function RankManager() {
             const errorMessage =
                 error.response?.data?.error ||
                 error.message ||
-                'Failed to save rank';
+                'Failed to save medal';
             setError(errorMessage);
         }
     };
 
-    const startEditing = (rank) => {
-        setEditingRank(rank);
+    const startEditing = (medal) => {
+        setEditingMedal(medal);
         setFormData({
-            name: rank.name,
-            img: rank.img,
-            hours: rank.hours.toString(),
+            img: medal.img,
+            text: medal.text,
         });
         setShowCreateForm(true);
         setError(null);
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm('Are you sure you want to delete this rank?')) {
+        if (window.confirm('Are you sure you want to delete this medal?')) {
             try {
-                await api.delete(`/ranks/${id}`);
-                setRanks(ranks.filter((rank) => rank.id !== id));
-                alert('Rank deleted successfully');
+                await api.delete(`/medals/${id}`);
+                setMedals(medals.filter((medal) => medal.id !== id));
+                alert('Medal deleted successfully');
             } catch (error) {
-                console.error('Failed to delete rank:', {
+                console.error('Failed to delete medal:', {
                     message: error.message,
                     response: error.response?.data,
                     status: error.response?.status,
@@ -137,7 +127,7 @@ export function RankManager() {
                 const errorMessage =
                     error.response?.data?.error ||
                     error.message ||
-                    'Failed to delete rank';
+                    'Failed to delete medal';
                 setError(errorMessage);
             }
         }
@@ -145,33 +135,22 @@ export function RankManager() {
 
     return (
         <div className="view-model">
-            <h2>Rank Manager</h2>
+            <h2>Medal Manager</h2>
             <Role has="USER_MANAGER">
                 <p>
                     <button
                         className={`btn ${showCreateForm ? 'secondary' : ''}`}
-                        onClick={toggleCreate}
+                        onClick={toggleCreateForm}
                     >
-                        <FontAwesomeIcon icon={faCirclePlus} /> {showCreateForm ? 'Cancel' : 'Create Rank'}
+                        <FontAwesomeIcon icon={faCirclePlus} />{' '}
+                        {showCreateForm ? 'Cancel' : 'Create Medal'}
                     </button>
                 </p>
                 {showCreateForm && (
-                    <div className="rank-form">
-                        <h3>{editingRank ? 'Edit Rank' : 'Create Rank'}</h3>
+                    <div className="medal-form">
+                        <h3>{editingMedal ? 'Edit Medal' : 'Create Medal'}</h3>
                         {error && <p className="error-message">{error}</p>}
                         <form onSubmit={handleSubmit}>
-                            <div>
-                                <label>Name:</label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleInputChange}
-                                    required
-                                    maxLength={100}
-                                    placeholder="Enter rank name (max 100 characters)"
-                                />
-                            </div>
                             <div>
                                 <label>Image URL:</label>
                                 <input
@@ -179,25 +158,23 @@ export function RankManager() {
                                     name="img"
                                     value={formData.img}
                                     onChange={handleInputChange}
+                                    placeholder="Enter image URL"
                                     required
-                                    maxLength={255}
-                                    placeholder="Enter image URL (max 255 characters)"
                                 />
                             </div>
                             <div>
-                                <label>Hours:</label>
+                                <label>Text:</label>
                                 <input
-                                    type="number"
-                                    name="hours"
-                                    value={formData.hours}
+                                    type="text"
+                                    name="text"
+                                    value={formData.text}
                                     onChange={handleInputChange}
+                                    placeholder="Enter medal description"
                                     required
-                                    min={0}
-                                    placeholder="Enter required hours"
                                 />
                             </div>
                             <button type="submit" className="btn">
-                                {editingRank ? 'Update Rank' : 'Create Rank'}
+                                {editingMedal ? 'Update Medal' : 'Create Medal'}
                             </button>
                         </form>
                     </div>
@@ -207,37 +184,43 @@ export function RankManager() {
                         <thead>
                         <tr>
                             <th>#ID</th>
-                            <th>Name</th>
                             <th>Image</th>
-                            <th>Hours</th>
+                            <th>Text</th>
                             <th>Created At</th>
                             <th>Updated At</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {ranks.length === 0 ? (
+                        {medals.length === 0 ? (
                             <tr className="background-change">
-                                <td colSpan="7">No ranks found.</td>
+                                <td colSpan="6">No medals found.</td>
                             </tr>
                         ) : (
-                            ranks.map((rank, index) => (
+                            medals.map((medal, index) => (
                                 <tr key={index} className="background-change">
-                                    <td>{rank.id}</td>
-                                    <td>{rank.name}</td>
+                                    <td>{medal.id}</td>
                                     <td>
-                                        <a href={rank.img} target="_blank" rel="noopener noreferrer">
-                                            {rank.img}
-                                        </a>
+                                        <img
+                                            src={medal.img}
+                                            alt={medal.text}
+                                            style={{ width: '50px', height: 'auto' }}
+                                        />
                                     </td>
-                                    <td>{rank.hours}</td>
-                                    <td>{new Date(rank.createdAt).toLocaleString()}</td>
-                                    <td>{new Date(rank.updatedAt).toLocaleString()}</td>
+                                    <td>{medal.text}</td>
+                                    <td>{new Date(medal.createdAt).toLocaleString()}</td>
+                                    <td>{new Date(medal.updatedAt).toLocaleString()}</td>
                                     <td>
-                                        <button className="btn" onClick={() => startEditing(rank)}>
+                                        <button
+                                            className="btn"
+                                            onClick={() => startEditing(medal)}
+                                        >
                                             <FontAwesomeIcon icon={faPenToSquare} />
                                         </button>
-                                        <button className="btn danger" onClick={() => handleDelete(rank.id)}>
+                                        <button
+                                            className="btn danger"
+                                            onClick={() => handleDelete(medal.id)}
+                                        >
                                             <FontAwesomeIcon icon={faTrashCan} />
                                         </button>
                                     </td>

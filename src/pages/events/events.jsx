@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./events.scss";
-import api from "../../api/apì";
+import api from "../../api/api";
 
 export function Events() {
     const { t, i18n } = useTranslation();

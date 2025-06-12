@@ -3,7 +3,7 @@ import './list.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsers, faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
-import api, {getPilots} from "../../api/apì";
+import api, {getPilots} from "../../api/api";
 
 export function PilotList() {
     const { t } = useTranslation();

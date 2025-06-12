@@ -1,7 +1,7 @@
 import './register.scss';
 import { Link } from 'react-router-dom';
 import {useEffect, useState} from 'react';
-import api, { register } from '../../api/apì';
+import api, { register } from '../../api/api';
 import {useTranslation} from "react-i18next";
 
 export function Register() {

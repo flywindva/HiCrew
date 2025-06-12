@@ -17,6 +17,8 @@ import {PaintkitManager} from "./paintkit-manager";
 import {AirportManager} from "./airport-manager";
 import {AirlineManager} from "./airline-manager";
 import {HubManager} from "./hub-manager";
+import {MedalManager} from "./medal-manager";
+import {MedalUserManager} from "./medal-user-manager";
 
 export function AdminZone() {
     const [activeSection, setActiveSection] = useState(null);
@@ -107,6 +109,14 @@ export function AdminZone() {
                 return (
                     <HubManager />
                 );
+            case 'awards':
+                return (
+                    <MedalManager />
+                );
+            case 'awards-user':
+                return (
+                    <MedalUserManager />
+                );
 
             default:
                 return null;
@@ -189,13 +199,25 @@ export function AdminZone() {
                     >
                         Rank Manager
                     </button>
+                    <button
+                        className={`btn ${activeSection === 'awards' ? 'secondary' : ''}`}
+                        onClick={() => toggleSection('awards')}
+                    >
+                        Awards Manager
+                    </button>
+                    <button
+                        className={`btn ${activeSection === 'awards-user' ? 'secondary' : ''}`}
+                        onClick={() => toggleSection('awards-user')}
+                    >
+                        Awards User Manager
+                    </button>
                 </Role>
                 <Role has="NOTAMS_MANAGER">
                     <button
                         className={`btn ${activeSection === 'notams' ? 'secondary' : ''}`}
                         onClick={() => toggleSection('notams')}
                     >
-                        NOTAMS Manager
+                    NOTAMS Manager
                     </button>
                 </Role>
                 <Role has="EVENT_MANAGER">

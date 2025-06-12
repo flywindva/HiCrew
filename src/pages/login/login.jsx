@@ -1,7 +1,7 @@
 import '../register/register.scss';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import {login} from "../../api/apì";
+import {login} from "../../api/api";
 import {useTranslation} from "react-i18next";
 
 export function Login() {

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { Role } from '../../components/auth-context/role';
-import api from "../../api/apì";
+import api from "../../api/api";
 
 export function DocumentationManager() {
     const [documents, setDocuments] = useState([]);

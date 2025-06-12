@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
-import api from "../../api/apì";
+import api from "../../api/api";
 import {Role} from "../../components/auth-context/role";
 
 export function NotamsManager() {

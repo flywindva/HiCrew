@@ -14,7 +14,7 @@ import {
 import {Link} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {globalVariables} from "../../config";
-import api from "../../api/apì";
+import api from "../../api/api";
 
 const iconMap = {
     instagram: faInstagram,

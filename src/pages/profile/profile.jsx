@@ -12,16 +12,82 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import "./profile.scss"
 import {Link} from "react-router-dom";
 import {useTranslation} from "react-i18next";
+import {useEffect, useState} from "react";
+import i18n from "i18next";
+import api from "../../api/api";
 
 export function Profile(){
     const { t } = useTranslation();
+    const [pilot, setPilot] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchPilotData = async () => {
+            try {
+                const response = await api.get('/auth/me', {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                });
+                if (response?.data?.pilot) {
+                    const pilotData = response.data.pilot;
+                    const currentLang = i18n.language.toUpperCase();
+
+                    let filteredMedals = pilotData.medals || [];
+                    if (filteredMedals.length > 0 && filteredMedals[0].lang) {
+                        filteredMedals = filteredMedals.filter(
+                            (medal) => medal.lang?.toUpperCase() === currentLang
+                        );
+                        if (filteredMedals.length === 0) {
+                            filteredMedals = pilotData.medals.filter(
+                                (medal) => medal.lang?.toUpperCase() === 'EN'
+                            );
+                        }
+                        if (filteredMedals.length === 0) {
+                            const availableLangs = [
+                                ...new Set(pilotData.medals.map((medal) => medal.lang?.toUpperCase())),
+                            ].filter(Boolean);
+                            if (availableLangs.length > 0) {
+                                filteredMedals = pilotData.medals.filter(
+                                    (medal) => medal.lang?.toUpperCase() === availableLangs[0]
+                                );
+                            }
+                        }
+                    }
+
+                    setPilot({ ...pilotData, medals: filteredMedals });
+                    setError(null);
+                } else {
+                    throw new Error(t('failed-to-fetch-pilot'));
+                }
+            } catch (error) {
+                console.error(t('failed-to-fetch-pilot'), {
+                    message: error.message,
+                    response: error.response?.data,
+                    status: error.response?.status,
+                    headers: error.response?.headers,
+                });
+                const errorMessage =
+                    error.response?.data?.error || error.message || t('failed-to-fetch-pilot');
+                setError(errorMessage);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPilotData();
+    }, [t, i18n.language]);
+
+    if (loading) return <div>{t('loading')}</div>;
+    if (error) return <p className="error-message">{error}</p>;
+    if (!pilot) return <div>{t('no-pilot-data')}</div>;
+
     return (<>
             <div className="profile">
-                <h1>{t('profile-greeting')} <span>Alejandro</span> <FontAwesomeIcon icon={faHandPeace}/></h1>
+                <h1>{t('profile-greeting')} <span>{pilot.firstName}</span> <FontAwesomeIcon icon={faHandPeace}/></h1>
                 <div className="profile-content">
                     <div className="container-profile">
                         <div className="text-wrapper">
-                            <h2>LEBL</h2>
+                            <h2>{pilot.locationIcao || 'N/A'}</h2>
                             <p>{t('profile-location')}</p>
                         </div>
                         <div className="icon-text">
@@ -30,7 +96,7 @@ export function Profile(){
                     </div>
                     <div className="container-profile">
                         <div className="text-wrapper">
-                            <h2>THR</h2>
+                            <h2>{pilot.airline?.name || 'N/A'}</h2>
                             <p>{t('profile-airline')}</p>
                         </div>
                         <div className="icon-text">
@@ -39,7 +105,7 @@ export function Profile(){
                     </div>
                     <div className="container-profile">
                         <div className="text-wrapper">
-                            <h2>Capatain</h2>
+                            <h2>{pilot.rank?.name || 'N/A'}</h2>
                             <p>{t('profile-rank')}</p>
                         </div>
                         <div className="icon-text">
@@ -48,7 +114,7 @@ export function Profile(){
                     </div>
                     <div className="container-profile">
                         <div className="text-wrapper">
-                            <h2>GCXO</h2>
+                            <h2>{pilot.hub?.airport.icao || 'N/A'}</h2>
                             <p>{t('profile-hub')}</p>
                         </div>
                         <div className="icon-text">
@@ -75,7 +141,7 @@ export function Profile(){
                     </div>
                     <div className="container-profile">
                         <div className="text-wrapper">
-                            <h2>666</h2>
+                            <h2>{pilot.points || 0}</h2>
                             <p>{t('profile-points')}</p>
                         </div>
                         <div className="icon-text">
@@ -114,7 +180,18 @@ export function Profile(){
                 </div>
                 <div className={"profile-module"}>
                     <h3><FontAwesomeIcon icon={faAward}/> {t('profile-awards')}</h3>
-                    <p>Test</p>
+                    {pilot.medals.length > 0 ? (
+                        <div className="awards-list">
+                            {pilot.medals.map((medal) => (
+                                <div key={medal.id} className="award-item">
+                                    <img src={medal.img} alt={medal.text} />
+                                    <p>{medal.text}</p>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <p>{t('no-awards')}</p>
+                    )}
                 </div>
                 <div className={"profile-module"}>
                     <h3><FontAwesomeIcon icon={faReceipt}/> {t('profile-logbook')}</h3>

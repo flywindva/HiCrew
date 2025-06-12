@@ -21,6 +21,9 @@ import {Manager} from "./pages/manager/manager";
 import {Acars} from "./pages/acars/acars";
 import {AdminZone} from "./pages/admin/admin-zone";
 import {Lang} from "./pages/lang/lang";
+import {ChangePosition} from "./pages/changes/change-position";
+import {ChangeAirline} from "./pages/changes/change-airline";
+import {ChangeHub} from "./pages/changes/change-hub";
 
 function App() {
 
@@ -73,6 +76,24 @@ function App() {
                 <Route path={"/admin"} element={
                     <ProtectedRoute>
                         <AdminZone />
+                    </ProtectedRoute>
+                } />
+
+                <Route path={"/change-hub"} element={
+                    <ProtectedRoute>
+                        <ChangeHub />
+                    </ProtectedRoute>
+                } />
+
+                <Route path={"/change-airline"} element={
+                    <ProtectedRoute>
+                        <ChangeAirline />
+                    </ProtectedRoute>
+                } />
+
+                <Route path={"/change-position"} element={
+                    <ProtectedRoute>
+                        <ChangePosition />
                     </ProtectedRoute>
                 } />
 

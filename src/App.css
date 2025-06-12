@@ -140,3 +140,59 @@ a:hover{
   text-align: left;
   padding: 1rem 1.5rem;
 }
+
+input {
+  padding: 0.75rem;
+  border: 1px solid var(--accent-secondary);
+  border-radius: 4px;
+  font-size: 1rem;
+  width: auto;
+  margin: 0.2rem;
+  box-sizing: border-box;
+  background-color: var(--background-primary);
+  color: var(--text-primary);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+textarea,
+select {
+  padding: 0.75rem;
+  border: 1px solid var(--accent-secondary);
+  border-radius: 4px;
+  font-size: 1rem;
+  width: auto;
+  margin: 0.2rem;
+  box-sizing: border-box;
+  background-color: var(--background-primary);
+  color: var(--text-primary);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  &:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+  }
+
+  &:disabled {
+    background-color: var(--background-secondary, var(--accent-secondary));
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+}
+
+select {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8"><path fill="%23333" d="M0 2l4 4 4-4z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 8px;
+  padding-right: 2rem;
+}
+
+textarea {
+  min-height: 4rem;
+}

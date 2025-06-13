@@ -24,6 +24,7 @@ import {Lang} from "./pages/lang/lang";
 import {ChangePosition} from "./pages/changes/change-position";
 import {ChangeAirline} from "./pages/changes/change-airline";
 import {ChangeHub} from "./pages/changes/change-hub";
+import {DeleteAccount} from "./pages/changes/delete-account";
 
 function App() {
 
@@ -94,6 +95,12 @@ function App() {
                 <Route path={"/change-position"} element={
                     <ProtectedRoute>
                         <ChangePosition />
+                    </ProtectedRoute>
+                } />
+
+                <Route path={"/delete-account"} element={
+                    <ProtectedRoute>
+                        <DeleteAccount />
                     </ProtectedRoute>
                 } />
 

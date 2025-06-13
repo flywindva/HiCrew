@@ -305,6 +305,18 @@
     "failed-to-fetch-pilot": "Failed to fetch pilot data",
     "no-pilot-data": "No pilot data available",
     "no-awards": "No awards available",
-    "no-flights": "No flights available"
+    "no-flights": "No flights available",
+    "delete-account-title": "Delete Account",
+    "delete-account-description": "Permanently delete your account. This action cannot be undone.",
+    "user-name": "Name",
+    "user-email": "Email",
+    "no-user-data": "No user data available.",
+    "failed-to-fetch-user": "Failed to fetch user data.",
+    "failed-to-delete-account": "Failed to delete account.",
+    "confirm-delete-message": "Are you sure you want to delete your account? This action cannot be undone.",
+    "delete-account-button": "Delete Account",
+    "confirm-delete-button": "Confirm Delete",
+    "deleting": "Deleting...",
+    "cancel": "Cancel"
   }
 }

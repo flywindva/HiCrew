@@ -19,6 +19,7 @@ import {AirlineManager} from "./airline-manager";
 import {HubManager} from "./hub-manager";
 import {MedalManager} from "./medal-manager";
 import {MedalUserManager} from "./medal-user-manager";
+import {UserManager} from "./user-manager";
 
 export function AdminZone() {
     const [activeSection, setActiveSection] = useState(null);
@@ -51,7 +52,7 @@ export function AdminZone() {
                 );
             case 'users':
                 return (
-                    <></>
+                    <UserManager />
                 );
             case 'notams':
                 return (

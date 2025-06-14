@@ -12,6 +12,9 @@ import Map from "../../components/map/map"
 import {useContext, useEffect, useState} from "react";
 import {ThemeContext} from "../../components/theme-context/theme-context";
 import axios from "axios";
+import {AuthContext} from "../../components/auth-context/auth";
+import {useTranslation} from "react-i18next";
+import api from "../../api/api";
 
 const useInterval = (callback, delay) => {
     useEffect(() => {
@@ -21,9 +24,47 @@ const useInterval = (callback, delay) => {
 };
 
 export function Central() {
+    const { t } = useTranslation();
     const { theme } = useContext(ThemeContext);
     const [ivaoFlights, setIvaoFlights] = useState([]);
     const [vatsimFlights, setVatsimFlights] = useState([]);
+    const { isAuthenticated } = useContext(AuthContext);
+    const [pilot, setPilot] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            const fetchPilotData = async () => {
+                try {
+                    const response = await api.get('/auth/me', {
+                        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                    });
+                    if (response?.data?.pilot) {
+                        setPilot(response.data.pilot);
+                        setError(null);
+                    } else {
+                        throw new Error(t('failed-to-fetch-pilot'));
+                    }
+                } catch (error) {
+                    console.error(t('failed-to-fetch-pilot'), {
+                        message: error.message,
+                        response: error.response?.data,
+                        status: error.response?.status,
+                        headers: error.response?.headers,
+                    });
+                    const errorMessage =
+                        error.response?.data?.error || error.message || t('failed-to-fetch-pilot');
+                    setError(errorMessage);
+                } finally {
+                    setLoading(false);
+                }
+            };
+            fetchPilotData();
+        } else {
+            setLoading(false);
+        }
+    }, [t, isAuthenticated]);
 
     const fetchIvaoData = async () => {
         try {
@@ -43,7 +84,7 @@ export function Central() {
 
             setIvaoFlights(filteredFlights);
         } catch (error) {
-            console.error('Error fetching IVAO flight data:', error);
+            console.error(t('central-error-ivao'), error);
         }
     };
 
@@ -67,7 +108,7 @@ export function Central() {
 
             setVatsimFlights(filteredFlights);
         } catch (error) {
-            console.error('Error fetching VATSIM flight data:', error);
+            console.error(t('central-error-vatsim'), error);
         }
     };
 
@@ -85,57 +126,78 @@ export function Central() {
         a.callsign.localeCompare(b.callsign)
     );
 
+    if (loading) return <div>{t('loading')}</div>;
+    if (error) return <p className="error-message">{error}</p>;
+
     return (
         <>
             <div className="central-content">
-                <div className="location container">
-                    <div className="text-wrapper">
-                        <h2>LEBL</h2>
-                        <p>Location</p>
+                {isAuthenticated ? (<>
+                    <div className="location container">
+                        <div className="text-wrapper">
+                            <h2>{pilot?.locationIcao || t('not-available')}</h2>
+                            <p>{t('profile-location')}</p>
+                        </div>
+                        <div className="icon-text">
+                            <FontAwesomeIcon icon={faMapLocationDot}/>
+                        </div>
                     </div>
-                    <div className="icon-text">
-                        <FontAwesomeIcon icon={faMapLocationDot}/>
+                    <div className="airline container">
+                        <div className="text-wrapper">
+                            <h2>{pilot?.airline?.name || t('not-available')}</h2>
+                            <p>{t('profile-airline')}</p>
+                        </div>
+                        <div className="icon-text">
+                            <FontAwesomeIcon icon={faPaperPlane}/>
+                        </div>
                     </div>
-                </div>
-                <div className="airline container">
-                    <div className="text-wrapper">
-                    <h2>THR</h2>
-                        <p>Airline</p>
+                    <div className="rank container">
+                        <div className="text-wrapper">
+                            <h2>{pilot?.rank?.name || t('not-available')}</h2>
+                            <p>{t('profile-rank')}</p>
+                        </div>
+                        <div className="icon-text">
+                            <FontAwesomeIcon icon={faRankingStar}/>
+                        </div>
                     </div>
-                    <div className="icon-text">
-                        <FontAwesomeIcon icon={faPaperPlane}/>
+                    <div className="hub container">
+                        <div className="text-wrapper">
+                            <h2>{pilot?.hub?.airport.icao || t('not-available')}</h2>
+                            <p>{t('profile-hub')}</p>
+                        </div>
+                        <div className="icon-text">
+                            <FontAwesomeIcon icon={faHouse}/>
+                        </div>
                     </div>
-                </div>
-                <div className="rank container">
-                    <div className="text-wrapper">
-                        <h2>Capatain</h2>
-                        <p>Rank</p>
-                    </div>
-                    <div className="icon-text">
-                        <FontAwesomeIcon icon={faRankingStar}/>
-                    </div>
-                </div>
-                <div className="hub container">
-                    <div className="text-wrapper">
-                    <h2>GCXO</h2>
-                        <p>HUB</p>
-                    </div>
-                    <div className="icon-text">
-                        <FontAwesomeIcon icon={faHouse}/>
-                    </div>
-                </div>
+                </>) : (
+                    <>
+                        <div className="publi container">
+                            <img src={"resources/ad-banner.png"} alt={t('central-ad-banner-alt')}/>
+                        </div>
+                    </>
+                )}
                 <div className="map container">
-                    <Map theme={theme} />
+                    <Map theme={theme}/>
                 </div>
-                <div className="banner-ad container">Banner</div>
+                <div className="banner-ad container">
+                    <div className="text-wrapper">
+                        <h2>{isAuthenticated ? t('central-archive') : t('central-fly-easy')}</h2>
+                        <p>{isAuthenticated ? t('central-archive-desc') : t('central-fly-easy-desc')}</p>
+                        {isAuthenticated && (
+                            <Link to="/archive" className="external">
+                                <FontAwesomeIcon icon={faArrowRight}/>
+                            </Link>
+                        )}
+                    </div>
+                </div>
                 <div className="events container">
-                    <img alt={"Event Banner"} src={"/resources/background-banner.png"}/>
-                    <Link to={"/events"} className={"external"}><FontAwesomeIcon icon={faArrowRight} /></Link>
+                    <img alt={"Event Banner"} src={"/resources/event-banner.png"} alt={t('central-events-banner-alt')} />
+                    <Link to={"/events"} className={"external"}><FontAwesomeIcon icon={faArrowRight}/></Link>
                 </div>
                 <div className="notams container">
                     <div className="text-wrapper">
-                        <h2>NOTAMS</h2>
-                        <p>See the last news</p>
+                        <h2>{t('central-notams')}</h2>
+                        <p>{t('central-notams-desc')}</p>
                     </div>
                     <Link to={"/notams"} className={"external"}><FontAwesomeIcon icon={faArrowRight}/></Link>
                 </div>
@@ -144,12 +206,12 @@ export function Central() {
                         <table className="flight-table">
                             <thead>
                             <tr>
-                                <th>Callsign</th>
-                                <th>Aircraft</th>
-                                <th>Departure</th>
-                                <th>Arrival</th>
-                                <th>Network</th>
-                                <th>State</th>
+                                <th>{t('central-callsign')}</th>
+                                <th>{t('central-aircraft')}</th>
+                                <th>{t('central-departure')}</th>
+                                <th>{t('central-arrival')}</th>
+                                <th>{t('central-network')}</th>
+                                <th>{t('central-state')}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -166,8 +228,8 @@ export function Central() {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan={6} style={{ textAlign: 'center' }}>
-                                        No flights available
+                                    <td colSpan={6} style={{textAlign: 'center'}}>
+                                        {t('central-no-flights')}
                                     </td>
                                 </tr>
                             )}

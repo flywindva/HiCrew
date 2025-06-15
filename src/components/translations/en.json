@@ -366,6 +366,19 @@
     "select-airport-error": "Please select an airport",
     "change-position-button": "Change Position",
     "failed-to-fetch-airports": "Failed to fetch airports",
-    "failed-to-change-location": "Failed to change position"
+    "failed-to-change-location": "Failed to change position",
+    "reg": "Registration",
+    "status": "Status",
+    "info-see": "Info",
+    "see-info": "See Info",
+    "failed-to-fetch-fleet": "Failed to fetch fleet data",
+    "aircraft-details": "Aircraft Details",
+    "icao": "ICAO",
+    "manufacturer": "Manufacturer",
+    "range": "Range",
+    "max-passengers": "Max Passengers",
+    "image": "Image",
+    "nm": "nm",
+    "close": "Close"
   }
 }

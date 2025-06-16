@@ -26,6 +26,7 @@ import {ChangeAirline} from "./pages/changes/change-airline";
 import {ChangeHub} from "./pages/changes/change-hub";
 import {DeleteAccount} from "./pages/changes/delete-account";
 import {Archive} from "./pages/archive/archive";
+import {ResetPassword} from "./pages/reset-password/reset";
 
 function App() {
 
@@ -42,7 +43,8 @@ function App() {
 
                 <Route path={"/register"} element={<Register />} />
                 <Route path={"/login"} element={<Login />} />
-                <Route path={"/forgot"} element={<Forgot />} />
+                <Route path={"/forgot-password"} element={<Forgot />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
 
                 <Route path={"/privacy-policy"} element={<PrivacyPolicy />} />
                 <Route path={"/cookie-policy"} element={<CookiePolicy />} />

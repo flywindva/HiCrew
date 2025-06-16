@@ -379,6 +379,23 @@
     "max-passengers": "Max Passengers",
     "image": "Image",
     "nm": "nm",
-    "close": "Close"
+    "close": "Close",
+    "forgot-success-message": "If the email exists, a reset link has been sent to your inbox.",
+    "forgot-error-message": "Failed to process password reset request. Please try again later.",
+    "forgot-loading": "Sending...",
+    "reset-password-title": "Reset Your Password",
+    "reset-password-subtitle": "Enter your new password below.",
+    "reset-password-new-label": "New Password",
+    "reset-password-new-placeholder": "Enter new password",
+    "reset-password-confirm-label": "Confirm Password",
+    "reset-password-confirm-placeholder": "Confirm new password",
+    "reset-password-success": "Password reset successfully. You can now log in.",
+    "reset-password-error": "Invalid or expired reset token. Please request a new reset link.",
+    "reset-password-mismatch": "Passwords do not match.",
+    "reset-password-loading": "Resetting...",
+    "reset-password-login-prompt": "Back to Login",
+    "reset-password-image-alt": "Reset Password Background",
+    "reset-password-too-short": "Password must be at least 8 characters long.",
+    "reset-password-button": "Reset password"
   }
 }

@@ -73,7 +73,7 @@ export function Login() {
                         </div>
 
                     </div>
-                    <Link to="/forgot">{t('login-forgot-password')}</Link>
+                    <Link to="/forgot-password">{t('login-forgot-password')}</Link>
                     <button type="submit" className="btn">
                         {t('login-button')}
                     </button>

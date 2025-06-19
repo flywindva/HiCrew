@@ -396,6 +396,9 @@
     "reset-password-login-prompt": "Back to Login",
     "reset-password-image-alt": "Reset Password Background",
     "reset-password-too-short": "Password must be at least 8 characters long.",
-    "reset-password-button": "Reset password"
+    "reset-password-button": "Reset password",
+    "banner-no-hub": "You do not have a HUB selected, please go to your profile and select one.",
+    "important": "Important",
+    "banner-no-airline": "You do not have an airline selected, please go to your profile and select one."
   }
 }

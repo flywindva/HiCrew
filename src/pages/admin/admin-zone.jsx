@@ -20,6 +20,7 @@ import {HubManager} from "./hub-manager";
 import {MedalManager} from "./medal-manager";
 import {MedalUserManager} from "./medal-user-manager";
 import {UserManager} from "./user-manager";
+import {FlightManager} from "./flight-manager";
 
 export function AdminZone() {
     const [activeSection, setActiveSection] = useState(null);
@@ -117,6 +118,10 @@ export function AdminZone() {
             case 'awards-user':
                 return (
                     <MedalUserManager />
+                );
+            case 'validation':
+                return (
+                  <FlightManager />
                 );
 
             default:
@@ -279,6 +284,14 @@ export function AdminZone() {
                         onClick={() => toggleSection('airport')}
                     >
                         Airports
+                    </button>
+                </Role>
+                <Role has={"VALIDATOR_MANAGER"}>
+                    <button
+                        className={`btn ${activeSection === 'validation' ? 'secondary' : ''}`}
+                        onClick={() => toggleSection('validation')}
+                    >
+                        Validation flights
                     </button>
                 </Role>
             </div>

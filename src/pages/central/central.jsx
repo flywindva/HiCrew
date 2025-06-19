@@ -15,6 +15,7 @@ import axios from "axios";
 import {AuthContext} from "../../components/auth-context/auth";
 import {useTranslation} from "react-i18next";
 import api from "../../api/api";
+import {BannerInfo} from "../../components/banner-info/banner-info";
 
 const useInterval = (callback, delay) => {
     useEffect(() => {
@@ -131,6 +132,10 @@ export function Central() {
 
     return (
         <>
+            {isAuthenticated && (<>
+            {!pilot?.airline &&( <BannerInfo titleKey="important" messageKey="banner-no-airline" />)}
+            {!pilot?.hub &&(<BannerInfo titleKey="important" messageKey="banner-no-hub" />)}
+            </>)}
             <div className="central-content">
                 {isAuthenticated ? (<>
                     <div className="location container">

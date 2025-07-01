@@ -8,4 +8,5 @@ export const globalVariables = {
     SPECIFY_RETENTION_PERIOD: 'two years after account inactivity',
     MINIMUM_AGE: '13',
     DPO_EMAIL: 'dpo@example.com',
+    OACI: "HWC"
 };

@@ -19,6 +19,7 @@ import api from "../../api/api";
 export function Profile(){
     const { t } = useTranslation();
     const [pilot, setPilot] = useState(null);
+    const [flights, setFlights] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -55,6 +56,12 @@ export function Profile(){
                     }
 
                     setPilot({ ...pilotData, medals: filteredMedals });
+
+                    const flightsResponse = await api.get('/flights/my-flights', {
+                        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                    });
+                    setFlights(flightsResponse.data);
+
                     setError(null);
                 } else {
                     throw new Error(t('failed-to-fetch-pilot'));
@@ -76,6 +83,69 @@ export function Profile(){
 
         fetchPilotData();
     }, [t, i18n.language]);
+
+    const totalFlights = flights.length;
+    const totalHours = flights.reduce((acc, flight) => {
+        if (flight.startFlight && flight.closeFlight) {
+            const start = new Date(flight.startFlight);
+            const end = new Date(flight.closeFlight);
+            const diffMs = end - start;
+            const hours = diffMs / (1000 * 60 * 60);
+            return acc + hours;
+        }
+        return acc;
+    }, 0);
+
+    const formatHours = (hours) => {
+        const totalMinutes = Math.round(hours * 60);
+        const h = Math.floor(totalMinutes / 60);
+        const m = totalMinutes % 60;
+        return `${h}h${m.toString().padStart(2, '0')}m`;
+    };
+
+    const mostUsedAircraft = flights.length > 0
+        ? Object.entries(
+        flights.reduce((acc, flight) => {
+            acc[flight.aircraft] = (acc[flight.aircraft] || 0) + 1;
+            return acc;
+        }, {})
+    ).reduce((a, b) => (a[1] > b[1] ? a : b), [null, 0])[0] || 'N/A'
+        : 'N/A';
+
+    const getFlightStatus = (flight) => {
+        if (flight.status === 2) return t('flight-accepted');
+        if (flight.status === 3) return t('flight-rejected');
+        if (flight.status === 1) {
+            if (!flight.startFlight && !flight.closeFlight) {
+                return t('flight-pending-departure');
+            }
+            if (flight.startFlight && !flight.closeFlight) {
+                return t('flight-in-air');
+            }
+            if (flight.startFlight && flight.closeFlight) {
+                return t('flight-pending-validation');
+            }
+        }
+        return t('unknown');
+    };
+
+    const getNetwork = (flight) => {
+        if (pilot.ivaoId && flight.pirep?.includes('IVAO')) return 'IVAO';
+        if (pilot.vatsimId && flight.pirep?.includes('VATSIM')) return 'VATSIM';
+        return 'N/A';
+    };
+
+    const getFlightTime = (flight) => {
+        if (flight.startFlight && flight.closeFlight) {
+            const start = new Date(flight.startFlight);
+            const end = new Date(flight.closeFlight);
+            const diffMs = end - start;
+            const hours = Math.floor(diffMs / (1000 * 60 * 60));
+            const minutes = Math.round((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+            return `${hours}h${minutes.toString().padStart(2, '0')}m`;
+        }
+        return 'N/A';
+    };
 
     if (loading) return <div>{t('loading')}</div>;
     if (error) return <p className="error-message">{error}</p>;
@@ -123,7 +193,7 @@ export function Profile(){
                     </div>
                     <div className="container-profile">
                         <div className="text-wrapper">
-                            <h2>123</h2>
+                            <h2>{totalFlights}</h2>
                             <p>{t('profile-flights')}</p>
                         </div>
                         <div className="icon-text">
@@ -132,7 +202,7 @@ export function Profile(){
                     </div>
                     <div className="container-profile">
                         <div className="text-wrapper">
-                            <h2>12h00m</h2>
+                            <h2>{formatHours(totalHours)}</h2>
                             <p>{t('profile-hours')}</p>
                         </div>
                         <div className="icon-text">
@@ -150,7 +220,7 @@ export function Profile(){
                     </div>
                     <div className="container-profile">
                         <div className="text-wrapper">
-                            <h2>A32N</h2>
+                            <h2>{mostUsedAircraft}</h2>
                             <p>{t('profile-most-used-aircraft')}</p>
                         </div>
                         <div className="icon-text">
@@ -206,20 +276,40 @@ export function Profile(){
                                 <th>{t('profile-logbook-start')}</th>
                                 <th>{t('profile-logbook-end')}</th>
                                 <th>{t('profile-logbook-network')}</th>
+                                <th>{t('status')}</th>
                                 <th>{t('profile-logbook-time')}</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr className={"logbook"}>
-                                <td>a</td>
-                                <td>b</td>
-                                <td>c</td>
-                                <td>d</td>
-                                <td>e</td>
-                                <td>f</td>
-                                <td>e</td>
-                                <td>g</td>
-                            </tr>
+                            {flights.length > 0 ? (
+                                flights.map((flight, index) => (
+                                    <tr key={flight.id} className={"background-change"}>
+                                        <td>{flight.callsign || 'N/A'}</td>
+                                        <td>{flight.aircraft}</td>
+                                        <td>{flight.departure.icao}</td>
+                                        <td>{flight.arrival.icao}</td>
+                                        <td>
+                                            {flight.startFlight
+                                                ? new Date(flight.startFlight).toLocaleString()
+                                                : 'N/A'}
+                                        </td>
+                                        <td>
+                                            {flight.closeFlight
+                                                ? new Date(flight.closeFlight).toLocaleString()
+                                                : 'N/A'}
+                                        </td>
+                                        <td>{getNetwork(flight)}</td>
+                                        <td>{getFlightStatus(flight)}</td>
+                                        <td>{getFlightTime(flight)}</td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr className={"background-change"}>
+                                    <td colSpan={9} style={{ textAlign: 'center' }}>
+                                        {t('no-flights-found')}
+                                    </td>
+                                </tr>
+                            )}
                             </tbody>
                         </table>
                     </div>

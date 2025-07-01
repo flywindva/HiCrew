@@ -27,9 +27,21 @@ import {ChangeHub} from "./pages/changes/change-hub";
 import {DeleteAccount} from "./pages/changes/delete-account";
 import {Archive} from "./pages/archive/archive";
 import {ResetPassword} from "./pages/reset-password/reset";
+import {AuthContext} from "./components/auth-context/auth";
+import {useContext, useEffect, useState} from "react";
+import CallsignPrompt from "./components/callsign-prompt/callsign-prompt";
 
 function App() {
+    const { isAuthenticated, pilot } = useContext(AuthContext);
+    const [showCallsignPrompt, setShowCallsignPrompt] = useState(false);
 
+    useEffect(() => {
+        if (isAuthenticated && pilot && !pilot.callsign) {
+            setShowCallsignPrompt(true);
+        } else {
+            setShowCallsignPrompt(false);
+        }
+    }, [isAuthenticated, pilot]);
 
     return (
         <div className="app">
@@ -114,6 +126,7 @@ function App() {
                 } />
 
             </Routes>
+            {showCallsignPrompt && <CallsignPrompt onClose={() => setShowCallsignPrompt(false)} />}
             <CookieBanner />
             <Footer />
         </div>

@@ -1,0 +1,75 @@
+.callsign-prompt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.callsign-prompt {
+  background: var(--background-primary);
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.callsign-prompt h2 {
+  margin-bottom: 10px;
+}
+
+.callsign-prompt p {
+  margin-bottom: 20px;
+}
+
+.callsign-select {
+  margin-bottom: 1rem;
+  .react-select__control {
+    padding: 0.1rem;
+    border: 1px solid var(--accent-secondary);
+    border-radius: 4px;
+    font-size: 1rem;
+    width: auto;
+    margin: 0.2rem;
+    box-sizing: border-box;
+    background-color: var(--background-secondary);
+    color: var(--text-primary);
+  }
+
+  .react-select__menu {
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  }
+
+  .react-select__option {
+    padding: 0.5rem;
+    cursor: pointer;
+    background-color: var(--background-secondary);
+    color: var(--text-primary);
+    &--is-focused {
+      background-color: var(--accent-primary);
+    }
+  }
+
+  .react-select__placeholder {
+    color: var(--accent-primary);
+  }
+
+  .react-select__input {
+    input {
+      max-height: 30px;
+    }
+  }
+
+  .react-select__single-value {
+    color: var(--text-primary);
+    font-size: 1rem;
+  }
+}

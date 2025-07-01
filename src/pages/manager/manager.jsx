@@ -13,6 +13,8 @@ import {Profile} from "../profile/profile";
 import './manager.scss'
 import {Fleet} from "../fleet/fleet";
 import {useTranslation} from "react-i18next";
+import {ManualReport} from "../manual-report/manual-report";
+import {Dispatcher} from "../dispatcher/dispatcher";
 
 export function Manager() {
     const [selectedButton, setSelectedButton] = useState(null);
@@ -20,9 +22,9 @@ export function Manager() {
     const buttonContent = {
         charter: <Profile />,
         regular: "Schedule and manage regular flights. Confirm your departure airport and fleet availability.",
-        manual: "Submit a manual flight report. Include all necessary details for accurate logging.",
-        free: "Enter free mode to explore flights without restrictions. No fleet or airport requirements.",
-        dispatcher: "Access dispatcher tools to coordinate flights and manage schedules.",
+        manual: <ManualReport />,
+        free: "你好，佩佩",
+        dispatcher: <Dispatcher />,
         fleet: <Fleet />
     };
 

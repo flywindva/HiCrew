@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import {faCheck, faTimes, faTrashCan} from '@fortawesome/free-solid-svg-icons';
 import { Role } from '../../components/auth-context/role';
 import api from '../../api/api';
 
@@ -37,26 +37,31 @@ export function FlightManager() {
         fetchPendingFlights();
     }, []);
 
-    const handleDelete = async (flightId) => {
-        if (window.confirm('Are you sure you want to delete this flight?')) {
-            try {
-                await api.delete(`/flights/${flightId}`);
+    const handleStatusChange = async (flightId, status, comment = '') => {
+        try {
+            const confirmMessage = status === 2
+                ? 'Are you sure you want to accept this flight?'
+                : 'Are you sure you want to reject this flight?';
+
+            if (window.confirm(confirmMessage)) {
+                await api.put(`/flights/${flightId}/status`, { status, comment });
                 setFlights(flights.filter((flight) => flight.id !== flightId));
-                alert('Flight deleted successfully');
-            } catch (error) {
-                console.error('Failed to delete flight:', {
-                    message: error.message,
-                    response: error.response?.data,
-                    status: error.response?.status,
-                });
-                const errorMessage =
-                    error.response?.data?.error ||
-                    error.message ||
-                    'Failed to delete flight';
-                setError(errorMessage);
+                alert(`Flight ${status === 2 ? 'accepted' : 'rejected'} successfully`);
             }
+        } catch (error) {
+            console.error(`Failed to ${status === 2 ? 'accept' : 'reject'} flight:`, {
+                message: error.message,
+                response: error.response?.data,
+                status: error.response?.status,
+            });
+            const errorMessage =
+                error.response?.data?.error ||
+                error.message ||
+                `Failed to ${status === 2 ? 'accept' : 'reject'} flight`;
+            setError(errorMessage);
         }
     };
+
 
     return (
         <div className="view-model">
@@ -106,10 +111,18 @@ export function FlightManager() {
                                     </td>
                                     <td>
                                         <button
-                                            className="btn danger"
-                                            onClick={() => handleDelete(flight.id)}
+                                            className="btn"
+                                            onClick={() => handleStatusChange(flight.id, 2)}
+                                            title="Accept flight"
                                         >
-                                            <FontAwesomeIcon icon={faTrashCan} />
+                                            <FontAwesomeIcon icon={faCheck}/>
+                                        </button>
+                                        <button
+                                            className="btn danger"
+                                            onClick={() => handleStatusChange(flight.id, 3)}
+                                            title="Reject flight"
+                                        >
+                                            <FontAwesomeIcon icon={faTimes}/>
                                         </button>
                                     </td>
                                 </tr>

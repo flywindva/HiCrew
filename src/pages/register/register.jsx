@@ -1,39 +1,39 @@
-import './register.scss';
-import { Link } from 'react-router-dom';
-import {useEffect, useState} from 'react';
-import api, { register } from '../../api/api';
-import {useTranslation} from "react-i18next";
+    import './register.scss';
+    import { Link } from 'react-router-dom';
+    import {useEffect, useState} from 'react';
+    import api, { register } from '../../api/api';
+    import {useTranslation} from "react-i18next";
 
-export function Register() {
-    const { t } = useTranslation();
-    const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        repeatPassword: '',
-        birthDate: '',
-        ivaoId: '',
-        vatsimId: '',
-    });
+    export function Register() {
+        const { t } = useTranslation();
+        const [formData, setFormData] = useState({
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            repeatPassword: '',
+            birthDate: '',
+            ivaoId: '',
+            vatsimId: '',
+        });
 
-    const [error, setError] = useState(null);
-    const [isRegistrationAllowed, setIsRegistrationAllowed] = useState(null);
-    const [isRequestSubmitted, setIsRequestSubmitted] = useState(false);
+        const [error, setError] = useState(null);
+        const [isRegistrationAllowed, setIsRegistrationAllowed] = useState(null);
+        const [isRequestSubmitted, setIsRequestSubmitted] = useState(false);
 
-    useEffect(() => {
-        const fetchRegistrationStatus = async () => {
-            try {
-                const response = await api.get('/configs/ALLOW_CREATE_ACCOUNT');
-                setIsRegistrationAllowed(response.data.isActive);
-            } catch (error) {
-                console.error('Failed to fetch registration status:', error);
-                setError(t('register-error-default'));
-                setIsRegistrationAllowed(false);
-            }
-        };
-        fetchRegistrationStatus();
-    }, [t]);
+        useEffect(() => {
+            const fetchRegistrationStatus = async () => {
+                try {
+                    const response = await api.get('/configs/ALLOW_CREATE_ACCOUNT');
+                    setIsRegistrationAllowed(response.data.isActive);
+                } catch (error) {
+                    console.error('Failed to fetch registration status:', error);
+                    setError(t('register-error-default'));
+                    setIsRegistrationAllowed(false);
+                }
+            };
+            fetchRegistrationStatus();
+        }, [t]);
 
 
     const handleChange = (e) => {

@@ -42,12 +42,11 @@ const CallsignPrompt = ({ onClose }) => {
     const handleSelectChange = (selectedOption) => {
         const newCallsign = selectedOption ? selectedOption.value : '';
         setCallsign(newCallsign);
-        setError(''); // Clear error on selection
+        setError('');
         console.log('Selected callsign:', newCallsign);
     };
 
     const handleInputChange = (inputValue, { action }) => {
-        // Only update callsign if the user is typing (not when selecting or clearing)
         if (action === 'input-change') {
             const value = inputValue.replace(/[^0-9]/g, '').slice(0, 3);
             setCallsign(value);
@@ -58,7 +57,7 @@ const CallsignPrompt = ({ onClose }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        e.stopPropagation(); // Prevent event bubbling
+        e.stopPropagation();
         setIsSubmitting(true);
         console.log('Submitting with callsign:', callsign);
 

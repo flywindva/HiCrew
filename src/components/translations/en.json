@@ -431,6 +431,11 @@
     "save_callsign": "Save Callsign",
     "confirming": "Confirming...",
     "saving": "Saving...",
-    "confirm_assigned_callsign": "Your assigned callsign is <strong>{{callsign}}</strong>. Please confirm to proceed."
+    "confirm_assigned_callsign": "Your assigned callsign is <strong>{{callsign}}</strong>. Please confirm to proceed.",
+    "network": "Network",
+    "select-network": "Select Network",
+    "ivao": "IVAO",
+    "vatsim": "VATSIM",
+    "free-mode-flight-report": "Free Mode Flight Report"
   }
 }

@@ -129,12 +129,6 @@ export function Profile(){
         return t('unknown');
     };
 
-    const getNetwork = (flight) => {
-        if (pilot.ivaoId && flight.pirep?.includes('IVAO')) return 'IVAO';
-        if (pilot.vatsimId && flight.pirep?.includes('VATSIM')) return 'VATSIM';
-        return 'N/A';
-    };
-
     const getFlightTime = (flight) => {
         if (flight.startFlight && flight.closeFlight) {
             const start = new Date(flight.startFlight);
@@ -298,7 +292,7 @@ export function Profile(){
                                                 ? new Date(flight.closeFlight).toLocaleString()
                                                 : 'N/A'}
                                         </td>
-                                        <td>{getNetwork(flight)}</td>
+                                        <td>{flight.network}</td>
                                         <td>{getFlightStatus(flight)}</td>
                                         <td>{getFlightTime(flight)}</td>
                                     </tr>

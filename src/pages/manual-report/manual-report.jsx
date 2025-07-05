@@ -14,6 +14,7 @@ export function ManualReport() {
         startFlight: "",
         closeFlight: "",
         pirep: "",
+        network: "",
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -65,6 +66,7 @@ export function ManualReport() {
                     startFlight: formData.startFlight ? new Date(formData.startFlight).toISOString() : null,
                     closeFlight: formData.closeFlight ? new Date(formData.closeFlight).toISOString() : null,
                     pirep: formData.pirep || null,
+                    network: formData.network || null,
                 },
                 {
                     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -80,6 +82,7 @@ export function ManualReport() {
                 startFlight: "",
                 closeFlight: "",
                 pirep: "",
+                network: "",
             });
         } catch (error) {
             console.error(t("failed-to-submit-report"), {
@@ -184,10 +187,23 @@ export function ManualReport() {
                             placeholder="e.g. https://tracker.example.com/flight/123"
                         />
                     </div>
+                    <div>
+                        <label htmlFor="network">{t("network")}</label>
+                        <select
+                            id="network"
+                            name="network"
+                            value={formData.network}
+                            onChange={handleChange}
+                        >
+                            <option value="">{t("select-network")}</option>
+                            <option value="IVAO">{t("ivao")}</option>
+                            <option value="VATSIM">{t("vatsim")}</option>
+                        </select>
+                    </div>
                     {error && <p>{error}</p>}
                     {success && <p>{success}</p>}
                     <button type="submit" className="btn" disabled={loading}>
-                        <FontAwesomeIcon icon={faPaperPlane} /> {loading ? t("submitting") : t("submit-report")}
+                        <FontAwesomeIcon icon={faPaperPlane}/> {loading ? t("submitting") : t("submit-report")}
                     </button>
                 </form>
             </div>

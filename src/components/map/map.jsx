@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import axios from 'axios';
 import airplaneIcon from './plane.svg';
 import {useTranslation} from "react-i18next";
+import {globalVariables} from "../../config";
 
 
 const useInterval = (callback: () => void, delay: number) => {
@@ -69,7 +70,7 @@ const Map: React.FC<{ theme: 'light' | 'dark' }> = ({ theme }) => {
         >
             <TileLayer attribution={tileLayerAttribution} url={tileLayerUrl} />
             {ivao_flights.map((ivao) => {
-                if (!ivao.callsign.startsWith("IBE")) {
+                if (!ivao.callsign.startsWith(globalVariables.OACI)) {
                     return null;
                 }
                 const rotation = ivao.lastTrack?.heading ?? 0;
@@ -115,7 +116,7 @@ const Map: React.FC<{ theme: 'light' | 'dark' }> = ({ theme }) => {
                 );
             })}
             {vatsim_flights.map((vatsim) => {
-                if (!vatsim.callsign || !vatsim.callsign.startsWith("IBE")) {
+                if (!vatsim.callsign || !vatsim.callsign.startsWith(globalVariables.OACI)) {
                     return null;
                 }
                 const rotation = vatsim.heading ?? 0;

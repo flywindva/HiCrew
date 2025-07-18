@@ -16,6 +16,7 @@ import {AuthContext} from "../../components/auth-context/auth";
 import {useTranslation} from "react-i18next";
 import api from "../../api/api";
 import {BannerInfo} from "../../components/banner-info/banner-info";
+import {globalVariables} from "../../config";
 
 const useInterval = (callback, delay) => {
     useEffect(() => {
@@ -73,7 +74,7 @@ export function Central() {
             const pilots = response.data.clients.pilots || [];
 
             const filteredFlights = pilots
-                .filter(pilot => pilot.callsign && pilot.callsign.startsWith("IBE"))
+                .filter(pilot => pilot.callsign && pilot.callsign.startsWith(globalVariables.OACI))
                 .map(pilot => ({
                     callsign: pilot.callsign || "N/A",
                     aircraft: pilot.flightPlan?.aircraftId || "N/A",
@@ -95,7 +96,7 @@ export function Central() {
             const pilots = response.data.pilots || [];
 
             const filteredFlights = pilots
-                .filter(pilot => pilot.callsign && pilot.callsign.startsWith("IBE"))
+                .filter(pilot => pilot.callsign && pilot.callsign.startsWith(globalVariables.OACI))
                 .map(pilot => ({
                     callsign: pilot.callsign || "N/A",
                     aircraft: pilot.flight_plan?.aircraft

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane, faPlaneCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import api from "../../api/api";
 
-export function FreeMode() {
+export function FreeMode({ onFlightSubmit }) {
     const { t } = useTranslation();
     const [formData, setFormData] = useState({
         departureIcao: "",
@@ -45,6 +45,10 @@ export function FreeMode() {
                 arrivalIcao: "",
                 network: "",
             });
+
+            if (onFlightSubmit) {
+                onFlightSubmit();
+            }
         } catch (error) {
             console.error(t("failed-to-submit-report"), {
                 message: error.message,

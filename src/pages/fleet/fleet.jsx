@@ -12,6 +12,13 @@ export function Fleet() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    const stateMap = {
+        0: t('fleet-state-free'),
+        1: t('fleet-state-reserved'),
+        2: t('fleet-state-in-flight'),
+        3: t('fleet-state-maintenance'),
+    };
+
     useEffect(() => {
         const fetchFleet = async () => {
             setLoading(true);
@@ -47,7 +54,6 @@ export function Fleet() {
         }
 
         const sortedData = [...fleet].sort((a, b) => {
-            // Handle nested properties (e.g., airline.name, aircraft.icao)
             const valueA = key.includes('.') ? key.split('.').reduce((obj, k) => obj?.[k], a) : a[key];
             const valueB = key.includes('.') ? key.split('.').reduce((obj, k) => obj?.[k], b) : b[key];
 
@@ -105,6 +111,12 @@ export function Fleet() {
                                 <th onClick={() => sortTable('state')}>
                                     {t('status')} {getSortIndicator('state')}
                                 </th>
+                                <th onClick={() => sortTable('location.name')}>
+                                    {t('location')} {getSortIndicator('location.name')}
+                                </th>
+                                <th onClick={() => sortTable('hub.airport.icao')}>
+                                    {t('hub')} {getSortIndicator('hub.airport.icao')}
+                                </th>
                                 <th>{t('info-see')}</th>
                             </tr>
                             </thead>
@@ -115,7 +127,9 @@ export function Fleet() {
                                     <td>{item.aircraft.icao}</td>
                                     <td>{item.reg}</td>
                                     <td>{item.name}</td>
-                                    <td>{item.state}</td>
+                                    <td>{stateMap[item.state] || 'N/A'}</td>
+                                    <td>{item.location ? `${item.location.name} (${item.location.icao})` : 'N/A'}</td>
+                                    <td>{item.hub ? `${item.hub.airport.name} (${item.hub.airport.icao})` : t('none')}</td>
                                     <td>
                                         <button
                                             className="btn"
@@ -133,7 +147,7 @@ export function Fleet() {
             )}
             {selectedAircraft && (
                 <div className="view-model left">
-                <div className="modal">
+                    <div className="modal">
                     <div className="modal-content">
                     <h3>{t('aircraft-details')}</h3>
                         <p>

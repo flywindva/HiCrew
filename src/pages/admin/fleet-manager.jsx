@@ -2,13 +2,16 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { Role } from '../../components/auth-context/role';
-import api from "../../api/api";
+import { useTranslation } from 'react-i18next';
+import api from '../../api/api';
 
 export function FleetManager() {
+    const { t } = useTranslation();
     const [fleets, setFleets] = useState([]);
     const [aircrafts, setAircrafts] = useState([]);
     const [airlines, setAirlines] = useState([]);
     const [ranks, setRanks] = useState([]);
+    const [hubs, setHubs] = useState([]);
     const [error, setError] = useState(null);
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [formData, setFormData] = useState({
@@ -16,41 +19,67 @@ export function FleetManager() {
         airlineId: '',
         name: '',
         reg: '',
-        state: '',
+        state: '0',
+        locationIcao: '',
+        hubId: '',
         life: '',
         rankId: '',
     });
     const [editingFleet, setEditingFleet] = useState(null);
 
+    const stateMap = {
+        0: t('fleet-state-free'),
+        1: t('fleet-state-reserved'),
+        2: t('fleet-state-in-flight'),
+        3: t('fleet-state-maintenance'),
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const fleetResponse = await api.get('/fleet');
+                const fleetResponse = await api.get('/fleet', {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                });
                 if (fleetResponse?.data) {
                     setFleets(fleetResponse.data);
                 } else {
                     throw new Error('No fleet data received from server');
                 }
 
-                const aircraftResponse = await api.get('/aircraft');
+                const aircraftResponse = await api.get('/aircraft', {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                });
                 if (aircraftResponse?.data) {
                     setAircrafts(aircraftResponse.data);
                 } else {
                     throw new Error('No aircraft data received from server');
                 }
 
-                const airlineResponse = await api.get('/airlines');
+                const airlineResponse = await api.get('/airlines', {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                });
                 if (airlineResponse?.data) {
                     setAirlines(airlineResponse.data);
                 } else {
                     throw new Error('No airline data received from server');
                 }
 
-                const rankResponse = await api.get('/ranks');
+                const rankResponse = await api.get('/ranks', {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                });
                 if (rankResponse?.data) {
                     setRanks(rankResponse.data);
                 } else {
                     throw new Error('No rank data received from server');
+                }
+
+                const hubResponse = await api.get('/hubs', {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                });
+                if (hubResponse?.data) {
+                    setHubs(hubResponse.data);
+                } else {
+                    throw new Error('No hub data received from server');
                 }
 
                 setError(null);
@@ -63,12 +92,12 @@ export function FleetManager() {
                 const errorMessage =
                     error.response?.data?.error ||
                     error.message ||
-                    'Failed to fetch data';
+                    t('failed-to-fetch-data');
                 setError(errorMessage);
             }
         };
         fetchData();
-    }, []);
+    }, [t]);
 
     const toggleCreate = () => {
         setShowCreateForm(!showCreateForm);
@@ -76,8 +105,10 @@ export function FleetManager() {
             aircraftId: '',
             airlineId: '',
             name: '',
-            state: '',
             reg: '',
+            state: '0',
+            locationIcao: '',
+            hubId: '',
             life: '',
             rankId: '',
         });
@@ -92,38 +123,49 @@ export function FleetManager() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const { aircraftId, airlineId, name, reg, state, life, rankId } = formData;
+        const { aircraftId, airlineId, name, reg, state, locationIcao, hubId, life, rankId } = formData;
 
-        if (!aircraftId || !airlineId || !name || !reg || !state || !life) {
-            setError('Aircraft, airline, name, registration, state, and life are required');
+        // Client-side validation
+        if (!aircraftId || !airlineId || !name || !reg || state === '' || !locationIcao || !life) {
+            setError(t('required-fields'));
             return;
         }
         if (name.length > 100) {
-            setError('Name must be 100 characters or less');
+            setError(t('name-too-long'));
             return;
         }
-        if (state.length > 50) {
-            setError('State must be 50 characters or less');
+        if (reg.length !== 6) {
+            setError(t('reg-length'));
             return;
         }
         const lifeNum = parseInt(life);
         if (isNaN(lifeNum) || lifeNum < 0 || lifeNum > 100) {
-            setError('Life must be an integer between 0 and 100');
+            setError(t('invalid-life'));
             return;
         }
         const aircraftIdNum = parseInt(aircraftId);
         if (isNaN(aircraftIdNum)) {
-            setError('Invalid aircraft selection');
+            setError(t('invalid-aircraft'));
             return;
         }
         const airlineIdNum = parseInt(airlineId);
         if (isNaN(airlineIdNum)) {
-            setError('Invalid airline selection');
+            setError(t('invalid-airline'));
             return;
         }
         const rankIdNum = rankId ? parseInt(rankId) : null;
         if (rankId && isNaN(rankIdNum)) {
-            setError('Invalid rank selection');
+            setError(t('invalid-rank'));
+            return;
+        }
+        const hubIdNum = hubId ? parseInt(hubId) : null;
+        if (hubId && isNaN(hubIdNum)) {
+            setError(t('invalid-hub'));
+            return;
+        }
+        const icaoRegex = /^[A-Z]{4}$/;
+        if (!icaoRegex.test(locationIcao)) {
+            setError(t('invalid-icao'));
             return;
         }
 
@@ -132,21 +174,27 @@ export function FleetManager() {
                 aircraftId: aircraftIdNum,
                 airlineId: airlineIdNum,
                 name,
-                state,
                 reg,
+                state: parseInt(state),
+                locationIcao: locationIcao.toUpperCase(),
+                hubId: hubIdNum,
                 life: lifeNum,
                 rankId: rankIdNum,
             };
             if (editingFleet) {
-                const response = await api.patch(`/fleet/${editingFleet.id}`, payload);
+                const response = await api.patch(`/fleet/${editingFleet.id}`, payload, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                });
                 setFleets(
                     fleets.map((fleet) => (fleet.id === editingFleet.id ? response.data.fleet : fleet))
                 );
-                alert('Fleet unit updated successfully');
+                alert(t('fleet-updated'));
             } else {
-                const response = await api.post('/fleet', payload);
+                const response = await api.post('/fleet', payload, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                });
                 setFleets([...fleets, response.data.fleet]);
-                alert('Fleet unit created successfully');
+                alert(t('fleet-created'));
             }
             toggleCreate();
         } catch (error) {
@@ -158,7 +206,7 @@ export function FleetManager() {
             const errorMessage =
                 error.response?.data?.error ||
                 error.message ||
-                'Failed to save fleet unit';
+                t('failed-to-save-fleet');
             setError(errorMessage);
         }
     };
@@ -170,7 +218,9 @@ export function FleetManager() {
             airlineId: fleet.airlineId.toString(),
             name: fleet.name,
             reg: fleet.reg,
-            state: fleet.state,
+            state: fleet.state.toString(),
+            locationIcao: fleet.locationIcao,
+            hubId: fleet.hubId ? fleet.hubId.toString() : '',
             life: fleet.life.toString(),
             rankId: fleet.rankId ? fleet.rankId.toString() : '',
         });
@@ -179,11 +229,13 @@ export function FleetManager() {
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm('Are you sure you want to delete this fleet unit?')) {
+        if (window.confirm(t('confirm-delete'))) {
             try {
-                await api.delete(`/fleet/${id}`);
+                await api.delete(`/fleet/${id}`, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                });
                 setFleets(fleets.filter((fleet) => fleet.id !== id));
-                alert('Fleet unit deleted successfully');
+                alert(t('fleet-deleted'));
             } catch (error) {
                 console.error('Failed to delete fleet unit:', {
                     message: error.message,
@@ -193,7 +245,7 @@ export function FleetManager() {
                 const errorMessage =
                     error.response?.data?.error ||
                     error.message ||
-                    'Failed to delete fleet unit';
+                    t('failed-to-delete-fleet');
                 setError(errorMessage);
             }
         }
@@ -201,30 +253,30 @@ export function FleetManager() {
 
     return (
         <div className="view-model">
-            <h2>Fleet Manager</h2>
+            <h2>{t('fleet-manager')}</h2>
             <Role has="OPERATIONS_MANAGER">
                 <p>
                     <button
                         className={`btn ${showCreateForm ? 'secondary' : ''}`}
                         onClick={toggleCreate}
                     >
-                        <FontAwesomeIcon icon={faCirclePlus} /> {showCreateForm ? 'Cancel' : 'Create Fleet Unit'}
+                        <FontAwesomeIcon icon={faCirclePlus} /> {showCreateForm ? t('cancel') : t('create-fleet-unit')}
                     </button>
                 </p>
                 {showCreateForm && (
                     <div className="fleet-form">
-                        <h3>{editingFleet ? 'Edit Fleet Unit' : 'Create Fleet Unit'}</h3>
+                        <h3>{editingFleet ? t('edit-fleet-unit') : t('create-fleet-unit')}</h3>
                         {error && <p className="error-message">{error}</p>}
                         <form onSubmit={handleSubmit}>
                             <div>
-                                <label>Aircraft:</label>
+                                <label>{t('aircraft')}</label>
                                 <select
                                     name="aircraftId"
                                     value={formData.aircraftId}
                                     onChange={handleInputChange}
                                     required
                                 >
-                                    <option value="">Select an aircraft</option>
+                                    <option value="">{t('select-aircraft')}</option>
                                     {aircrafts.map((aircraft) => (
                                         <option key={aircraft.id} value={aircraft.id}>
                                             {aircraft.icao} - {aircraft.manufacturer}
@@ -233,14 +285,14 @@ export function FleetManager() {
                                 </select>
                             </div>
                             <div>
-                                <label>Airline:</label>
+                                <label>{t('airline')}</label>
                                 <select
                                     name="airlineId"
                                     value={formData.airlineId}
                                     onChange={handleInputChange}
                                     required
                                 >
-                                    <option value="">Select an airline</option>
+                                    <option value="">{t('select-airline')}</option>
                                     {airlines.map((airline) => (
                                         <option key={airline.id} value={airline.id}>
                                             {airline.name}
@@ -249,7 +301,7 @@ export function FleetManager() {
                                 </select>
                             </div>
                             <div>
-                                <label>Name:</label>
+                                <label>{t('name')}</label>
                                 <input
                                     type="text"
                                     name="name"
@@ -257,11 +309,11 @@ export function FleetManager() {
                                     onChange={handleInputChange}
                                     required
                                     maxLength={100}
-                                    placeholder="Enter fleet name (max 100 characters)"
+                                    placeholder={t('enter-name')}
                                 />
                             </div>
                             <div>
-                                <label>Registration:</label>
+                                <label>{t('registration')}</label>
                                 <input
                                     type="text"
                                     name="reg"
@@ -270,23 +322,52 @@ export function FleetManager() {
                                     required
                                     maxLength={6}
                                     minLength={6}
-                                    placeholder="Enter registration (6 characters)"
+                                    placeholder={t('enter-reg')}
                                 />
                             </div>
                             <div>
-                                <label>State:</label>
-                                <input
-                                    type="text"
+                                <label>{t('state')}</label>
+                                <select
                                     name="state"
                                     value={formData.state}
                                     onChange={handleInputChange}
                                     required
-                                    maxLength={50}
-                                    placeholder="Enter state (max 50 characters)"
+                                >
+                                    <option value="0">{t('fleet-state-free')}</option>
+                                    <option value="1">{t('fleet-state-reserved')}</option>
+                                    <option value="2">{t('fleet-state-in-flight')}</option>
+                                    <option value="3">{t('fleet-state-maintenance')}</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>{t('location-icao')}</label>
+                                <input
+                                    type="text"
+                                    name="locationIcao"
+                                    value={formData.locationIcao}
+                                    onChange={handleInputChange}
+                                    required
+                                    maxLength={4}
+                                    placeholder={t('enter-icao')}
                                 />
                             </div>
                             <div>
-                                <label>Life (%):</label>
+                                <label>{t('hub')}</label>
+                                <select
+                                    name="hubId"
+                                    value={formData.hubId}
+                                    onChange={handleInputChange}
+                                >
+                                    <option value="">{t('select-hub')}</option>
+                                    {hubs.map((hub) => (
+                                        <option key={hub.id} value={hub.id}>
+                                            {hub.airport.name} ({hub.airport.icao})
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div>
+                                <label>{t('life')}</label>
                                 <input
                                     type="number"
                                     name="life"
@@ -295,17 +376,17 @@ export function FleetManager() {
                                     required
                                     min={0}
                                     max={100}
-                                    placeholder="Enter life (0-100)"
+                                    placeholder={t('enter-life')}
                                 />
                             </div>
                             <div>
-                                <label>Rank (optional):</label>
+                                <label>{t('rank')}</label>
                                 <select
                                     name="rankId"
                                     value={formData.rankId}
                                     onChange={handleInputChange}
                                 >
-                                    <option value="">None</option>
+                                    <option value="">{t('select-rank')}</option>
                                     {ranks.map((rank) => (
                                         <option key={rank.id} value={rank.id}>
                                             {rank.name}
@@ -314,7 +395,7 @@ export function FleetManager() {
                                 </select>
                             </div>
                             <button type="submit" className="btn">
-                                {editingFleet ? 'Update Fleet Unit' : 'Create Fleet Unit'}
+                                {editingFleet ? t('update-fleet-unit') : t('create-fleet-unit')}
                             </button>
                         </form>
                     </div>
@@ -324,42 +405,46 @@ export function FleetManager() {
                         <thead>
                         <tr>
                             <th>#ID</th>
-                            <th>Aircraft</th>
-                            <th>Airline</th>
-                            <th>Name</th>
-                            <th>Registration</th>
-                            <th>State</th>
-                            <th>Life (%)</th>
-                            <th>Rank</th>
-                            <th>Created At</th>
-                            <th>Updated At</th>
-                            <th>Actions</th>
+                            <th>{t('aircraft')}</th>
+                            <th>{t('airline')}</th>
+                            <th>{t('name')}</th>
+                            <th>{t('registration')}</th>
+                            <th>{t('state')}</th>
+                            <th>{t('location')}</th>
+                            <th>{t('hub')}</th>
+                            <th>{t('life')}</th>
+                            <th>{t('rank')}</th>
+                            <th>{t('created-at')}</th>
+                            <th>{t('updated-at')}</th>
+                            <th>{t('actions')}</th>
                         </tr>
                         </thead>
                         <tbody>
                         {fleets.length === 0 ? (
                             <tr className="background-change">
-                                <td colSpan="11">No fleet units found.</td>
+                                <td colSpan="13">{t('no-fleet-units')}</td>
                             </tr>
                         ) : (
-                            fleets.map((fleet, index) => (
-                                <tr key={index} className="background-change">
+                            fleets.map((fleet) => (
+                                <tr key={fleet.id} className="background-change">
                                     <td>{fleet.id}</td>
                                     <td>{fleet.aircraft ? `${fleet.aircraft.icao}` : 'N/A'}</td>
                                     <td>{fleet.airline ? fleet.airline.name : 'N/A'}</td>
                                     <td>{fleet.name}</td>
                                     <td>{fleet.reg}</td>
-                                    <td>{fleet.state}</td>
+                                    <td>{stateMap[fleet.state] || 'N/A'}</td>
+                                    <td>{fleet.location ? `${fleet.location.name} (${fleet.location.icao})` : 'N/A'}</td>
+                                    <td>{fleet.hub ? `${fleet.hub.airport.name} (${fleet.hub.airport.icao})` : 'None'}</td>
                                     <td>{fleet.life}</td>
                                     <td>{fleet.rankId ? ranks.find((rank) => rank.id === fleet.rankId)?.name || 'N/A' : 'None'}</td>
                                     <td>{new Date(fleet.createdAt).toLocaleString()}</td>
                                     <td>{new Date(fleet.updatedAt).toLocaleString()}</td>
                                     <td>
                                         <button className="btn" onClick={() => startEditing(fleet)}>
-                                            <FontAwesomeIcon icon={faPenToSquare}/>
+                                            <FontAwesomeIcon icon={faPenToSquare} />
                                         </button>
                                         <button className="btn danger" onClick={() => handleDelete(fleet.id)}>
-                                            <FontAwesomeIcon icon={faTrashCan}/>
+                                            <FontAwesomeIcon icon={faTrashCan} />
                                         </button>
                                     </td>
                                 </tr>

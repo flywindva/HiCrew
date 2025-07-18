@@ -26,10 +26,8 @@ const CallsignPrompt = ({ onClose }) => {
                         cs.replace(globalVariables.OACI, '')
                     );
                     setAvailableCallsigns(callsigns);
-                    console.log('Available callsigns:', callsigns);
                 } else {
                     setAssignedCallsign(response.data.nextCallsign);
-                    console.log('Assigned callsign:', response.data.nextCallsign);
                 }
             } catch (err) {
                 setError(t('fetch_callsign_error'));
@@ -43,7 +41,6 @@ const CallsignPrompt = ({ onClose }) => {
         const newCallsign = selectedOption ? selectedOption.value : '';
         setCallsign(newCallsign);
         setError('');
-        console.log('Selected callsign:', newCallsign);
     };
 
     const handleInputChange = (inputValue, { action }) => {
@@ -51,7 +48,6 @@ const CallsignPrompt = ({ onClose }) => {
             const value = inputValue.replace(/[^0-9]/g, '').slice(0, 3);
             setCallsign(value);
             setError('');
-            console.log('Input callsign:', value);
         }
     };
 
@@ -59,7 +55,6 @@ const CallsignPrompt = ({ onClose }) => {
         e.preventDefault();
         e.stopPropagation();
         setIsSubmitting(true);
-        console.log('Submitting with callsign:', callsign);
 
         try {
             if (allowSelection) {
@@ -86,14 +81,12 @@ const CallsignPrompt = ({ onClose }) => {
                 }
 
                 const response = await api.post('/auth/update-callsign', { callsign });
-                console.log('Update callsign response:', response.data);
                 login(
                     { ...pilot, callsign: response.data.pilot.callsign },
                     localStorage.getItem('token')
                 );
             } else {
                 const response = await api.post('/auth/update-callsign', {});
-                console.log('Confirm callsign response:', response.data);
                 login(
                     { ...pilot, callsign: response.data.pilot.callsign },
                     localStorage.getItem('token')

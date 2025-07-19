@@ -498,6 +498,20 @@
     "failed-to-fetch-active-flight": "Failed to fetch active flight",
     "failed-to-cancel-flight": "Failed to cancel flight",
     "pending-to-flight": "Pending to Flight",
-    "in-flight": "In Flight"
+    "in-flight": "In Flight",
+    "flight-statistics": "Flight Statistics",
+    "total-pilots": "Total Pilots",
+    "monthly-flights": "Monthly Flights",
+    "annual-flights": "Annual Flights",
+    "most-flown-aircraft": "Most Flown Aircraft",
+    "most-flown-fleet": "Most Flown Fleet Aircraft",
+    "monthly-hours": "Monthly Flight Hours",
+    "annual-hours": "Annual Flight Hours",
+    "most-active-pilots": "Most Active Pilots per Month",
+    "most-frequent-departures": "Most Frequent Departure Airports",
+    "most-frequent-arrivals": "Most Frequent Arrival Airports",
+    "failed-to-fetch-stats": "Failed to fetch statistics",
+    "flights-by-network-and-type": "Flights by Network and Type",
+    "config-error-default": "Failed to load configuration"
   }
 }

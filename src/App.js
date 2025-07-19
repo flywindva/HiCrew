@@ -30,6 +30,7 @@ import {ResetPassword} from "./pages/reset-password/reset";
 import {AuthContext} from "./components/auth-context/auth";
 import {useContext, useEffect, useState} from "react";
 import CallsignPrompt from "./components/callsign-prompt/callsign-prompt";
+import {Stats} from "./pages/stats/stats";
 
 function App() {
     const { isAuthenticated, pilot } = useContext(AuthContext);
@@ -50,6 +51,8 @@ function App() {
                 <Route path={"/"} element={<Home />} />
                 <Route path={"/rules"} element={<Rules />} />
                 <Route path={"/lang"} element={<Lang />} />
+
+                <Route path={"/stats"} element={<Stats />} />
 
                 <Route path={"/central"} element={<Central />} />
 

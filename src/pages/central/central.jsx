@@ -186,19 +186,29 @@ export function Central() {
                 <div className="map container">
                     <Map theme={theme}/>
                 </div>
-                <div className="banner-ad container">
-                    <div className="text-wrapper">
-                        <h2>{isAuthenticated ? t('central-archive') : t('central-fly-easy')}</h2>
-                        <p>{isAuthenticated ? t('central-archive-desc') : t('central-fly-easy-desc')}</p>
-                        {isAuthenticated && (
+                {isAuthenticated ?(<>
+                    <div className="banner-ad container">
+                        <div className="text-wrapper">
+                            <h2>{t('central-archive')}</h2>
+                            <p>{t('central-archive-desc')}</p>
                             <Link to="/archive" className="external">
                                 <FontAwesomeIcon icon={faArrowRight}/>
                             </Link>
-                        )}
+                        </div>
                     </div>
-                </div>
+                </>) : (
+                    <>
+                        <div className="banner-ad container">
+                            <div className="text-wrapper">
+                                <h2>{t('central-fly-easy')}</h2>
+                                <p>{t('central-fly-easy-desc')}</p>
+                            </div>
+                        </div>
+                    </>
+                )}
+
                 <div className="events container">
-                    <img alt={"Event Banner"} src={"/resources/event-banner.png"} alt={t('central-events-banner-alt')} />
+                    <img alt={"Event Banner"} src={"/resources/event-banner.png"} alt={t('central-events-banner-alt')}/>
                     <Link to={"/events"} className={"external"}><FontAwesomeIcon icon={faArrowRight}/></Link>
                 </div>
                 <div className="notams container">
@@ -234,7 +244,7 @@ export function Central() {
                                     </tr>
                                 ))
                             ) : (
-                                <tr>
+                                <tr className={"even"}>
                                     <td colSpan={6} style={{textAlign: 'center'}}>
                                         {t('central-no-flights')}
                                     </td>

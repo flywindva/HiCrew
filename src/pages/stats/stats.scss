@@ -1,0 +1,143 @@
+.stats-container {
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .stat-item {
+    background: var(--background-secondary);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      border-color: var(--primary-color);
+    }
+
+    canvas {
+      max-height: 300px;
+      width: 100% !important;
+    }
+  }
+
+  .stat-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+
+    .summary-card {
+      background: var(--background-secondary);
+      color: var(--text-primary);
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: translateY(-4px);
+      }
+
+      h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        opacity: 0.9;
+      }
+
+      .value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin: 0;
+      }
+    }
+  }
+
+  .error {
+    color: var(--error-color);
+    text-align: center;
+    font-size: 1.1rem;
+    padding: 2rem;
+    background: var(--card-background);
+    border: 1px solid var(--error-color);
+    border-radius: 8px;
+  }
+
+  .loading {
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 3rem;
+    color: var(--text-secondary);
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-container {
+    padding: 1rem;
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    .stats-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .stat-summary {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .stat-item {
+      padding: 1rem;
+
+      h2 {
+        font-size: 1.25rem;
+      }
+
+      canvas {
+        max-height: 250px;
+      }
+    }
+
+    .summary-card {
+      padding: 1rem;
+
+      h3 {
+        font-size: 1rem;
+      }
+
+      .value {
+        font-size: 2rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-container {
+    padding: 0.5rem;
+
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .stat-summary {
+      grid-template-columns: 1fr;
+    }
+
+    .stat-item {
+      canvas {
+        max-height: 200px;
+      }
+    }
+  }
+}

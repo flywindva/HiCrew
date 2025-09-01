@@ -512,6 +512,7 @@
     "most-frequent-arrivals": "Aeroportos de chegada máis frecuentes",
     "failed-to-fetch-stats": "Erro ao obter as estatísticas",
     "flights-by-network-and-type": "Voos por rede e tipo",
-    "config-error-default": "Erro ao cargar a configuración"
+    "config-error-default": "Erro ao cargar a configuración",
+    "create-simbrief-flightplan": "Crear un plan de voo en SimBrief"
   }
 }

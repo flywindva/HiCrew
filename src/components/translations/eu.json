@@ -512,6 +512,7 @@
     "most-frequent-arrivals": "Maizenak diren helmuga-aeroportuak",
     "failed-to-fetch-stats": "Estatistikak eskuratzean errorea",
     "flights-by-network-and-type": "Hegaldiak sare eta motaren arabera",
-    "config-error-default": "Konfigurazioa kargatzean errorea"
+    "config-error-default": "Konfigurazioa kargatzean errorea",
+    "create-simbrief-flightplan": "Sortu hegaldien plana SimBrief-en"
   }
 }

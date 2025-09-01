@@ -512,6 +512,7 @@
     "most-frequent-arrivals": "Aeroports d'arribada més freqüents",
     "failed-to-fetch-stats": "Error en obtenir les estadístiques",
     "flights-by-network-and-type": "Vols per xarxa i tipus",
-    "config-error-default": "Error en carregar la configuració"
+    "config-error-default": "Error en carregar la configuració",
+    "create-simbrief-flightplan": "Crear pla de vol a SimBrief"
   }
 }

@@ -131,6 +131,7 @@ export function Central() {
     if (loading) return <div>{t('loading')}</div>;
     if (error) return <p className="error-message">{error}</p>;
 
+    console.log(isAuthenticated);
     return (
         <>
             {isAuthenticated && (<>
@@ -177,7 +178,7 @@ export function Central() {
                     </div>
                 </>) : (
                     <>
-                        <div className="publi container">
+                        <div className="advertising container">
                             <img src={"resources/ad-banner.png"} alt={t('central-ad-banner-alt')}/>
                         </div>
                     </>

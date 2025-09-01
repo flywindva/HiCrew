@@ -84,17 +84,19 @@ export function Profile(){
         fetchPilotData();
     }, [t, i18n.language]);
 
-    const totalFlights = flights.length;
-    const totalHours = flights.reduce((acc, flight) => {
-        if (flight.startFlight && flight.closeFlight) {
-            const start = new Date(flight.startFlight);
-            const end = new Date(flight.closeFlight);
-            const diffMs = end - start;
-            const hours = diffMs / (1000 * 60 * 60);
-            return acc + hours;
-        }
-        return acc;
-    }, 0);
+    const totalFlights = flights.filter(flight => flight.status === 2).length;
+    const totalHours = flights
+        .filter(flight => flight.status === 2) // Only accepted flights
+        .reduce((acc, flight) => {
+            if (flight.startFlight && flight.closeFlight) {
+                const start = new Date(flight.startFlight);
+                const end = new Date(flight.closeFlight);
+                const diffMs = end - start;
+                const hours = diffMs / (1000 * 60 * 60);
+                return acc + hours;
+            }
+            return acc;
+        }, 0);
 
     const formatHours = (hours) => {
         const totalMinutes = Math.round(hours * 60);
@@ -103,12 +105,16 @@ export function Profile(){
         return `${h}h${m.toString().padStart(2, '0')}m`;
     };
 
-    const mostUsedAircraft = flights.length > 0
+    const mostUsedAircraft = flights
+        .filter(flight => flight.status === 2) // Only accepted flights
+        .length > 0
         ? Object.entries(
-        flights.reduce((acc, flight) => {
-            acc[flight.aircraft] = (acc[flight.aircraft] || 0) + 1;
-            return acc;
-        }, {})
+        flights
+            .filter(flight => flight.status === 2)
+            .reduce((acc, flight) => {
+                acc[flight.aircraft] = (acc[flight.aircraft] || 0) + 1;
+                return acc;
+            }, {})
     ).reduce((a, b) => (a[1] > b[1] ? a : b), [null, 0])[0] || 'N/A'
         : 'N/A';
 

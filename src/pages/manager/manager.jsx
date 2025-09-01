@@ -128,6 +128,20 @@ export function Manager() {
                             <hr />
                                 <div className="active-flight">
                                     <h3>{t('active-flight')}</h3>
+                                    {activeFlight.departureIcao && activeFlight.arrivalIcao && (
+                                        <a
+                                            href={`https://www.simbrief.com/system/dispatch.php?orig=${activeFlight.departureIcao}&dest=${activeFlight.arrivalIcao}`
+                                                + (activeFlight.aircraft ? `&type=${activeFlight.aircraft}` : "")
+                                                + (activeFlight.callsign ? `&airline=${activeFlight.callsign.substring(0,3)}&fltnum=${activeFlight.callsign.substring(3)}` : "")
+                                                + (activeFlight.network === "IVAO" && activeFlight.callsign ? `&extrarmk=RMK%2FTCAS%20EQUIPPED%20IVAOVA%2F${activeFlight.callsign.substring(0,3)}` : "")
+                                                + (activeFlight.network === "IVAO" && activeFlight.callsign ? `&manual_acdata=%7B'extrarmk'%3A'RMK%5C%2FTCAS%20EQUIPPED%20IVAOVA%2F${activeFlight.callsign.substring(0,3)}'%7D`  : "")
+                                            }
+                                            target="_blank"
+                                            className=""
+                                        >
+                                            {t('create-simbrief-flightplan')}
+                                        </a>
+                                    )}
                                     <p><strong>{t('callsign')}:</strong> {activeFlight.callsign}</p>
                                     <p><strong>{t('central-aircraft')}:</strong> {activeFlight.aircraft}</p>
                                     <p>
@@ -151,6 +165,7 @@ export function Manager() {
                                     >
                                         {t('cancel-flight')}
                                     </button>
+                        
                                 </div>
                             </>
                         ) : (

@@ -17,6 +17,7 @@ import {Notams} from "./pages/notams/notams";
 import {Tours} from "./pages/tours/tours";
 import ProtectedRoute from "./components/check-auth/protected";
 import {Profile} from "./pages/profile/profile";
+import {PublicProfile} from "./pages/public-profile/public-profile";
 import {Manager} from "./pages/manager/manager";
 import {Acars} from "./pages/acars/acars";
 import {AdminZone} from "./pages/admin/admin-zone";
@@ -77,6 +78,12 @@ function App() {
                 <Route path={"/profile"} element={
                     <ProtectedRoute>
                         <Profile />
+                    </ProtectedRoute>
+                } />
+
+                <Route path={"/pilot/:pilotId"} element={
+                    <ProtectedRoute>
+                        <PublicProfile />
                     </ProtectedRoute>
                 } />
 

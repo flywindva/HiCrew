@@ -3,6 +3,7 @@ import './list.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsers, faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import api, {getPilots} from "../../api/api";
 
 export function PilotList() {
@@ -89,7 +90,17 @@ export function PilotList() {
                         ) : (
                             staff.map((member, index) => (
                                 <tr key={member.id} className={index % 2 === 0 ? 'even' : 'odd'}>
-                                    <td>{member.pilot.callsign || 'N/A'}</td>
+                                    <td>
+                                        {member.pilot.callsign ? (
+                                            <Link 
+                                                to={`/pilot/${member.pilot.id}`} 
+                                            >
+                                                {member.pilot.callsign}
+                                            </Link>
+                                        ) : (
+                                            'N/A'
+                                        )}
+                                    </td>
                                     <td>{member.pilot.firstName} {member.pilot.lastName}</td>
                                     <td>{member.nameRolePosition}</td>
                                 </tr>
@@ -130,7 +141,18 @@ export function PilotList() {
                         ) : (
                             pilots.map((pilot, index) => (
                                 <tr key={pilot.id} className={index % 2 === 0 ? 'even' : 'odd'}>
-                                    <td>{pilot.callsign}</td>
+                                    <td>
+                                        {pilot.callsign ? (
+                                            <Link 
+                                                to={`/pilot/${pilot.id}`} 
+                                                className="callsign-link"
+                                            >
+                                                {pilot.callsign}
+                                            </Link>
+                                        ) : (
+                                            'N/A'
+                                        )}
+                                    </td>
                                     <td>{pilot.firstName} {pilot.lastName}</td>
                                     <td>
                                         {pilot.ivaoId ? (

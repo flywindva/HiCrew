@@ -17,6 +17,7 @@ import { Dispatcher } from "../dispatcher/dispatcher";
 import api from "../../api/api";
 import {FreeMode} from "../free-mode/free-mode";
 import {CharterFlight} from "../charter-flight/charter-flight";
+import {RegularFlight} from "../regular-flight/regular-flight";
 
 export function Manager() {
     const [selectedButton, setSelectedButton] = useState(null);
@@ -100,7 +101,7 @@ export function Manager() {
 
     const buttonContent = {
         charter: <CharterFlight onFlightSubmit={fetchActiveFlight} />,
-        regular: "Schedule and manage regular flights. Confirm your departure airport and fleet availability.",
+        regular: <RegularFlight onFlightSubmit={fetchActiveFlight} />,
         manual: <ManualReport />,
         free: <FreeMode onFlightSubmit={fetchActiveFlight} />,
         dispatcher: <Dispatcher />,
@@ -130,12 +131,8 @@ export function Manager() {
                                     <h3>{t('active-flight')}</h3>
                                     {activeFlight.departureIcao && activeFlight.arrivalIcao && (
                                         <a
-                                            href={`https://www.simbrief.com/system/dispatch.php?orig=${activeFlight.departureIcao}&dest=${activeFlight.arrivalIcao}`
-                                                + (activeFlight.aircraft ? `&type=${activeFlight.aircraft}` : "")
-                                                + (activeFlight.callsign ? `&airline=${activeFlight.callsign.substring(0,3)}&fltnum=${activeFlight.callsign.substring(3)}` : "")
-                                                + (activeFlight.network === "IVAO" && activeFlight.callsign ? `&extrarmk=RMK%2FTCAS%20EQUIPPED%20IVAOVA%2F${activeFlight.callsign.substring(0,3)}` : "")
-                                                + (activeFlight.network === "IVAO" && activeFlight.callsign ? `&manual_acdata=%7B'extrarmk'%3A'RMK%5C%2FTCAS%20EQUIPPED%20IVAOVA%2F${activeFlight.callsign.substring(0,3)}'%7D`  : "")
-                                            }
+                                            href={`https://dispatch.simbrief.com/options/custom?airline=${activeFlight.callsign.substring(0,3)}&fltnum=${activeFlight.callsign.substring(3)}`
+                                            + (activeFlight.aircraft && activeFlight.aircraft !== 'ZZZZ' ? `&type=${activeFlight.aircraft}`: "") + `&orig=${activeFlight.departureIcao}&dest=${activeFlight.arrivalIcao}&manualrmk=RMK%2FTCAS+EQUIPPED+IVAOVA%2F${activeFlight.callsign.substring(0,3)}&acdata=%7B%22extrarmk%22%3A%22RMK%2FTCAS+EQUIPPED+IVAOVA%2F${activeFlight.callsign.substring(0,3)}%22%7D`}
                                             target="_blank"
                                             className=""
                                         >

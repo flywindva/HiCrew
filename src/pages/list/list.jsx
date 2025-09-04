@@ -92,16 +92,14 @@ export function PilotList() {
                                 <tr key={member.id} className={index % 2 === 0 ? 'even' : 'odd'}>
                                     <td>
                                         {member.pilot.callsign ? (
-                                            <Link 
-                                                to={`/pilot/${member.pilot.id}`} 
-                                            >
+                                            <>
                                                 {member.pilot.callsign}
-                                            </Link>
+                                            </>
                                         ) : (
                                             'N/A'
                                         )}
                                     </td>
-                                    <td>{member.pilot.firstName} {member.pilot.lastName}</td>
+                                    <td>{member.pilot.firstName}</td>
                                     <td>{member.nameRolePosition}</td>
                                 </tr>
                             ))

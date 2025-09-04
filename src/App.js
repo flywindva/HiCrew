@@ -32,12 +32,15 @@ import {AuthContext} from "./components/auth-context/auth";
 import {useContext, useEffect, useState} from "react";
 import CallsignPrompt from "./components/callsign-prompt/callsign-prompt";
 import {Stats} from "./pages/stats/stats";
+import {globalVariables} from "./config";
 
 function App() {
     const { isAuthenticated, pilot } = useContext(AuthContext);
     const [showCallsignPrompt, setShowCallsignPrompt] = useState(false);
 
     useEffect(() => {
+        document.title = globalVariables.PAGE_TITLE;
+
         if (isAuthenticated && pilot && !pilot.callsign) {
             setShowCallsignPrompt(true);
         } else {

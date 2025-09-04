@@ -21,6 +21,7 @@ import {MedalManager} from "./medal-manager";
 import {MedalUserManager} from "./medal-user-manager";
 import {UserManager} from "./user-manager";
 import {FlightManager} from "./flight-manager";
+import {RouteManager} from "./route-manager";
 
 export function AdminZone() {
     const [activeSection, setActiveSection] = useState(null);
@@ -77,7 +78,7 @@ export function AdminZone() {
                 );
             case 'routes':
                 return (
-                    <></>
+                    <RouteManager />
                 );
             case 'config':
                 return (

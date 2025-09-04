@@ -187,7 +187,7 @@ export function Central() {
                     <Map theme={theme}/>
                 </div>
                 {isAuthenticated ?(<>
-                    <div className="banner-ad container">
+                    <div className="banner-resources container">
                         <div className="text-wrapper">
                             <h2>{t('central-archive')}</h2>
                             <p>{t('central-archive-desc')}</p>
@@ -198,7 +198,7 @@ export function Central() {
                     </div>
                 </>) : (
                     <>
-                        <div className="banner-ad container">
+                        <div className="banner-resources container">
                             <div className="text-wrapper">
                                 <h2>{t('central-fly-easy')}</h2>
                                 <p>{t('central-fly-easy-desc')}</p>

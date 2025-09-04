@@ -9,6 +9,7 @@ export function FreeMode({ onFlightSubmit }) {
     const [formData, setFormData] = useState({
         departureIcao: "",
         arrivalIcao: "",
+        aircraft: "",
         network: "",
     });
     const [loading, setLoading] = useState(false);
@@ -32,6 +33,7 @@ export function FreeMode({ onFlightSubmit }) {
                 {
                     departureIcao: formData.departureIcao.toUpperCase(),
                     arrivalIcao: formData.arrivalIcao.toUpperCase(),
+                    aircraft: formData.aircraft,
                     network: formData.network || null,
                 },
                 {
@@ -43,6 +45,7 @@ export function FreeMode({ onFlightSubmit }) {
             setFormData({
                 departureIcao: "",
                 arrivalIcao: "",
+                aircraft: "",
                 network: "",
             });
 
@@ -97,6 +100,19 @@ export function FreeMode({ onFlightSubmit }) {
                         />
                     </div>
                     <div>
+                        <label htmlFor="aircraft">{t("aircraft-type")}</label>
+                        <input
+                            type="text"
+                            id="aircraft"
+                            name="aircraft"
+                            value={formData.aircraft}
+                            onChange={handleChange}
+                            required
+                            placeholder="e.g. A320"
+                            maxLength={4}
+                        />
+                    </div>
+                    <div>
                         <label htmlFor="network">{t("network")}</label>
                         <select
                             id="network"
@@ -112,7 +128,7 @@ export function FreeMode({ onFlightSubmit }) {
                     {error && <p className="error">{error}</p>}
                     {success && <p className="success">{success}</p>}
                     <button type="submit" className="btn" disabled={loading}>
-                        <FontAwesomeIcon icon={faPaperPlane} /> {loading ? t("submitting") : t("submit-report")}
+                        <FontAwesomeIcon icon={faPaperPlane}/> {loading ? t("submitting") : t("submit-report")}
                     </button>
                 </form>
             </div>

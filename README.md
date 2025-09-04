@@ -1,70 +1,178 @@
-# Getting Started with Create React App
+# HiCrew - Virtual Airline System (Frontend)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+HiCrew is a complete virtual airline system designed for flight simulators. This repository contains the **frontend** of the application, built with React.
 
-## Available Scripts
+## 🌟 Features
 
-In the project directory, you can run:
+- **Complete virtual airline system** with pilot, fleet, route, and flight management
+- **Multi-language support** (ES, EN, FR, PT, IT, CA, EU, GL)
+- **HiACARS integration** for automatic flight tracking
+- **Complete administration panel**
+- **Role and permission system**
+- **Detailed statistics and reports**
+- **Responsive and modern design**
 
-### `npm start`
+## 🚀 Quick Setup
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Prerequisites
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Node.js (version 14 or higher)
+- npm or yarn
+- HiCrew Backend running ([HiCrewBackend](https://github.com/alejandro-diazro/HiCrewBackend))
 
-### `npm test`
+### Configuration
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. **Clone this repository:**
+   ```bash
+   git clone https://github.com/alejandro-diazro/HiCrew.git
+   cd HiCrew
+   ```
 
-### `npm run build`
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. **Configure your airline by editing the `src/config.jsx` file:**
+   - Change your airline name
+   - Configure your backend URL
+   - Customize translations
+   - Adjust other parameters as needed
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. **Customize images in `public/resources/`:**
+   - Your airline logo
+   - Banners and backgrounds
+   - Icons and other graphic resources
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+5. **Start the development server:**
+   ```bash
+   npm start
+   ```
 
-### `npm run eject`
+The application will be available at [http://localhost:3000](http://localhost:3000).
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## ⚙️ Main Configuration
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### `src/config.jsx` File
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+This is the main configuration file where you can customize:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```javascript
+export const globalVariables = {
+    COMPANY_NAME: 'Your Airline',              // Your airline name
+    API_URL: 'http://your-backend:8000',       // Your backend URL
+    PAGE_TITLE: 'Your Airline - System',      // Page title
+    
+    // Customizable translations
+    CUSTOM_TRANSLATIONS: {
+        welcome: {
+            ES: "Bienvenido a",
+            EN: "Welcome to",
+            // ... other languages
+        },
+        title: {
+            ES: "¡Your Airline!",
+            EN: "Your Airline!",
+            // ... other languages
+        }
+        // ... more translations
+    }
+};
+```
 
-## Learn More
+### Graphic Resources
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Place your resources in `public/resources/`:
+- `HiCrew.png` - Main logo
+- `background-banner.png` - Banner background
+- `ad-banner.png` - Advertisement banner
+- `view-*.png` - Screenshots of your system
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🔧 Available Scripts
 
-### Code Splitting
+- `npm start` - Starts the development server
+- `npm test` - Runs tests
+- `npm run build` - Creates production build
+- `npm run eject` - Exposes webpack configuration (⚠️ irreversible)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🌐 Complete System
 
-### Analyzing the Bundle Size
+This frontend works together with:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- **Backend**: [HiCrewBackend](https://github.com/alejandro-diazro/HiCrewBackend) - API and server logic
+- **HiACARS**: Automatic tracking system for flight simulators
 
-### Making a Progressive Web App
+## 🤝 Contributing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Contributions are welcome! If you want to collaborate:
 
-### Advanced Configuration
+1. **Fork the repository**
+2. **Create a feature branch** (`git checkout -b feature/AmazingFeature`)
+3. **Commit your changes** (`git commit -m 'Add some AmazingFeature'`)
+4. **Push to the branch** (`git push origin feature/AmazingFeature`)
+5. **Open a Pull Request**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Review Process
 
-### Deployment
+- All contributions will be reviewed by maintainers
+- Automated tests will be run
+- Once approved, they will be integrated into the main project
+- Keep code clean and well documented
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Contributing Guidelines
 
-### `npm run build` fails to minify
+- Follow existing code conventions
+- Include tests for new features
+- Update documentation if necessary
+- Respect the project's file structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 📄 License
+
+This project is under the **MIT License**. This means:
+
+- ✅ **Commercial use allowed**
+- ✅ **Modification allowed**
+- ✅ **Distribution allowed**
+- ✅ **Private use allowed**
+
+**Conditions:**
+- You must include the copyright notice and license
+- Software is provided "as is", without warranties
+
+See the [LICENSE](LICENSE) file for more details.
+
+## 🆘 Support
+
+If you have problems or questions:
+
+1. **Check the [backend documentation](https://github.com/alejandro-diazro/HiCrewBackend)**
+2. **Search existing issues**
+3. **Create a new issue** with specific details
+4. **Join our developer community**
+
+## 🏗️ Project Architecture
+
+```
+src/
+├── components/          # Reusable components
+├── pages/              # Main pages
+├── api/                # API calls
+├── config.jsx          # 🔧 MAIN CONFIGURATION
+└── translations/       # Translation system
+
+public/
+└── resources/          # 🎨 GRAPHIC RESOURCES
+```
+
+## 🌟 Credits
+
+Developed by [Alejandro Díaz](https://github.com/alejandro-diazro)
+
+---
+
+**Ready to create your virtual airline?** 🛫
+
+1. Setup the backend
+2. Customize `config.jsx`
+3. Add your graphic resources
+4. Take off! 🚀

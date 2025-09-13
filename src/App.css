@@ -6,9 +6,9 @@ body[data-theme='light']{
   --text-primary: #1C2526; /* Texto principal */
   --background-secondary: #E5E5E3;
   --background-third: #000298; /* Fondo secundario */
-  --text-secondary: #181960; /* Texto secundario, iconos */
-  --accent-primary: #1A2BC3; /* Botones, enlaces */
-  --accent-secondary: #A5D7FC; /* Detalles, hover */
+  --text-secondary: #00857d; /* Texto secundario, iconos */
+  --accent-primary: #00BFB2; /* Botones, enlaces */
+  --accent-secondary: #FFFFFF; /* Detalles, hover */
   --text-third: #F2F2F0;
 
   --warning-text: #8A4500;
@@ -31,9 +31,9 @@ body[data-theme='dark']{
   --text-primary: #E8ECEF;
   --background-secondary: #2F3839;
   --background-third: #000298;
-  --text-secondary: #494eaa;
-  --accent-primary: #2f40da;
-  --accent-secondary: #8CC0F0;
+  --text-secondary: #00857d;
+  --accent-primary: #00a89c;
+  --accent-secondary: #bfbfbf;
   --text-third: #E8ECEF;
 
   --warning-text: #FFB074;

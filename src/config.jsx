@@ -2,31 +2,31 @@ export const globalVariables = {
     // ========================
     // BASIC CONFIGURATION
     // ========================
-    COMPANY_NAME: 'HiCrew',
+    COMPANY_NAME: 'FlyWind',
     COOKIE_POLICY_LINK: '/cookie-policy',
-    WEBSITE_URL: 'https://www.example.com',
-    LAST_UPDATED_DATE: 'April 28, 2025', //Privacy Policy
+    WEBSITE_URL: 'https://flywindva.com/',
+    LAST_UPDATED_DATE: 'September 13, 2025', //Privacy Policy
     LIST_SPECIFIC_PROVIDERS_IF_KNOWN: 'none',
-    CONTACT_EMAIL: 'hicrew@example.com',
+    CONTACT_EMAIL: 'info@flywindva.com',
     SPECIFY_RETENTION_PERIOD: 'two years after account inactivity',
     MINIMUM_AGE: '13',
-    DPO_EMAIL: 'dpo@example.com',
-    OACI: "HCW",
-    API_URL: 'http://localhost:8000',
+    DPO_EMAIL: 'info@flywindva.com',
+    OACI: "FWN",
+    API_URL: 'https://api.flywindva.com/',
 
     // ========================
     // VIEW LINKS
     // ========================
     LINK_VIEW_1: 'https://diazro.me/hicrew',
-    LINK_VIEW_2: 'https://www.example.com',
-    LINK_VIEW_3: 'https://www.example.com',
-    LINK_VIEW_4: 'https://www.example.com',
+    LINK_VIEW_2: 'https://www.ivao.aero/',
+    LINK_VIEW_3: 'https://mx.ivao.aero/',
+    LINK_VIEW_4: '#',
 
     // ========================
     // PAGE TITLE
     // ========================
     // Change this title to customize your airline's title
-    PAGE_TITLE: 'HiCrew - Virtual Airline System',
+    PAGE_TITLE: 'FlyWind VA',
 
     // ========================
     // CUSTOMIZABLE TRANSLATIONS
@@ -45,24 +45,24 @@ export const globalVariables = {
             GL: "Benvido a"
         },
         title: {
-            ES: "¡HiCrew!",
-            EN: "HiCrew!",
-            FR: "HiCrew!",
-            PT: "HiCrew!",
-            IT: "HiCrew!",
-            CA: "HiCrew!",
-            EU: "HiCrew!",
-            GL: "HiCrew!"
+            ES: "FlyWind!",
+            EN: "FlyWind!",
+            FR: "FlyWind!",
+            PT: "FlyWind!",
+            IT: "FlyWind!",
+            CA: "FlyWind!",
+            EU: "FlyWind!",
+            GL: "FlyWind!"
         },
         slogan: {
-            ES: "Tu aerolínea",
-            EN: "Your airline",
-            FR: "Votre compagnie aérienne",
-            PT: "Sua companhia aérea",
-            IT: "La tua compagnia aerea",
-            CA: "La teva aerolínia",
-            EU: "Zure airelinea",
-            GL: "A túa aerolíña"
+            ES: "Conectando desde lo alto",
+            EN: "Connecting from the top",
+            FR: "Connecting from the top",
+            PT: "Connecting from the top",
+            IT: "Connecting from the top",
+            CA: "Connecting from the top",
+            EU: "Connecting from the top",
+            GL: "Connecting from the top"
         },
         info: {
             ES: "Sin ACARS, es fácil, solo vuela, solo o con tus amigos.",
